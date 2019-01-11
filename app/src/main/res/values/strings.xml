@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HomeTogether</string>
+    <string name="usernameLabel">Username:</string>
+    <string name="passwordLabel">Password:</string>
+    <string name="signUpButton">Sign Up!</string>
+    <string name="loginButton">Log In!</string>
 </resources>
