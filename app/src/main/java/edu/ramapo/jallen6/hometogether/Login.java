@@ -1,5 +1,6 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,18 +20,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
 public class Login extends AppCompatActivity {
 
     private TextView username;
     private TextView pass;
     private RequestQueue requestQueue;
-    String url =  "http://192.168.1.18:3000/login";
+    String url =  "http://192.168.1.101:3000/login";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
 
         username = findViewById(R.id.loginUserField);
         pass = findViewById(R.id.loginPassField);
@@ -112,6 +120,10 @@ public class Login extends AppCompatActivity {
                             String msg = response.getString("message");
 
                             Toast.makeText(Login.this, ("Status is " + obj + "\n Message: " + msg), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Login.this, HouseholdSelection.class);
+                            startActivity(intent);
+                            finish();
+
                         } catch (JSONException e) {
                             Toast.makeText(Login.this, "Server error", Toast.LENGTH_SHORT).show();
                         }
