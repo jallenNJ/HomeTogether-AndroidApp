@@ -108,9 +108,13 @@ public class Login extends AppCompatActivity {
                             String msg = response.getString("message");
 
                             Toast.makeText(Login.this, ("Status is " + obj + "\n Message: " + msg), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Login.this, HouseholdSelection.class);
-                            startActivity(intent);
-                            finish();
+                            if(obj){
+                                Intent intent = new Intent(Login.this, HouseholdSelection.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+
 
                         } catch (JSONException e) {
                             Toast.makeText(Login.this, "Server error", Toast.LENGTH_SHORT).show();
