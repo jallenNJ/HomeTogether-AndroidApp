@@ -4,4 +4,7 @@
     <string name="passwordLabel">Password:</string>
     <string name="signUpButton">Sign Up!</string>
     <string name="loginButton">Log In!</string>
+    <string name="newHouseButton">Create new household</string>
+    <string name="newHouseholdNameLabel">Household Name:</string>
+    <string name="createHouseHold">Create!</string>
 </resources>

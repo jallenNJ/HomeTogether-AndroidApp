@@ -28,8 +28,7 @@ public class Login extends AppCompatActivity {
 
     private TextView username;
     private TextView pass;
-    private RequestQueue requestQueue;
-    String url =  "http://192.168.1.101:3000/login";
+    String url =  NetworkManager.host+"/login";
 
 
     @Override
@@ -42,16 +41,6 @@ public class Login extends AppCompatActivity {
 
         username = findViewById(R.id.loginUserField);
         pass = findViewById(R.id.loginPassField);
-       // textView = findViewById(R.id.output);
-       // Button buttonParse = findViewById(R.id.button);
-
-        requestQueue = Volley.newRequestQueue(this);
-      /*  buttonParse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jsonParse();
-            }
-        });*/
 
     }
 
@@ -88,8 +77,7 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
-
-        requestQueue.add(request);
+        NetworkManager.getInstance(this).addToRequestQueue(request);
 
     }
 
@@ -138,37 +126,7 @@ public class Login extends AppCompatActivity {
                 });
 
 
-        requestQueue.add(request);
+        NetworkManager.getInstance(this).addToRequestQueue(request);
     }
 
-
- /*   private void jsonParse(){
-
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            boolean obj = response.getBoolean("status");
-                            String msg = response.getString("message");
-                            textView.setText("Status is " + obj + "\n Message: " + msg);
-                        } catch (JSONException e) {
-                            textView.setText("One required field not defined");
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        textView.setText("An Error boi!");
-                        error.printStackTrace();
-                    }
-                });
-
-
-        requestQueue.add(request);
-
-    }*/
 }
