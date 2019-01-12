@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HouseholdSelection"></activity>
+        <activity android:name=".HouseholdSelection" />
+        <activity android:name=".NewHouseHoldForm"></activity>
     </application>
 
 </manifest>
