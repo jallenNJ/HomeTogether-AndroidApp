@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HouseholdSelection" />
-        <activity android:name=".NewHouseHoldForm"></activity>
+        <activity android:name=".NewHouseHoldForm" />
+        <activity android:name=".Household"></activity>
     </application>
 
 </manifest>

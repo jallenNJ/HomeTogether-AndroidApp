@@ -66,7 +66,6 @@ public class HouseholdSelection extends AppCompatActivity {
                 current = data.getJSONObject(i);
                 houseName = current.getString("name");
                 id = current.getString("_id");
-                Toast.makeText(HouseholdSelection.this, id, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
                 continue;
@@ -83,7 +82,11 @@ public class HouseholdSelection extends AppCompatActivity {
             newButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(HouseholdSelection.this, view.getTag(R.id.tagHouseID) + "was clicked", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(HouseholdSelection.this, view.getTag(R.id.tagHouseID) + "was clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HouseholdSelection.this, Household.class);
+                    intent.putExtra(Household.ExtraHouseID, view.getTag(R.id.tagHouseID).toString());
+                    startActivity(intent);
+                    finish();
                 }
             });
             layout.addView(newButton);
