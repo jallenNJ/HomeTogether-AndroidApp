@@ -7,4 +7,7 @@
     <string name="newHouseButton">Create new household</string>
     <string name="newHouseholdNameLabel">Household Name:</string>
     <string name="createHouseHold">Create!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

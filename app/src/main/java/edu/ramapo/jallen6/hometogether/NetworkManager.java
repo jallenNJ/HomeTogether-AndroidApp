@@ -11,7 +11,7 @@ public class NetworkManager {
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
     private static Context callingContext;
-    public static final String host = "http://192.168.1.101:3000";
+    public static final String host = "http://192.168.1.103:3000";
 
 
     private NetworkManager (Context context){
