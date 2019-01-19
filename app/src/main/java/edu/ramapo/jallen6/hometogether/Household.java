@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -52,5 +53,12 @@ public class Household extends AppCompatActivity {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
 
+    }
+
+
+    public void openPantry(View v){
+        Intent intent = new Intent(this, Pantry.class);
+        intent.putExtra(Household.ExtraHouseID, houseId);
+        startActivity(intent);
     }
 }

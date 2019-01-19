@@ -1,9 +1,12 @@
 package edu.ramapo.jallen6.hometogether;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 public class NetworkManager {
@@ -11,7 +14,7 @@ public class NetworkManager {
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
     private static Context callingContext;
-    public static final String host = "http://192.168.1.103:3000";
+    public static final String host = "http://192.168.1.102:3000";
 
 
     private NetworkManager (Context context){
@@ -37,6 +40,18 @@ public class NetworkManager {
         getRequestQueue().add(req);
     }
 
+    public static Uri.Builder getHostAsBuilder(){
+        return Uri.parse(NetworkManager.host).buildUpon();
+    }
+
+    public static Response.ErrorListener generateDefaultErrorHandler(){
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+    }
 
 
 

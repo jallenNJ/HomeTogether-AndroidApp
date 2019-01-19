@@ -20,7 +20,9 @@
         </activity>
         <activity android:name=".HouseholdSelection" />
         <activity android:name=".NewHouseHoldForm" />
-        <activity android:name=".Household"></activity>
+        <activity android:name=".Household" />
+        <activity android:name=".Pantry" />
+        <activity android:name=".PantryItemForm"></activity>
     </application>
 
 </manifest>

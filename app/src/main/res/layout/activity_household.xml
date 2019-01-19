@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".household">
+    tools:context=".Household">
 
     <fragment
         android:id="@+id/fragment"
@@ -24,5 +24,6 @@
         android:layout_marginTop="92dp"
         android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
+        android:onClick="openPantry"
         app:layout_constraintTop_toBottomOf="@+id/fragment" />
 </android.support.constraint.ConstraintLayout>
