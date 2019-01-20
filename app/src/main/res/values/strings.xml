@@ -12,7 +12,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="createButtonText">Create</string>
     <string name="nameLabel">Name:</string>
-    <string name="quanitityLabel">Quanitity:</string>
+    <string name="quantityLabel">Quantity:</string>
     <string name="categoryLabel">Category:</string>
     <string name="tagLabel">Tags (Comma Seperated):</string>
     <string name="expireLabel">Expires:</string>

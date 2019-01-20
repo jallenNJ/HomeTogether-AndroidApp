@@ -7,6 +7,7 @@
     tools:context=".PantryItemForm">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -25,13 +26,12 @@
                 android:text="@string/nameLabel" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/pantryItemFormNameField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -44,10 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/quanitityLabel" />
+                android:text="@string/quantityLabel" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/pantryItemFormQuantityField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -57,6 +57,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/pantryItemFormExpiresLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -71,11 +72,10 @@
                 android:text="@string/expireLabel" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/pantryItemFormExpiresField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -85,11 +85,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/categoryLabel" />
+
+            <EditText
+                android:id="@+id/pantryItemFormCategoryField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,23 +106,35 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/tagLabel" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/pantryItemFormTagField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:inputType="textPersonName" />
 
         </LinearLayout>
+
+
     </LinearLayout>
 
+    <Button
+        android:id="@+id/pantryItemFormCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="submitForm"
+        android:text="@string/createButtonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 </android.support.constraint.ConstraintLayout>
