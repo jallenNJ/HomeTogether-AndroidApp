@@ -14,52 +14,40 @@ import org.w3c.dom.Text;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PantryItemForm extends AppCompatActivity {
+public class PantryItemForm extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener{
 
 
-    private static TextView dateField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantry_item_form);
 
 
-        dateField = findViewById(R.id.textView5);
-        dateField.setOnClickListener(new View.OnClickListener() {
+       findViewById(R.id.textView5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
+
                 newFragment.show(getSupportFragmentManager(), "datePicker");
+
 
             }
         });
 
     }
 
-    protected static void setDateField(String text){
+    public void onDateSet(DatePicker view, int year, int month, int day){
+        setDateField((Integer.toString(month) + " " + Integer.toString(day) + ", " + Integer.toString(year)));
+    }
+
+    public void setDateField(String text){
+        TextView dateField = findViewById(R.id.textView5);
         if(dateField == null){
             return;
         }
         dateField.setText(text);
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
 
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            PantryItemForm.setDateField(Integer.toString(month) + " " + Integer.toString(day) + ", " + Integer.toString(year));
-        }
-    }
 }
