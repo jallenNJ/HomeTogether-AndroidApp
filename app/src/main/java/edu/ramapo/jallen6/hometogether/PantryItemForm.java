@@ -47,7 +47,7 @@ public class PantryItemForm extends AppCompatActivity
                 R.id.pantryItemFormExpiresField, R.id.pantryItemFormCategoryField,
                 R.id.pantryItemFormTagField};
 
-        String[] jsonKeys = {"Name", "Quantity", "Expires", "Category", "Tag"};
+        String[] jsonKeys = {"name", "quantity", "expires", "category", "tag"};
 
 
         JSONObject params = new JSONObject();
@@ -80,9 +80,10 @@ public class PantryItemForm extends AppCompatActivity
                         try {
                             if(response.getBoolean("status")){
                                 Intent intent = new Intent();
-                                intent.putExtra("id", response.getString("_id"));
+                                intent.putExtra("id", response.getString("key"));
                                 setResult(Activity.RESULT_OK, intent);
                                 finish();
+                                return;
                             }
                             message = response.getString("message");
 
