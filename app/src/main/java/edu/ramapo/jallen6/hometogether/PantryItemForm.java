@@ -80,7 +80,7 @@ public class PantryItemForm extends AppCompatActivity
                         try {
                             if(response.getBoolean("status")){
                                 Intent intent = new Intent();
-                                intent.putExtra("id", response.getString("key"));
+                               // intent.putExtra("id", response.getString("key"));
                                 setResult(Activity.RESULT_OK, intent);
                                 finish();
                                 return;

@@ -1,11 +1,17 @@
 package edu.ramapo.jallen6.hometogether;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -13,7 +19,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class Pantry extends AppCompatActivity {
 
@@ -31,15 +40,61 @@ public class Pantry extends AppCompatActivity {
                 .appendPath("pantry")
                 .appendQueryParameter("id", houseId).toString();
 
-      /*  JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(Pantry.this, "Recieved", Toast.LENGTH_SHORT).show();
+
+                        JSONArray pantryItems = new JSONArray();
+                        try{
+                            if(!response.getBoolean("status")){
+                                Toast.makeText(Pantry.this, "Failed to retrieve pantry items",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+
+                            pantryItems = response.getJSONArray("pantry");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //Toast.makeText(Pantry.this, "Got" + Integer.toString(pantryItems.length()) + " items", Toast.LENGTH_SHORT).show();
+                        TableLayout table = findViewById(R.id.pantryTable);
+                        final String[] keys = {"name", "quantity", "expires", "category"};
+                        TableRow headers = new TableRow(Pantry.this);
+
+                        for (String key : keys) {
+                            TextView text = new TextView(Pantry.this);
+                            text.setText(key);
+                            text.setTypeface(null, Typeface.BOLD);
+                            headers.addView(text);
+                        }
+                        table.addView(headers);
+                        for(int i = 0; i < pantryItems.length(); i++){
+                            TableRow row = new TableRow(Pantry.this);
+
+                            //TODO: Test and make this a loop
+                            try{
+                                JSONObject current = pantryItems.getJSONObject(i);
+
+                                TextView buffer;
+                                for(int j =0; j< keys.length;j++ ){
+                                    buffer = new TextView(Pantry.this);
+                                    buffer.setText(current.getString(keys[j]));
+                                    row.addView(buffer);
+                                }
+                                table.addView(row);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                row = null;
+                            }
+                        }
+
                     }
                 }, NetworkManager.generateDefaultErrorHandler());
 
-        NetworkManager.getInstance(this).addToRequestQueue(request);*/
+        NetworkManager.getInstance(this).addToRequestQueue(request);
 
     }
 
