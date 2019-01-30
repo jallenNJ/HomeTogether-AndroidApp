@@ -17,14 +17,20 @@ public class NetworkManager {
 
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
-    private static Context callingContext;
-    public static final String host = "http://172.18.105.149:3000";
+    private static String host = "http://172.18.105.149:3000";
+    private static String port = "3000";
 
 
     private NetworkManager (Context context){
-        callingContext = context;
-        requestQueue = getRequestQueue();
+        requestQueue = getRequestQueue(context);
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
+    }
+
+    public static void setHost(String url){
+        if(url.length() < 1){
+            return;
+        }
+        host = "http://"+url+":"+port;
     }
 
     public static synchronized NetworkManager getInstance(Context context){
@@ -34,9 +40,17 @@ public class NetworkManager {
         return managerInstance;
     }
 
+    private RequestQueue getRequestQueue(Context context){
+        if(requestQueue == null){
+            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        }
+        return requestQueue;
+    }
+
     public RequestQueue getRequestQueue(){
         if(requestQueue == null){
-            requestQueue = Volley.newRequestQueue(callingContext.getApplicationContext());
+            throw new IllegalStateException("Request queue was not initialized " +
+                    "This is most likely caused by an invalid context being passed to getInstance");
         }
         return requestQueue;
     }
@@ -57,6 +71,8 @@ public class NetworkManager {
             }
         };
     }
+
+
 
 
 
