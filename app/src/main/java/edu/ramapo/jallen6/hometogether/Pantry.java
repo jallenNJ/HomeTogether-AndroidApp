@@ -67,6 +67,8 @@ public class Pantry extends AppCompatActivity {
                             TextView text = new TextView(Pantry.this);
                             text.setText(key);
                             text.setTypeface(null, Typeface.BOLD);
+                            text.setLayoutParams(new TableRow.LayoutParams(1));
+                            text.setGravity(View.TEXT_ALIGNMENT_CENTER);
                             headers.addView(text);
                         }
                         table.addView(headers);
@@ -81,6 +83,8 @@ public class Pantry extends AppCompatActivity {
                                 for(int j =0; j< keys.length;j++ ){
                                     buffer = new TextView(Pantry.this);
                                     buffer.setText(current.getString(keys[j]));
+                                    buffer.setLayoutParams(new TableRow.LayoutParams(1));
+                                    buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
                                     row.addView(buffer);
                                 }
                                 table.addView(row);
