@@ -19,7 +19,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".HouseholdSelection" />
-        <activity android:name=".NewHouseHoldForm" />
+        <activity android:name=".NewHouseHoldForm"
+
+            android:parentActivityName="edu.ramapo.jallen6.hometogether.HouseholdSelection">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.ramapo.jallen6.hometogether.HouseholdSelection" /></activity>
+
         <activity android:name=".Household" />
         <activity android:name=".Pantry" />
         <activity android:name=".PantryItemForm"></activity>

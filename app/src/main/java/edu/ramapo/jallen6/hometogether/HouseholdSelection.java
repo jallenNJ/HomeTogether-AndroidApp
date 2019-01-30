@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 public class HouseholdSelection extends AppCompatActivity {
     String url =  NetworkManager.host+"/household";
+    private final int NEW_HOUSEHOLD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +101,19 @@ public class HouseholdSelection extends AppCompatActivity {
 
     public void swapToNewHouseHoldForm(View v){
         Intent intent = new Intent(this, NewHouseHoldForm.class);
-        startActivity(intent);
-        finish();
+        //startActivity(intent);
+        startActivityForResult(intent, NEW_HOUSEHOLD);
+        //finish();
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == NEW_HOUSEHOLD) {
+            if (resultCode == RESULT_OK) {
+                this.finish();
+            }
+        }
     }
 
 }
