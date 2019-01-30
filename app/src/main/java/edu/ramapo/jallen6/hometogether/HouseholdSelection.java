@@ -20,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HouseholdSelection extends AppCompatActivity {
-    String url =  NetworkManager.host+"/household";
+   // String url =  NetworkManager.host+"/household";
     private final int NEW_HOUSEHOLD = 1;
 
     @Override
@@ -30,7 +30,9 @@ public class HouseholdSelection extends AppCompatActivity {
 
 
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                NetworkManager.getHostAsBuilder().appendPath("household").toString()
+                , null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

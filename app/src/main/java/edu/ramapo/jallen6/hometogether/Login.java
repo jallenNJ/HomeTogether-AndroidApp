@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
 
     private TextView username;
     private TextView pass;
-    String url =  NetworkManager.host+"/login";
+    private String url =  "";
 
 
     @Override
@@ -41,6 +41,7 @@ public class Login extends AppCompatActivity {
         username = findViewById(R.id.loginUserField);
         pass = findViewById(R.id.loginPassField);
 
+        url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
 
         //TODO: Implement checking of being logged in once server supports it
        /* JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,

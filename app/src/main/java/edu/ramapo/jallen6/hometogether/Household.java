@@ -30,12 +30,11 @@ public class Household extends AppCompatActivity {
 
 
 
-        Uri.Builder builder = Uri.parse(NetworkManager.host)
-                .buildUpon()
-                .appendPath("household")
-                .appendQueryParameter("id", houseId);
 
-        String url = builder.build().toString();
+
+        String url = NetworkManager.getHostAsBuilder()
+                .appendPath("household")
+                .appendQueryParameter("id", houseId).toString();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

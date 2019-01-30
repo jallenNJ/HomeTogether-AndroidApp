@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 public class NewHouseHoldForm extends AppCompatActivity {
 
-    final String url = NetworkManager.host + "/household";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,9 @@ public class NewHouseHoldForm extends AppCompatActivity {
             Toast.makeText(this, "Please enter required fields", Toast.LENGTH_SHORT).show();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, params,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT,
+                NetworkManager.getHostAsBuilder().appendPath("household").toString(),
+                params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
