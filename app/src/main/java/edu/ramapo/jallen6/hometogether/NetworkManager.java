@@ -9,6 +9,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
 public class NetworkManager {
 
     private RequestQueue requestQueue;
@@ -20,6 +24,7 @@ public class NetworkManager {
     private NetworkManager (Context context){
         callingContext = context;
         requestQueue = getRequestQueue();
+        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
     }
 
     public static synchronized NetworkManager getInstance(Context context){

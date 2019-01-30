@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,10 +38,36 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
-
         username = findViewById(R.id.loginUserField);
         pass = findViewById(R.id.loginPassField);
+
+
+        //TODO: Implement checking of being logged in once server supports it
+       /* JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                NetworkManager.getHostAsBuilder().appendPath("authcheck").toString(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if(response.getBoolean("status")){
+                                Intent intent = new Intent(Login.this, HouseholdSelection.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            Toast.makeText(Login.this, "Server error", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        NetworkManager.getInstance(this).addToRequestQueue(request);*/
 
     }
 
