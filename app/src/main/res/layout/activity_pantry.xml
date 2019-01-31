@@ -16,7 +16,7 @@
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:stretchColumns="1"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintBottom_toTopOf="@+id/pantryCrud"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,7 +24,7 @@
     </TableLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/pantryCrud"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -36,19 +36,26 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/pantryDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/deleteButton" />
+
+        <Button
+            android:id="@+id/pantryUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/modifyButton" />
+
+        <Button
             android:id="@+id/pantryCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="createItem"
             android:text="@string/createButtonText" />
-
-        <Button
-            android:id="@+id/pantryDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
 
     </LinearLayout>
 
