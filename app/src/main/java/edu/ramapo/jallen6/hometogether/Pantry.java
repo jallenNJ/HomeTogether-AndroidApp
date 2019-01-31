@@ -1,6 +1,7 @@
 package edu.ramapo.jallen6.hometogether;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
@@ -87,6 +88,12 @@ public class Pantry extends AppCompatActivity {
                                     buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
                                     row.addView(buffer);
                                 }
+                                row.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        view.setBackgroundColor(Color.RED);
+                                    }
+                                });
                                 table.addView(row);
 
                             } catch (JSONException e) {
