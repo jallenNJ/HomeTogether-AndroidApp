@@ -29,12 +29,14 @@ public class Pantry extends AppCompatActivity {
 
     private final static int FORM_CREATE_CODE = 1;
     private String houseId;
+    private PantryItemViewManager itemViewManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantry);
 
         houseId = getIntent().getStringExtra(Household.ExtraHouseID);
+        itemViewManager = new PantryItemViewManager();
 
         String url = NetworkManager.getHostAsBuilder()
                 .appendPath("household")
@@ -81,6 +83,7 @@ public class Pantry extends AppCompatActivity {
                                 JSONObject current = pantryItems.getJSONObject(i);
 
                                 TextView buffer;
+
                                 for(int j =0; j< keys.length;j++ ){
                                     buffer = new TextView(Pantry.this);
                                     buffer.setText(current.getString(keys[j]));
@@ -113,6 +116,11 @@ public class Pantry extends AppCompatActivity {
     public void createItem(View v){
         Intent intent = new Intent(this, PantryItemForm.class);
         startActivityForResult(intent, FORM_CREATE_CODE);
+    }
+
+
+    public void updateItem(View v){
+
     }
 
     @Override

@@ -8,10 +8,16 @@ import java.util.Observer;
 public abstract class PantryItemView implements Observer {
 
     private PantryItem model;
+    private TableRow displayRow;
 
-    PantryItemView(PantryItem modelToWatch){
+    PantryItemView(PantryItem modelToWatch, TableRow tableRow){
         model = modelToWatch;
         model.addObserver(this);
+        displayRow = tableRow;
+    }
+
+    boolean isSelected(){
+        return model.isSelected();
     }
 
 

@@ -24,6 +24,10 @@ public class PantryItem extends Observable {
         return selected;
     }
 
+    public void toggleSelected(){
+        selected = !selected;
+    }
+
 
 
 
