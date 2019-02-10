@@ -2,6 +2,7 @@ package edu.ramapo.jallen6.hometogether;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,7 +18,7 @@ public class NetworkManager {
 
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
-    private static String host = "http://172.18.107.235:3000";
+    private static String host = "http://172.18.104.65:3000";
     private static String port = "3000";
 
 
@@ -33,9 +34,16 @@ public class NetworkManager {
         host = "http://"+url+":"+port;
     }
 
-    public static synchronized NetworkManager getInstance(Context context){
+    public static synchronized NetworkManager getInstance(@NonNull Context context){
         if(managerInstance == null){
             managerInstance = new NetworkManager(context);
+        }
+        return managerInstance;
+    }
+
+    public static synchronized NetworkManager getInstance() throws InstantiationException {
+        if(managerInstance == null){
+            throw new InstantiationException("NetworkManager not previously instantiated");
         }
         return managerInstance;
     }
