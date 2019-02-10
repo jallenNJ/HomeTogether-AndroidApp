@@ -7,7 +7,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PantryItemForm extends AppCompatActivity
@@ -39,6 +44,21 @@ public class PantryItemForm extends AppCompatActivity
 
             }
         });
+
+       List<String> list = new ArrayList<>();
+       list.add("Hello");
+       list.add("World");
+
+       Spinner spinner = findViewById(R.id.testSpinner);
+       ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+               R.layout.support_simple_spinner_dropdown_item, list);
+       adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+       spinner.setAdapter(adapter);
+
+     /*   Spinner spinner = (Spinner) findViewById(R.id.testSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.testArray, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);*/
     }
 
     public void submitForm(View v){

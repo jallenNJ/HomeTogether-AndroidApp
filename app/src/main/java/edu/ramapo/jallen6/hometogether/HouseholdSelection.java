@@ -85,9 +85,9 @@ public class HouseholdSelection extends AppCompatActivity {
             newButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                 //   Toast.makeText(HouseholdSelection.this, view.getTag(R.id.tagHouseID) + "was clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(HouseholdSelection.this, Household.class);
                     intent.putExtra(Household.ExtraHouseID, view.getTag(R.id.tagHouseID).toString());
+                    ActiveHousehold.getInstance().initFromServer(view.getTag(R.id.tagHouseID).toString());
                     startActivity(intent);
                     finish();
                 }
