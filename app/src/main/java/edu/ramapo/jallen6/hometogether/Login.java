@@ -40,6 +40,7 @@ public class Login extends AppCompatActivity {
     //The fields of the form
     private TextView username;
     private TextView pass;
+    private TextView debugIP;
     //The address to send data to
     private String url;
 
@@ -53,9 +54,11 @@ public class Login extends AppCompatActivity {
         //Get the user input
         username = findViewById(R.id.loginUserField);
         pass = findViewById(R.id.loginPassField);
+        debugIP = findViewById(R.id.debugIPBox);
+        debugIP.setText(NetworkManager.getIP());
 
-        //Format the location
-        url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
+        //Format the location (Commented out for debugging)
+      //  url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
 
         //TODO: Implement checking of being logged in once server supports it
        /* JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -97,6 +100,8 @@ public class Login extends AppCompatActivity {
      */
     public void signUp(@Nullable View v)  {
 
+        NetworkManager.setHost(debugIP.getText().toString().trim());
+        url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
         //Get the user input and format the JSONObject
         JSONObject params;
         try{
@@ -162,7 +167,8 @@ public class Login extends AppCompatActivity {
      * @author Joseph Allen
      */
     public void logIn(@Nullable View v){
-
+        NetworkManager.setHost(debugIP.getText().toString().trim());
+        url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
         //Create the params object from the field
         JSONObject params;
         try{

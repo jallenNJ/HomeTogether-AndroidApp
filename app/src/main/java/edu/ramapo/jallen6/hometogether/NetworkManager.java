@@ -2,7 +2,9 @@ package edu.ramapo.jallen6.hometogether;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Debug;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,7 +20,7 @@ public class NetworkManager {
 
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
-    private static String host = "http://172.18.104.65:3000";
+    private static String host = "http://172.18.104.91:3000";
     private static String port = "3000";
 
 
@@ -27,11 +29,16 @@ public class NetworkManager {
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
     }
 
+    public static String getIP(){
+        return host.substring(7, host.length()-5);
+    }
+
     public static void setHost(String url){
         if(url.length() < 1){
             return;
         }
         host = "http://"+url+":"+port;
+        Log.i("hostName", host);
     }
 
     public static synchronized NetworkManager getInstance(@NonNull Context context){
@@ -68,6 +75,8 @@ public class NetworkManager {
     }
 
     public static Uri.Builder getHostAsBuilder(){
+        Log.i("hostNameB", NetworkManager.host);
+        Log.i("hostNameBP", host);
         return Uri.parse(NetworkManager.host).buildUpon();
     }
 
@@ -79,8 +88,6 @@ public class NetworkManager {
             }
         };
     }
-
-
 
 
 
