@@ -1,5 +1,7 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,28 @@ public class PantryItem extends Observable {
     //      category=c;
     //      tags = t;
    // }
+
+
+    public String getFieldAsString(String field){
+        field = field.toLowerCase();
+        switch (field){
+            case "name":
+                return name;
+            case "quantity":
+                return Integer.toString(quantity);
+            case "category":
+                return category;
+            case "tags":
+                return tags.toString();
+            case "expires":
+                Log.e("NotImplemented", field+" getter in PantryItem not implemented");
+                return "";
+            default:
+                Log.e("InvalidSwitchParameter", field + "is not valid", new Exception());
+                return "";
+        }
+    }
+
 
     boolean isSelected(){
         return selected;

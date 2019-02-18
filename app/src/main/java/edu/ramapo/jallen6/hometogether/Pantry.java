@@ -76,32 +76,22 @@ public class Pantry extends AppCompatActivity {
                         }
                         table.addView(headers);
                         for(int i = 0; i < pantryItems.length(); i++){
-                            TableRow row = new TableRow(Pantry.this);
+
 
                             //TODO: Test and make this a loop
                             try{
                                 JSONObject current = pantryItems.getJSONObject(i);
 
-                                TextView buffer;
 
-                                for(int j =0; j< keys.length;j++ ){
-                                    buffer = new TextView(Pantry.this);
-                                    buffer.setText(current.getString(keys[j]));
-                                    buffer.setLayoutParams(new TableRow.LayoutParams(1));
-                                    buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                                    row.addView(buffer);
-                                }
-                                row.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        view.setBackgroundColor(Color.RED);
-                                    }
-                                });
-                                table.addView(row);
+                                PantryItem currentPantryItem = new PantryItem(current);
+                                PantryItemView rowView = new PantryItemView(currentPantryItem, new TableRow(Pantry.this));
+                                rowView.drawToRow();
+
+                                table.addView(rowView.getDisplayRow());
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                row = null;
+
                             }
                         }
 

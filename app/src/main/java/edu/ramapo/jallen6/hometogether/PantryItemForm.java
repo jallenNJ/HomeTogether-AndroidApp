@@ -45,13 +45,15 @@ public class PantryItemForm extends AppCompatActivity
             }
         });
 
-       List<String> list = new ArrayList<>();
-       list.add("Hello");
-       list.add("World");
+
+       String[] locations = ActiveHousehold.getInstance().getPantryLocations();
+        if(locations == null){
+            locations = new String[]{"unsorted"};
+        }
 
        Spinner spinner = findViewById(R.id.testSpinner);
        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-               R.layout.support_simple_spinner_dropdown_item, list);
+               R.layout.support_simple_spinner_dropdown_item, locations);
        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
        spinner.setAdapter(adapter);
 
