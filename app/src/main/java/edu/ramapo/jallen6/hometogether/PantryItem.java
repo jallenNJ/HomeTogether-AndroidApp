@@ -10,6 +10,12 @@ import java.util.Observable;
 
 public class PantryItem extends Observable {
 
+    public static final String NAME_FIELD = "name";
+    public static final String QUANTITY_FIELD = "quantity";
+    public static final String CATEGORY_FIELD = "category";
+    public static final String TAG_FIELD = "tags";
+
+
     private String name;
     private int quantity;
     private String category;
@@ -41,13 +47,13 @@ public class PantryItem extends Observable {
     public String getFieldAsString(String field){
         field = field.toLowerCase();
         switch (field){
-            case "name":
+            case NAME_FIELD:
                 return name;
-            case "quantity":
+            case QUANTITY_FIELD:
                 return Integer.toString(quantity);
-            case "category":
+            case CATEGORY_FIELD:
                 return category;
-            case "tags":
+            case TAG_FIELD:
                 return tags.toString();
             case "expires":
                 Log.e("NotImplemented", field+" getter in PantryItem not implemented");
@@ -56,6 +62,13 @@ public class PantryItem extends Observable {
                 Log.e("InvalidSwitchParameter", field + "is not valid", new Exception());
                 return "";
         }
+    }
+
+    public int getQuantity(){
+        return quantity;
+    }
+    public String[] getTags(){
+        return tags;
     }
 
 

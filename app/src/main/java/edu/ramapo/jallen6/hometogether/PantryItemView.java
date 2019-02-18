@@ -32,6 +32,10 @@ public class PantryItemView implements Observer {
         }
     }
 
+    public final PantryItem getModel(){
+        return model;
+    }
+
     //abstract TableRow drawItem(Context context);
 
 

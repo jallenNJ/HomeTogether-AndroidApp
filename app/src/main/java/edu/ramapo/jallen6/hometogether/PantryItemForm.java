@@ -3,11 +3,13 @@ package edu.ramapo.jallen6.hometogether;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +29,15 @@ import java.util.List;
 public class PantryItemForm extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener{
 
+
+    public final static String UPDATE_MODE_EXTRA = "update";
+    public final static String NAME_EXTRA = "name";
+    public final static String QUANTITY_EXTRA="quantity";
+    public final static String EXPIRE_EXTRA = "expires";
+    public final static String CATEGORY_EXTRA = "category";
+    public final static String TAGS_EXTRA = "tags";
+
+    private boolean updateMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +68,17 @@ public class PantryItemForm extends AppCompatActivity
        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
        spinner.setAdapter(adapter);
 
-     /*   Spinner spinner = (Spinner) findViewById(R.id.testSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.testArray, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);*/
+        Intent intent = getIntent();
+        updateMode = intent.getBooleanExtra(UPDATE_MODE_EXTRA, false);
+        if(updateMode){
+            ((TextView)findViewById(R.id.pantryItemFormNameField)).setText(intent.getStringExtra(NAME_EXTRA));
+            ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
+            ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
+            ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringArrayExtra(TAGS_EXTRA).toString());
+
+
+            ((Button) findViewById(R.id.pantryItemFormCreate)).setText("Update(DEBUG)");
+        }
     }
 
     public void submitForm(View v){
@@ -94,7 +112,11 @@ public class PantryItemForm extends AppCompatActivity
         String url = NetworkManager.getHostAsBuilder().appendPath("household")
                 .appendPath("pantry").toString();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, params,
+
+        int requestMethod = updateMode ? Request.Method.PATCH: Request.Method.PUT;
+
+
+        JsonObjectRequest request = new JsonObjectRequest(requestMethod, url, params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

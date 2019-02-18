@@ -28,6 +28,7 @@ import org.w3c.dom.Text;
 public class Pantry extends AppCompatActivity {
 
     private final static int FORM_CREATE_CODE = 1;
+    public final static int FORM_UPDATE_CODE = 2;
     private String houseId;
     private PantryItemViewManager itemViewManager;
     @Override
@@ -88,6 +89,7 @@ public class Pantry extends AppCompatActivity {
                                 rowView.drawToRow();
 
                                 table.addView(rowView.getDisplayRow());
+                                itemViewManager.addView(rowView);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -111,6 +113,31 @@ public class Pantry extends AppCompatActivity {
 
     public void updateItem(View v){
 
+        //Get selected
+        //Make sure not null
+        // Start form with data prefilled
+        //  Apply edit
+        //Update row
+
+        PantryItemView selected = itemViewManager.getSingleSelected();
+        if(selected == null){
+            Toast.makeText(Pantry.this, "Please select only one item",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, PantryItemForm.class);
+        PantryItem data = selected.getModel();
+        intent.putExtra(PantryItemForm.UPDATE_MODE_EXTRA, true);
+        intent.putExtra(PantryItemForm.NAME_EXTRA, data.getFieldAsString(PantryItem.NAME_FIELD));
+        intent.putExtra(PantryItemForm.QUANTITY_EXTRA, data.getQuantity());
+        intent.putExtra(PantryItemForm.CATEGORY_EXTRA, data.getFieldAsString(PantryItem.CATEGORY_FIELD));
+        intent.putExtra(PantryItemForm.TAGS_EXTRA, data.getTags());
+
+
+
+        startActivityForResult(intent, FORM_UPDATE_CODE);
+
     }
 
     @Override
@@ -120,7 +147,7 @@ public class Pantry extends AppCompatActivity {
                 if(resultCode != RESULT_OK){
                     Log.e("Result error",
                             "Result code of  " + Integer.toString(resultCode)
-                                    + " in Pantry");
+                                    + " in Pantry Create");
                     return;
                 }
 
@@ -128,6 +155,15 @@ public class Pantry extends AppCompatActivity {
 
 
                 break;
+
+            case FORM_UPDATE_CODE:
+                if(resultCode != RESULT_OK){
+                    Log.e("Result error",
+                            "Result code of  " + Integer.toString(resultCode)
+                                    + " in Pantry Update");
+                    return;
+                }
+                Toast.makeText(this, "Implement redraw on update", Toast.LENGTH_SHORT).show();
             default:
                 Log.e("Invalid request code",
                         "Invalid request code of " + Integer.toString(requestCode)
