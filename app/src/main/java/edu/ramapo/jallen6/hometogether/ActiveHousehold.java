@@ -46,6 +46,28 @@ public final class ActiveHousehold {
         return id != null;
     }
 
+    public int getMembersSize(){
+        if(isActive()){
+            return members.length;
+        } else{
+            return 0;
+        }
+    }
+
+    public String getMemberId(int index){
+        if(isActive()){
+            if(index < getMembersSize() && index > 0){
+                return members[index];
+            }
+            return "";
+        }
+        return null;
+    }
+
+
+    public String[] getPantryLocations(){
+        return pantryLocations;
+    }
 
     /**
      * Has the object send a request to the server to get the data for the household
