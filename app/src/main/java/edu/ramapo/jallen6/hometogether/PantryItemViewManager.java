@@ -18,7 +18,7 @@ public class PantryItemViewManager {
         views.add(pIView);
     }
 
-    public PantryItemView updateSelected(){
+    public PantryItemView getSingleSelected(){
         ArrayList<PantryItemView> update = getSelected();
         if(update.size() != 1){
             return null;
