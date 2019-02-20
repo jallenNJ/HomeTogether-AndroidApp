@@ -132,7 +132,7 @@ public class Pantry extends AppCompatActivity {
         intent.putExtra(PantryItemForm.NAME_EXTRA, data.getFieldAsString(PantryItem.NAME_FIELD));
         intent.putExtra(PantryItemForm.QUANTITY_EXTRA, data.getQuantity());
         intent.putExtra(PantryItemForm.CATEGORY_EXTRA, data.getFieldAsString(PantryItem.CATEGORY_FIELD));
-        intent.putExtra(PantryItemForm.TAGS_EXTRA, data.getTags());
+        intent.putExtra(PantryItemForm.TAGS_EXTRA, data.getFieldAsString(PantryItem.TAG_FIELD));
 
 
 

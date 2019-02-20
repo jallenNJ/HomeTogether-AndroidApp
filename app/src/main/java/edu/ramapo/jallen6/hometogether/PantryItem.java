@@ -54,7 +54,18 @@ public class PantryItem extends Observable {
             case CATEGORY_FIELD:
                 return category;
             case TAG_FIELD:
-                return tags.toString();
+                StringBuilder builder = new StringBuilder();
+                for(String tag:tags){
+                    builder.append(tag);
+                    builder.append(", ");
+                }
+                String result = builder.toString();
+
+                if(result.length() > 2){
+                    result= result.substring(0, result.length() -2);
+                }
+                return result;
+
             case "expires":
                 Log.e("NotImplemented", field+" getter in PantryItem not implemented");
                 return "";

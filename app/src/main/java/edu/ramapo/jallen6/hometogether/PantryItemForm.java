@@ -74,7 +74,7 @@ public class PantryItemForm extends AppCompatActivity
             ((TextView)findViewById(R.id.pantryItemFormNameField)).setText(intent.getStringExtra(NAME_EXTRA));
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
             ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
-            ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringArrayExtra(TAGS_EXTRA).toString());
+            ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
 
 
             ((Button) findViewById(R.id.pantryItemFormCreate)).setText("Update(DEBUG)");
