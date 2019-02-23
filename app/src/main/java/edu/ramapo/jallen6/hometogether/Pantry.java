@@ -1,5 +1,6 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -137,6 +138,53 @@ public class Pantry extends AppCompatActivity {
 
 
         startActivityForResult(intent, FORM_UPDATE_CODE);
+
+    }
+
+    public void deleteItem(View v){
+        PantryItemView selected = itemViewManager.getSingleSelected();
+        if(selected == null){
+            Toast.makeText(Pantry.this, "Please select only one item",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        JSONObject params = new JSONObject();
+       /* try {
+            params.put(PantryItem.NAME_FIELD,
+                    selected.getModel().getFieldAsString(PantryItem.NAME_FIELD));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }*/
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE,
+                NetworkManager.getHostAsBuilder().appendPath("household").appendPath("pantry")
+                        .appendQueryParameter(PantryItem.NAME_FIELD,
+                                selected.getModel().getFieldAsString(PantryItem.NAME_FIELD))
+                        .toString()
+                , null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                       // String message = "";
+                        try {
+                            if(response.getBoolean("status")){
+                               Toast.makeText(Pantry.this, "Deleted", Toast.LENGTH_SHORT).show();
+                            } else{
+                                Toast.makeText(Pantry.this, "Failed to Deleted", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                      //  Toast.makeText(PantryItemForm.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }, NetworkManager.generateDefaultErrorHandler() );
+
+        NetworkManager.getInstance(this).addToRequestQueue(request);
+
 
     }
 
