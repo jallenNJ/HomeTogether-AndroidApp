@@ -2,6 +2,7 @@ package edu.ramapo.jallen6.hometogether;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,5 +94,6 @@ public class PantryItem extends Observable {
     public void toggleSelected(){
         selected = !selected;
     }
+
 
 }

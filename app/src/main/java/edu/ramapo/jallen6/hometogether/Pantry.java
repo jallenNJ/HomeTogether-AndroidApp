@@ -142,7 +142,7 @@ public class Pantry extends AppCompatActivity {
     }
 
     public void deleteItem(View v){
-        PantryItemView selected = itemViewManager.getSingleSelected();
+        final PantryItemView selected = itemViewManager.getSingleSelected();
         if(selected == null){
             Toast.makeText(Pantry.this, "Please select only one item",
                     Toast.LENGTH_SHORT).show();
@@ -171,7 +171,7 @@ public class Pantry extends AppCompatActivity {
                        // String message = "";
                         try {
                             if(response.getBoolean("status")){
-                               Toast.makeText(Pantry.this, "Deleted", Toast.LENGTH_SHORT).show();
+                               itemViewManager.delete(selected);
                             } else{
                                 Toast.makeText(Pantry.this, "Failed to Deleted", Toast.LENGTH_SHORT).show();
                             }

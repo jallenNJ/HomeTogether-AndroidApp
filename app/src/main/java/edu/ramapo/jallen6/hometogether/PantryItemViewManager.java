@@ -1,5 +1,7 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.view.ViewGroup;
+
 import java.util.ArrayList;
 
 public class PantryItemViewManager {
@@ -82,6 +84,12 @@ public class PantryItemViewManager {
             }
         }
         return null;
+    }
+
+    public void delete(PantryItemView target){
+        target.clearModel();
+        views.remove(target);
+
     }
 
 }

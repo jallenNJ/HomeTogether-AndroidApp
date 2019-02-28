@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -65,6 +66,14 @@ public class PantryItemView implements Observer {
 
             }
         });
+    }
+
+    public void clearModel(){
+        ((ViewGroup)displayRow.getParent()).removeView(displayRow);
+        model.deleteObserver(this);
+        model = null;
+        displayRow.removeAllViews();
+        displayRow = null;
     }
 
     public TableRow getDisplayRow(){
