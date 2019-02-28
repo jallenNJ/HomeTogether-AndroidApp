@@ -48,5 +48,40 @@ public class PantryItemViewManager {
         return selected;
     }
 
+    public void drawAll(){
+        for(PantryItemView view :views){
+            view.drawToRow();
+        }
+    }
+
+    public void drawView(int index){
+        if(index < 0 || index >= views.size()){
+            return;
+        }
+
+        views.get(index).drawToRow();
+    }
+
+    public void drawView(String name){
+        if(name == null || name == ""){
+            return;
+        }
+
+        PantryItemView target = findViewByName(name);
+        if(target == null){
+            return;
+        }
+        target.drawToRow();
+
+    }
+
+    public PantryItemView findViewByName(String name){
+        for(PantryItemView view:views){
+            if(view.getModel().getFieldAsString(PantryItem.NAME_FIELD).equals(name)){
+                return view;
+            }
+        }
+        return null;
+    }
 
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class PantryItemForm extends AppCompatActivity
     public final static String EXPIRE_EXTRA = "expires";
     public final static String CATEGORY_EXTRA = "category";
     public final static String TAGS_EXTRA = "tags";
+    public final static String JSON_UPDATED_EXTRA = "jsonUpdated";
 
     private boolean updateMode;
 
@@ -71,7 +74,9 @@ public class PantryItemForm extends AppCompatActivity
         Intent intent = getIntent();
         updateMode = intent.getBooleanExtra(UPDATE_MODE_EXTRA, false);
         if(updateMode){
-            ((TextView)findViewById(R.id.pantryItemFormNameField)).setText(intent.getStringExtra(NAME_EXTRA));
+            TextView nameField = (TextView)findViewById(R.id.pantryItemFormNameField);
+            nameField.setText(intent.getStringExtra(NAME_EXTRA));
+            nameField.setEnabled(false);
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
             ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
             ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
@@ -124,7 +129,8 @@ public class PantryItemForm extends AppCompatActivity
                         try {
                             if(response.getBoolean("status")){
                                 Intent intent = new Intent();
-                               // intent.putExtra("id", response.getString("key"));
+                                intent.putExtra(JSON_UPDATED_EXTRA, response.getJSONObject("updated").toString());
+
                                 setResult(Activity.RESULT_OK, intent);
                                 finish();
                                 return;

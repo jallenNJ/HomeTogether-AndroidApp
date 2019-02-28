@@ -149,7 +149,7 @@ public class Pantry extends AppCompatActivity {
             return;
         }
 
-        JSONObject params = new JSONObject();
+        //JSONObject params = new JSONObject();
        /* try {
             params.put(PantryItem.NAME_FIELD,
                     selected.getModel().getFieldAsString(PantryItem.NAME_FIELD));
@@ -201,7 +201,6 @@ public class Pantry extends AppCompatActivity {
 
                 Toast.makeText(this, "Implemented activity return", Toast.LENGTH_SHORT).show();
 
-
                 break;
 
             case FORM_UPDATE_CODE:
@@ -211,7 +210,20 @@ public class Pantry extends AppCompatActivity {
                                     + " in Pantry Update");
                     return;
                 }
-                Toast.makeText(this, "Implement redraw on update", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Implement redraw on update", Toast.LENGTH_SHORT).show();
+               // itemViewManager.drawAll();
+                //Log.i("Optimize", "Make pantry update only draw updated row instead of all");
+                try {
+                    JSONObject result = new JSONObject(data.getStringExtra(PantryItemForm.JSON_UPDATED_EXTRA));
+                    String name = result.getString(PantryItem.NAME_FIELD);
+                    itemViewManager.findViewByName(name).getModel().applyUpdate(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e){
+                    Log.e("DataNotFound", "Received update to a non existent view" );
+                    e.printStackTrace();
+                }
+                break;
             default:
                 Log.e("Invalid request code",
                         "Invalid request code of " + Integer.toString(requestCode)

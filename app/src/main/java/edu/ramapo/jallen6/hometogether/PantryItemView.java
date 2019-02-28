@@ -74,6 +74,6 @@ public class PantryItemView implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-
+        drawToRow();
     }
 }

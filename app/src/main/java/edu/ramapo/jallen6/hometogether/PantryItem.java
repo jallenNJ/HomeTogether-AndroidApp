@@ -1,5 +1,6 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.content.Intent;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -25,6 +26,12 @@ public class PantryItem extends Observable {
 
 
     public PantryItem(JSONObject jsonPantry) throws JSONException {
+        applyUpdate(jsonPantry);
+
+    }
+
+    //TODO: handle partially correct JSONobject
+    public void applyUpdate(JSONObject jsonPantry) throws JSONException {
         name = jsonPantry.getString("name");
         quantity = jsonPantry.getInt("quantity");
         category = jsonPantry.getString("category");
@@ -34,14 +41,10 @@ public class PantryItem extends Observable {
         for(int i =0; i< tagsArray.length(); i++){
             tags[i] = tagsArray.getString(i);
         }
-    }
 
-   // public PantryItem(String n, int q, String c, String[] t){
-    //      name = n;
-    //      quanity = q;
-    //      category=c;
-    //      tags = t;
-   // }
+        this.setChanged();
+        this.notifyObservers();
+    }
 
 
     public String getFieldAsString(String field){
@@ -90,6 +93,5 @@ public class PantryItem extends Observable {
     public void toggleSelected(){
         selected = !selected;
     }
-
 
 }
