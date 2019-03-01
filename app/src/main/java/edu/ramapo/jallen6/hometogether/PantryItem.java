@@ -14,6 +14,7 @@ public class PantryItem extends Observable {
 
     public static final String NAME_FIELD = "name";
     public static final String QUANTITY_FIELD = "quantity";
+    public static final String EXPIRES_FIELD = "expires";
     public static final String CATEGORY_FIELD = "category";
     public static final String TAG_FIELD = "tags";
 
@@ -22,6 +23,7 @@ public class PantryItem extends Observable {
     private int quantity;
     private String category;
     private String[] tags;
+    private String expires;
     //private something Data
     private boolean selected;
 
@@ -33,10 +35,11 @@ public class PantryItem extends Observable {
 
     //TODO: handle partially correct JSONobject
     public void applyUpdate(JSONObject jsonPantry) throws JSONException {
-        name = jsonPantry.getString("name");
-        quantity = jsonPantry.getInt("quantity");
-        category = jsonPantry.getString("category");
-        JSONArray tagsArray = jsonPantry.getJSONArray("tags");
+        name = jsonPantry.getString(NAME_FIELD);
+        quantity = jsonPantry.getInt(QUANTITY_FIELD);
+        category = jsonPantry.getString(CATEGORY_FIELD);
+        expires = jsonPantry.getString(EXPIRES_FIELD);
+        JSONArray tagsArray = jsonPantry.getJSONArray(TAG_FIELD);
         //TODO, check what happens if size is zero
         tags = new String[tagsArray.length()];
         for(int i =0; i< tagsArray.length(); i++){
@@ -70,9 +73,10 @@ public class PantryItem extends Observable {
                 }
                 return result;
 
-            case "expires":
-                Log.e("NotImplemented", field+" getter in PantryItem not implemented");
-                return "";
+            case EXPIRES_FIELD:
+                //Log.e("NotImplemented", field+" getter in PantryItem not implemented");
+                //return "";
+                return expires;
             default:
                 Log.e("InvalidSwitchParameter", field + "is not valid", new Exception());
                 return "";
