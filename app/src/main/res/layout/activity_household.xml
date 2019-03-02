@@ -6,17 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".Household">
 
-    <LinearLayout
-        android:id="@+id/householdMemberBar"
+    <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/householdMemberBar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+    </HorizontalScrollView>
 
     <Button
         android:id="@+id/button"

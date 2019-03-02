@@ -58,7 +58,7 @@ public final class ActiveHousehold extends Observable {
 
     public String getMemberId(int index){
         if(isActive()){
-            if(index < getMembersSize() && index > 0){
+            if(index < getMembersSize() && index >= 0){
                 return members[index];
             }
             return "";
