@@ -36,5 +36,11 @@ public class MemberBar implements Observer {
             memberLayout.addView(button);
         }
 
+        Button button = new Button(memberLayout.getContext());
+        button.setText("DEBUG: Add member");
+        memberLayout.addView(button);
+
     }
+
+
 }

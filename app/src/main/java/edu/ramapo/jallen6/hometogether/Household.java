@@ -37,8 +37,6 @@ public class Household extends AppCompatActivity {
         memberBar = new MemberBar((LinearLayout) findViewById(R.id.householdMemberBar));
 
 
-
-
         String url = NetworkManager.getHostAsBuilder()
                 .appendPath("household")
                 .appendQueryParameter("id", houseId).toString();
