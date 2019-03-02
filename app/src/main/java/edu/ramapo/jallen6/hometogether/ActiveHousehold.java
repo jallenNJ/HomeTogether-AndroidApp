@@ -9,12 +9,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Observable;
+
 /**
  * This class is responsible for caching the data of the user's currently selected household
  * and allows for quick look-ups of data.
  *
  */
-public final class ActiveHousehold {
+public final class ActiveHousehold extends Observable {
     private static ActiveHousehold instance;
     private String id;
     private String name;
@@ -73,7 +75,7 @@ public final class ActiveHousehold {
      * Has the object send a request to the server to get the data for the household
      * @param houseId The household to query the server for. Must be nonnull
      */
-    public void initFromServer(@NonNull String houseId){
+    public void initFromServer(@NonNull final String houseId){
         if(houseId == null || houseId.equals("")) {
             return;
         }
@@ -96,13 +98,15 @@ public final class ActiveHousehold {
                                 JSONObject household = response.getJSONObject("house");
 
                                 //Store the data in the appropriate member fields
+                                id = household.getString("_id");
                                 name = household.getString("name");
                                 pantryLocations =  JSONFormatter.JSONArrayToStringArray(
                                         household.getJSONArray("pantryLocations"));
                                 members = JSONFormatter.JSONArrayToStringArray(
                                         household.getJSONArray("members"));
 
-
+                                ActiveHousehold.getInstance().setChanged();
+                                ActiveHousehold.getInstance().notifyObservers();
                             } else{ //Server rejected our request
                             Log.d("JSONFailed", "Response returned status false"
                                     + response.toString());

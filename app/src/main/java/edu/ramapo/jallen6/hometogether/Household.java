@@ -2,9 +2,12 @@ package edu.ramapo.jallen6.hometogether;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -14,12 +17,50 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import java.util.Observable;
+import java.util.Observer;
+
 public class Household extends AppCompatActivity {
     public final static String ExtraHouseID = "houseID";
 
 
+        private class HouseholdMemberBar implements Observer{
+
+            LinearLayout memberLayout;
+            HouseholdMemberBar(@NonNull LinearLayout layout){
+                memberLayout = layout;
+                ActiveHousehold.getInstance().addObserver(this);
+            }
+
+            @Override
+            protected void finalize() throws Throwable {
+                super.finalize();
+                ActiveHousehold.getInstance().deleteObserver(this);
+            }
+
+            @Override
+            public void update(Observable observable, Object o) {
+                if(memberLayout == null){
+                    throw new IllegalStateException("memberLayout has become null");
+                }
+
+                memberLayout.removeAllViewsInLayout();
+                ActiveHousehold cache = ActiveHousehold.getInstance();
+                for(int i =0; i < cache.getMembersSize(); i++){
+                    String id =  cache.getMemberId(i);
+                    Button button = new Button(memberLayout.getContext());
+                    button.setText(id);
+                    memberLayout.addView(button);
+                }
+
+            }
+        }
+
+
+
    // private final String url = NetworkManager.host+"/household";
     private String houseId;
+    private HouseholdMemberBar memberBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +68,7 @@ public class Household extends AppCompatActivity {
         Intent intent = getIntent();
 
         houseId = intent.getStringExtra(ExtraHouseID);
-
+        memberBar = new HouseholdMemberBar((LinearLayout) findViewById(R.id.householdMemberBar));
 
 
 
@@ -52,6 +93,11 @@ public class Household extends AppCompatActivity {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
 
+
+
+        LinearLayout memberBar = findViewById(R.id.householdMemberBar);
+
+        //ActiveHousehold.getInstance().g
     }
 
 
