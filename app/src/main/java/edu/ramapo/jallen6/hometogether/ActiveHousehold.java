@@ -144,4 +144,9 @@ public final class ActiveHousehold extends Observable {
         }
         return instance;
     }
+
+    public void refresh(){
+        //TODO: Clear?
+        initFromServer(id);
+    }
 }

@@ -10,6 +10,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -65,15 +73,38 @@ public class MemberBar implements Observer {
                        // memberToAddText = input.getText().toString();
                         Toast.makeText(memberLayout.getContext(), input.getText().toString(), Toast.LENGTH_SHORT).show();
                         //TODO: Send request to find member to add;
+                        JsonObjectRequest request = new JsonObjectRequest(
+                                Request.Method.GET,
+                                NetworkManager.getHostAsBuilder().appendPath("users")
+                                        .appendQueryParameter("username", input.getText().toString())
+                                        .toString(),
+                                null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+
+                                        try{
+                                            if(response.getBoolean("status")){
+                                                displayFoundUserList(response.getJSONArray("users"));
+                                            }
+                                        }catch (JSONException e){
+                                            e.printStackTrace();
+                                            Toast.makeText(memberLayout.getContext(),
+                                                    "No users found", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                },
+                        NetworkManager.generateDefaultErrorHandler());
+                        NetworkManager.getInstance(memberLayout.getContext()).getRequestQueue().add(request);
                     }
                 });
+
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
-
 
                 builder.show();
             }
@@ -82,4 +113,62 @@ public class MemberBar implements Observer {
     }
 
 
+    public void displayFoundUserList(JSONArray userList) throws JSONException {
+        AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext());
+        builder.setTitle("Choose member");
+        if(userList.length() == 0){
+            throw new JSONException("No members were found");
+        }
+        final String[] users = new String[userList.length()];
+        for(int i =0; i < userList.length(); i++){
+            users[i] = userList.getJSONObject(i).getString("user");
+        }
+        builder.setItems(users, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // the user clicked on colors[which]
+                //TODO: Implement the user selection
+
+                JSONObject params = new JSONObject();
+                try {
+                    params.put("username", users[which]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(memberLayout.getContext(),
+                            "Failed to add", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                JsonObjectRequest request = new JsonObjectRequest(
+                        Request.Method.PUT,
+                        NetworkManager.getHostAsBuilder()
+                                .appendPath("household").appendPath("member")
+                               // .appendQueryParameter("username",users[which])
+                                .toString(),
+                        params,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                try{
+                                    if(response.getBoolean("status")){
+                                        ActiveHousehold.getInstance().refresh();
+                                    } else{
+                                        throw new JSONException("Server reported failure");
+                                    }
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                    Toast.makeText(memberLayout.getContext(),
+                                            "User failed to add", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        },
+                        NetworkManager.generateDefaultErrorHandler());
+                NetworkManager.getInstance(memberLayout.getContext()).getRequestQueue().add(request);
+
+
+            }
+        });
+        builder.show();
+    }
 }
