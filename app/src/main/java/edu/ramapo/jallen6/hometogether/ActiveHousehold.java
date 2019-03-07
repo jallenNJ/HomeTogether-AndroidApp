@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,13 +17,17 @@ import java.util.Observable;
  * and allows for quick look-ups of data.
  *
  */
+//TODO: Handle failed network request not clearing flag
 public final class ActiveHousehold extends Observable {
     private static ActiveHousehold instance;
     private String id;
     private String name;
-    private String[] members;
+    private String[] memberIds;
+    private String[] memberNames;
     private String[] pantryLocations;
 
+
+    private boolean pendingNetworkRequest;
 
     private ActiveHousehold(){
         resetObject();
@@ -36,21 +41,23 @@ public final class ActiveHousehold extends Observable {
     private void resetObject(){
         id = null;
         name = null;
-        members = null;
+        memberIds = null;
+        memberNames = null;
         pantryLocations = null;
+        pendingNetworkRequest = false;
     }
 
     /**
      * This function returns if the object is currently initialized to a house
-     * @return true if id != null, or false if id is null
+     * @return true if there is an id and no outgoing network requests. False otherwise
      */
     public boolean isActive(){
-        return id != null;
+        return id != null && !pendingNetworkRequest;
     }
 
     public int getMembersSize(){
         if(isActive()){
-            return members.length;
+            return memberIds.length;
         } else{
             return 0;
         }
@@ -59,7 +66,17 @@ public final class ActiveHousehold extends Observable {
     public String getMemberId(int index){
         if(isActive()){
             if(index < getMembersSize() && index >= 0){
-                return members[index];
+                return memberIds[index];
+            }
+            return "";
+        }
+        return null;
+    }
+
+    public String getMemberName(int index){
+        if(isActive()){
+            if(index < memberNames.length && index >= 0){
+                return memberNames[index];
             }
             return "";
         }
@@ -80,7 +97,7 @@ public final class ActiveHousehold extends Observable {
             return;
         }
 
-
+        pendingNetworkRequest = true;
         //Build the request to the get route of the household to query all cacheable data
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 NetworkManager.getHostAsBuilder().appendPath("household")
@@ -102,11 +119,10 @@ public final class ActiveHousehold extends Observable {
                                 name = household.getString("name");
                                 pantryLocations =  JSONFormatter.JSONArrayToStringArray(
                                         household.getJSONArray("pantryLocations"));
-                                members = JSONFormatter.JSONArrayToStringArray(
+                                memberIds = JSONFormatter.JSONArrayToStringArray(
                                         household.getJSONArray("members"));
+                                resolveMemberIds();
 
-                                ActiveHousehold.getInstance().setChanged();
-                                ActiveHousehold.getInstance().notifyObservers();
                             } else{ //Server rejected our request
                             Log.d("JSONFailed", "Response returned status false"
                                     + response.toString());
@@ -123,6 +139,7 @@ public final class ActiveHousehold extends Observable {
             NetworkManager.getInstance().addToRequestQueue(request);
         } catch (InstantiationException e) {
             id = null;
+            pendingNetworkRequest = false;
             e.printStackTrace();
         }
 
@@ -148,5 +165,68 @@ public final class ActiveHousehold extends Observable {
     public void refresh(){
         //TODO: Clear?
         initFromServer(id);
+    }
+
+
+    private void resolveMemberIds(){
+        if(memberIds == null || memberIds.length == 0){
+            pendingNetworkRequest = false;
+            return;
+        }
+
+        StringBuilder idString = new StringBuilder();
+        for(String id:memberIds){
+            idString.append(id);
+            idString.append(",");
+        }
+        idString.deleteCharAt(idString.length()-1);
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                NetworkManager.getHostAsBuilder().appendPath("users").appendQueryParameter("resolveIds", idString.toString()).toString(),
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")) {
+
+                                JSONArray users = response.getJSONArray("names");
+                                if(memberIds.length != users.length()){
+                                    throw new JSONException("Recieved data does not match requested size");
+                                }
+                                if(memberNames == null || memberNames.length != memberIds.length){
+                                    memberNames = new String[memberIds.length];
+                                }
+
+                                for(int i =0; i < users.length(); i++){
+                                    JSONObject currentUser = users.getJSONObject(i);
+                                    //TODO: Confirm order is based on specifed order
+                                    memberNames[i] = currentUser.getString("user");
+                                }
+
+
+                                pendingNetworkRequest = false;
+                                ActiveHousehold.getInstance().setChanged();
+                                ActiveHousehold.getInstance().notifyObservers();
+
+                            }
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+                            pendingNetworkRequest = false;
+                        }
+                    }
+                },
+                NetworkManager.generateDefaultErrorHandler());
+
+        //Send
+        try {
+            NetworkManager.getInstance().addToRequestQueue(request);
+        } catch (InstantiationException e) {
+            id=null;
+            pendingNetworkRequest = false;
+            e.printStackTrace();
+        }
     }
 }
