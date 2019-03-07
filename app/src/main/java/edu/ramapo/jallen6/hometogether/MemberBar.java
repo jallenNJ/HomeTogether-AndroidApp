@@ -44,9 +44,9 @@ public class MemberBar implements Observer {
         memberLayout.removeAllViewsInLayout();
         ActiveHousehold cache = ActiveHousehold.getInstance();
         for(int i =0; i < cache.getMembersSize(); i++){
-            String id =  cache.getMemberId(i);
+            String name =  cache.getMemberName(i);
             Button button = new Button(memberLayout.getContext());
-            button.setText(id);
+            button.setText(name);
             memberLayout.addView(button);
         }
 
