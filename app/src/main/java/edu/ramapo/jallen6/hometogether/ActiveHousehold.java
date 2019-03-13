@@ -109,32 +109,29 @@ public final class ActiveHousehold extends Observable {
                     public void onResponse(JSONObject response) {
                         try {
 
-                            if(response.getBoolean("status")){ //If server reported success
-                                Log.d("JSONR", response.getJSONObject("house").toString());
-                                //Get the house object from the response
-                                JSONObject household = response.getJSONObject("house");
+                            Log.d("JSONR", response.getJSONObject("house").toString());
+                            //Get the house object from the response
+                            JSONObject household = response.getJSONObject("house");
 
-                                //Store the data in the appropriate member fields
-                                id = household.getString("_id");
-                                name = household.getString("name");
-                                pantryLocations =  JSONFormatter.JSONArrayToStringArray(
-                                        household.getJSONArray("pantryLocations"));
-                                memberIds = JSONFormatter.JSONArrayToStringArray(
-                                        household.getJSONArray("members"));
-                                resolveMemberIds();
+                            //Store the data in the appropriate member fields
+                            id = household.getString("_id");
+                            name = household.getString("name");
+                            pantryLocations =  JSONFormatter.JSONArrayToStringArray(
+                                    household.getJSONArray("pantryLocations"));
+                            memberIds = JSONFormatter.JSONArrayToStringArray(
+                                    household.getJSONArray("members"));
+                            resolveMemberIds();
 
-                            } else{ //Server rejected our request
-                            Log.d("JSONFailed", "Response returned status false"
-                                    + response.toString());
-                            }
                         } catch (JSONException e) { //Most likely a mal formed JSON object
                             resetObject();
-                            Log.d("JSONFailedToParse", "Activehousehold got an invalid json Object");
+                            Log.d("JSONFailedToParse",
+                                    "Activehousehold got an invalid json Object");
                             e.printStackTrace();
                         }
                     }
                 },
-                NetworkManager.generateDefaultErrorHandler());
+                NetworkManager.generateDefaultErrorHandler())
+                ;
         try {
             NetworkManager.getInstance().addToRequestQueue(request);
         } catch (InstantiationException e) {
