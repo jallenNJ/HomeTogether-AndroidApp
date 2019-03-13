@@ -18,12 +18,14 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,29 +124,44 @@ public class PantryItemForm extends AppCompatActivity
 
         int requestMethod = updateMode ? Request.Method.PATCH: Request.Method.PUT;
 
-
         JsonObjectRequest request = new JsonObjectRequest(requestMethod, url, params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String message = "Server error";
+                        String message = updateMode ? " updated " : " created ";
+                        Intent intent = new Intent();
                         try {
-                            if(response.getBoolean("status")){
-                                Intent intent = new Intent();
-                                intent.putExtra(JSON_UPDATED_EXTRA, response.getJSONObject("updated").toString());
+                            intent.putExtra(JSON_UPDATED_EXTRA, response.getJSONObject("updated").toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(PantryItemForm.this,
+                                "Item" + message + "successfully", Toast.LENGTH_SHORT).show();
 
-                                setResult(Activity.RESULT_OK, intent);
-                                finish();
-                                return;
-                            }
-                            message = response.getString("message");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                
                     }
-                    Toast.makeText(PantryItemForm.this, message, Toast.LENGTH_SHORT).show();
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                String message = "";
+                switch (error.networkResponse.statusCode){
+                    case HttpURLConnection.HTTP_BAD_REQUEST:
+                        message = "Error on field formatting";
+                        break;
+                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        message = "Session expired, please log in again";
+                        break;
+                    default:
+                        message = "Server error";
+                        break;
                 }
-                }, NetworkManager.generateDefaultErrorHandler() );
+                Toast.makeText(PantryItemForm.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
