@@ -25,6 +25,7 @@ import org.w3c.dom.Text;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
 
 
 /**
@@ -111,26 +112,34 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        //Submit the request to the server. On sucess output result
+        //Submit the request to the server. On success output result
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            boolean obj = response.getBoolean("status");
-                            String msg = response.getString("message");
 
-                            Toast.makeText(Login.this, ("Status is " + obj + "\n Message: " + msg), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            Toast.makeText(Login.this, "Server error", Toast.LENGTH_SHORT).show();
-                        }
+                       logIn(null);
+
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                        switch (error.networkResponse.statusCode){
+                            case 409:
+                                Toast.makeText(Login.this,
+                                        "Username taken", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            default:
+                                Toast.makeText(Login.this,
+                                        "Sign-up failed", Toast.LENGTH_SHORT).show();
+                                error.printStackTrace();
+                        }
+
+
+
                     }
                 });
 
@@ -184,29 +193,33 @@ public class Login extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            boolean obj = response.getBoolean("status");
-                            String msg = response.getString("message");
 
-                            Toast.makeText(Login.this, ("Status is " + obj + "\n Message: " + msg), Toast.LENGTH_SHORT).show();
-                            if(obj){
-                                Intent intent = new Intent(Login.this, HouseholdSelection.class);
-                                startActivity(intent);
-                                finish();
-                            }
+                        Intent intent = new Intent(Login.this, HouseholdSelection.class);
+                        startActivity(intent);
+                        finish();
 
-
-
-                        } catch (JSONException e) {
-                            Toast.makeText(Login.this, "Server error", Toast.LENGTH_SHORT).show();
-                        }
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+
+                        switch (error.networkResponse.statusCode){
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(Login.this, "User not found",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            case HttpURLConnection.HTTP_UNAUTHORIZED:
+                                Toast.makeText(Login.this, "Invalid log-in",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            default:
+                                Toast.makeText(Login.this, "Failed to log in",
+                                        Toast.LENGTH_SHORT).show();
+                                error.printStackTrace();
+                        }
+
                     }
                 });
 

@@ -19,7 +19,7 @@ public class NetworkManager {
 
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
-    private static String host = "http://172.17.137.24:3000";
+    private static String host = "http://172.17.139.87:3000";
     private static String port = "3000";
 
 
@@ -28,11 +28,12 @@ public class NetworkManager {
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
     }
 
+    @NonNull
     public static String getIP(){
         return host.substring(7, host.length()-5);
     }
 
-    public static void setHost(String url){
+    public static void setHost(@NonNull String url){
         if(url.length() < 1){
             return;
         }
@@ -69,13 +70,11 @@ public class NetworkManager {
         return requestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req){
+    public <T> void addToRequestQueue(@NonNull Request<T> req){
         getRequestQueue().add(req);
     }
 
     public static Uri.Builder getHostAsBuilder(){
-        Log.i("hostNameB", NetworkManager.host);
-        Log.i("hostNameBP", host);
         return Uri.parse(NetworkManager.host).buildUpon();
     }
 
@@ -83,11 +82,26 @@ public class NetworkManager {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+               // int status = error.networkResponse.statusCode;
+
                 error.printStackTrace();
             }
         };
     }
 
+    /*private static boolean checkNetCodeRange(int code, int start){
+        return code >= start && code < start+100;
+    }
+
+    public static boolean requestSuccess(@NonNull HTTPCodes code){
+        return checkNetCodeRange(code.getCode(), 200);
+    }
+    public static boolean requestClientError(@NonNull HTTPCodes code){
+        return checkNetCodeRange(code.getCode(), 400);
+    }
+    public static boolean requestServerError(@NonNull HTTPCodes code){
+        return  checkNetCodeRange(code.getCode(), 500);
+    }*/
 
 
 }
