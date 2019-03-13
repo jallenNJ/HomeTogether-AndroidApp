@@ -18,6 +18,7 @@ public class PantryItemViewManager {
 
     public void addView(PantryItemView pIView){
         views.add(pIView);
+        pIView.drawToRow();
     }
 
     public PantryItemView getSingleSelected(){
@@ -65,7 +66,7 @@ public class PantryItemViewManager {
     }
 
     public void drawView(String name){
-        if(name == null || name == ""){
+        if(name == null || name.equals("")){
             return;
         }
 

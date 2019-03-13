@@ -32,6 +32,7 @@ public class Pantry extends AppCompatActivity {
     public final static int FORM_UPDATE_CODE = 2;
     private String houseId;
     private PantryItemViewManager itemViewManager;
+    private TableLayout table;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class Pantry extends AppCompatActivity {
                         }
 
                         //Toast.makeText(Pantry.this, "Got" + Integer.toString(pantryItems.length()) + " items", Toast.LENGTH_SHORT).show();
-                        TableLayout table = findViewById(R.id.pantryTable);
+                        table = findViewById(R.id.pantryTable);
                         final String[] keys = {"name", "quantity", "expires", "category"};
                         TableRow headers = new TableRow(Pantry.this);
 
@@ -114,11 +115,6 @@ public class Pantry extends AppCompatActivity {
 
     public void updateItem(View v){
 
-        //Get selected
-        //Make sure not null
-        // Start form with data prefilled
-        //  Apply edit
-        //Update row
 
         PantryItemView selected = itemViewManager.getSingleSelected();
         if(selected == null){
@@ -150,14 +146,6 @@ public class Pantry extends AppCompatActivity {
             return;
         }
 
-        //JSONObject params = new JSONObject();
-       /* try {
-            params.put(PantryItem.NAME_FIELD,
-                    selected.getModel().getFieldAsString(PantryItem.NAME_FIELD));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }*/
 
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE,
@@ -170,17 +158,8 @@ public class Pantry extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                        // String message = "";
-                        try {
-                            if(response.getBoolean("status")){
-                               itemViewManager.delete(selected);
-                            } else{
-                                Toast.makeText(Pantry.this, "Failed to Deleted", Toast.LENGTH_SHORT).show();
-                            }
+                        itemViewManager.delete(selected);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                      //  Toast.makeText(PantryItemForm.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }, NetworkManager.generateDefaultErrorHandler() );
 
@@ -200,7 +179,20 @@ public class Pantry extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(this, "Implemented activity return", Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject result = new JSONObject(data.getStringExtra(PantryItemForm.JSON_NEW_EXTRA));
+                    TableRow row = new TableRow(Pantry.this);
+                    table.addView(row);
+                    itemViewManager.addView(new PantryItemView(new PantryItem(result), row));
+                    //String name = result.getString(PantryItem.NAME_FIELD);
+                    //itemViewManager.findViewByName(name).getModel().applyUpdate(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e){
+                    Log.e("DataNotFound", "Received update to a non existent view" );
+                    e.printStackTrace();
+                }
 
                 break;
 

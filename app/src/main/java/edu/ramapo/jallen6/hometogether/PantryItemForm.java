@@ -41,6 +41,7 @@ public class PantryItemForm extends AppCompatActivity
     public final static String CATEGORY_EXTRA = "category";
     public final static String TAGS_EXTRA = "tags";
     public final static String JSON_UPDATED_EXTRA = "jsonUpdated";
+    public final static String JSON_NEW_EXTRA = "jsonNew";
 
     private boolean updateMode;
 
@@ -129,9 +130,13 @@ public class PantryItemForm extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         String message = updateMode ? " updated " : " created ";
+                        String key = updateMode ? JSON_UPDATED_EXTRA : JSON_NEW_EXTRA;
+                        String jsonKey = updateMode ? "updated": "entry";
                         Intent intent = new Intent();
                         try {
-                            intent.putExtra(JSON_UPDATED_EXTRA, response.getJSONObject("updated").toString());
+
+                            intent.putExtra(JSON_NEW_EXTRA,
+                                    response.getJSONObject(jsonKey).toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -140,7 +145,7 @@ public class PantryItemForm extends AppCompatActivity
 
                         setResult(Activity.RESULT_OK, intent);
                         finish();
-                
+
                     }
                 }, new Response.ErrorListener() {
             @Override
