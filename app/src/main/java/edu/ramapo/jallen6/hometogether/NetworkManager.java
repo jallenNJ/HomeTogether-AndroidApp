@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
 
 public class NetworkManager {
 
@@ -82,9 +84,33 @@ public class NetworkManager {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // int status = error.networkResponse.statusCode;
-
                 error.printStackTrace();
+            }
+        };
+    }
+
+    public static Response.ErrorListener generateDefaultErrorHandler(@NonNull final Context context){
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+               // int status = error.networkResponse.statusCode;
+                error.printStackTrace();
+                String message;
+                switch (error.networkResponse.statusCode){
+                    case HttpURLConnection.HTTP_BAD_REQUEST:
+                        message = "Invalid data input";
+                        break;
+                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        message = "Session expired, please log in again";
+                        break;
+                    case HttpURLConnection.HTTP_INTERNAL_ERROR:
+                        default:
+                         message = "Unknown error";
+                        break;
+                }
+
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
             }
         };
     }
