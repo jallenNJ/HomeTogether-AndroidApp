@@ -5,4 +5,10 @@
         <item> testTwo </item>
         <item> testThree </item>
     </array>
+
+    <array name="searchFields">
+        <item> Name </item>
+        <item> Category </item>
+        <item> Tag </item>
+    </array>
 </resources>        

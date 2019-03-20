@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class Pantry extends AppCompatActivity {
     private String houseId;
     private PantryItemViewManager itemViewManager;
     private TableLayout table;
+    private Spinner searchSpinner;
 
 
 
@@ -110,6 +112,8 @@ public class Pantry extends AppCompatActivity {
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
+
+        searchSpinner = findViewById(R.id.pantrySearchSpinner);
         ((EditText) findViewById(R.id.pantrySearchBarInput)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -118,7 +122,25 @@ public class Pantry extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                itemViewManager.toggleVisibiltyByNameSearch(charSequence.toString());
+               // String searchMode = searchSpinner.getSelectedItem().toString();
+                PantryItemSearchTerms term;
+                switch (searchSpinner.getSelectedItem().toString().toLowerCase()){
+                    case "name":
+                        term = PantryItemSearchTerms.NAME_SEARCH;
+                        break;
+                    case "category":
+                        term = PantryItemSearchTerms.CATEGORY_SEARCH;
+                        break;
+                    case "tag":
+                        term = PantryItemSearchTerms.TAG_SEARCH;
+                        break;
+                    default:
+                        Log.e("InvalidSpinner", "Invalid spinner entry in Pantry");
+                        return;
+                }
+
+                itemViewManager.toggleVisibilityBySearch(term, charSequence.toString());
+                //itemViewManager.toggleVisibiltyByNameSearch(charSequence.toString());
             }
 
             @Override

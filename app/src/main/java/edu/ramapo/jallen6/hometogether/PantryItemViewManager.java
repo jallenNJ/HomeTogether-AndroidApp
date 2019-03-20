@@ -1,5 +1,6 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -93,16 +94,35 @@ public class PantryItemViewManager {
 
     }
 
-    public void toggleVisibiltyByNameSearch(String subString){
-        if(subString.equals("")){
+    public void toggleVisibilityBySearch(PantryItemSearchTerms searchType, String searchTerm){
+        if(searchTerm.equals("")){
             setAllVisibile();
             return;
         }
 
-        for(PantryItemView view:views){
-            view.setRowVisibility(view.modelNameContains(subString));
+        switch (searchType){
+            case NAME_SEARCH:
+                for(PantryItemView view:views){
+                    view.setRowVisibility(view.modelNameContains(searchTerm));
+                }
+                break;
+            case CATEGORY_SEARCH:
+                for(PantryItemView view:views){
+                    view.setRowVisibility(view.modelCategoryContains(searchTerm));
+                }
+                break;
+            case TAG_SEARCH:
+                for(PantryItemView view:views){
+                    view.setRowVisibility(view.modelHasTag(searchTerm));
+                }
+                break;
+            default:
+                Log.e("InvalidEnum", "Invalid enum in toggleVisibilityBySearch");
+                setAllVisibile();
         }
+
     }
+
 
     private void setAllVisibile(){
         for(PantryItemView view :views){

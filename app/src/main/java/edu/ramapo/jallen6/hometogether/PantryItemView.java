@@ -92,6 +92,28 @@ public class PantryItemView implements Observer {
                .contains(subString.toLowerCase());
     }
 
+    public boolean modelCategoryContains(@NonNull String subString){
+        if(subString.equals("")){
+            return false;
+        }
+        return model.getFieldAsString(PantryItem.CATEGORY_FIELD).toLowerCase()
+                .contains(subString.toLowerCase());
+    }
+
+    public boolean modelHasTag(@NonNull String subString){
+        if(subString.equals("")){
+            return false;
+        }
+        subString = subString.toLowerCase();
+        String[] tags = model.getTags();
+        for(String tag:tags){
+            if(subString.equals(tag.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void update(Observable observable, Object o) {
         drawToRow();
