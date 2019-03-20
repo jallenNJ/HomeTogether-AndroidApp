@@ -80,6 +80,17 @@ public class PantryItemView implements Observer {
         return displayRow;
     }
 
+    public void setRowVisibility(boolean status){
+        displayRow.setVisibility(status ? View.VISIBLE: View.GONE);
+    }
+
+    public boolean modelNameContains(@NonNull String subString){
+        if(subString.equals("")){
+            return false;
+        }
+       return model.getFieldAsString(PantryItem.NAME_FIELD).toLowerCase()
+               .contains(subString.toLowerCase());
+    }
 
     @Override
     public void update(Observable observable, Object o) {

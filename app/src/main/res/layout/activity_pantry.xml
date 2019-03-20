@@ -16,12 +16,32 @@
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:stretchColumns="1"
-        app:layout_constraintBottom_toTopOf="@+id/pantryCrud"
+        app:layout_constraintBottom_toTopOf="@+id/pantrySearchBarLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </TableLayout>
+
+    <LinearLayout
+        android:id="@+id/pantrySearchBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/pantryCrud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/pantrySearchBarInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/pantrySearchBarText"
+            android:inputType="textPersonName" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/pantryCrud"

@@ -29,7 +29,7 @@
                 android:value="edu.ramapo.jallen6.hometogether.HouseholdSelection" /></activity>
 
         <activity android:name=".Household" />
-        <activity android:name=".Pantry" />
+        <activity android:name=".Pantry"  android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".PantryItemForm"></activity>
     </application>
 

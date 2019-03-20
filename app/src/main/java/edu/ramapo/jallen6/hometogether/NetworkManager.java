@@ -21,7 +21,7 @@ public class NetworkManager {
 
     private RequestQueue requestQueue;
     private static NetworkManager managerInstance;
-    private static String host = "http://172.17.139.87:3000";
+    private static String host = "http://172.17.143.200:3000";
     private static String port = "3000";
 
 

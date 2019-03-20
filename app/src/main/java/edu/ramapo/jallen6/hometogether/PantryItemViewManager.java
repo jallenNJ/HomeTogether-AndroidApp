@@ -93,4 +93,24 @@ public class PantryItemViewManager {
 
     }
 
+    public void toggleVisibiltyByNameSearch(String subString){
+        if(subString.equals("")){
+            setAllVisibile();
+            return;
+        }
+
+        for(PantryItemView view:views){
+            view.setRowVisibility(view.modelNameContains(subString));
+        }
+    }
+
+    private void setAllVisibile(){
+        for(PantryItemView view :views){
+            view.setRowVisibility(true);
+        }
+    }
+
+
+
+
 }

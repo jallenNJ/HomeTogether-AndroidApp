@@ -18,4 +18,5 @@
     <string name="expireLabel">Expires:</string>
     <string name="deleteButton">Delete</string>
     <string name="modifyButton">Modify</string>
+    <string name="pantrySearchBarText">Enter Text to Search</string>
 </resources>

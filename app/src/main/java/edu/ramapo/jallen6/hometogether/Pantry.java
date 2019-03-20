@@ -7,9 +7,12 @@ import android.graphics.Typeface;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,6 +36,9 @@ public class Pantry extends AppCompatActivity {
     private String houseId;
     private PantryItemViewManager itemViewManager;
     private TableLayout table;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +109,23 @@ public class Pantry extends AppCompatActivity {
                 }, NetworkManager.generateDefaultErrorHandler());
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
+
+        ((EditText) findViewById(R.id.pantrySearchBarInput)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                itemViewManager.toggleVisibiltyByNameSearch(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
     }
 
@@ -209,7 +232,9 @@ public class Pantry extends AppCompatActivity {
                 try {
                     JSONObject result = new JSONObject(data.getStringExtra(PantryItemForm.JSON_UPDATED_EXTRA));
                     String name = result.getString(PantryItem.NAME_FIELD);
-                    itemViewManager.findViewByName(name).getModel().applyUpdate(result);
+                    PantryItemView updated = itemViewManager.findViewByName(name);
+                    updated.getModel().applyUpdate(result);
+                    updated.drawToRow();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (NullPointerException e){
