@@ -1,14 +1,14 @@
 package edu.ramapo.jallen6.hometogether;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.ViewGroup;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Observable;
 
 public class PantryItem extends Observable {
@@ -16,6 +16,7 @@ public class PantryItem extends Observable {
     public static final String NAME_FIELD = "name";
     public static final String QUANTITY_FIELD = "quantity";
     public static final String EXPIRES_FIELD = "expires";
+    public static final String FORMATTED_EXPIRES_FIELD = "fexpires";
     public static final String CATEGORY_FIELD = "category";
     public static final String TAG_FIELD = "tags";
 
@@ -25,13 +26,21 @@ public class PantryItem extends Observable {
     private String category;
     private String[] tags;
     private String expires;
-    //private something Data
+    private String formattedExpires;
     private boolean selected;
 
 
     public PantryItem(JSONObject jsonPantry) throws JSONException {
         applyUpdate(jsonPantry);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY", Locale.US);
+
+        int month = Integer.parseInt(expires.split(" ")[0]);
+        int day = Integer.parseInt(expires.split(" ")[1].split(",")[0]);
+        int year = Integer.parseInt(expires.split(", ")[1]);
+        Calendar cal = new GregorianCalendar(year,month,day);
+        formattedExpires = sdf.format(cal.getTime());
+       // cal = new GregorianCalendar(Integer.parseInt(split[1]), Integer.parseInt(split[0]), month);
     }
 
     //TODO: handle partially correct JSONobject
@@ -57,11 +66,11 @@ public class PantryItem extends Observable {
         result.append("Name: ");
         result.append(name);
         result.append("\nQuantity: ");
-        result.append(getFieldAsString(CATEGORY_FIELD));
+        result.append(getFieldAsString(QUANTITY_FIELD));
         result.append("\nTags: ");
         result.append(getFieldAsString(TAG_FIELD));
         result.append("\nExpires: ");
-        result.append(getFieldAsString(EXPIRES_FIELD));
+        result.append(getFieldAsString(FORMATTED_EXPIRES_FIELD));
         return result.toString();
 
     }
@@ -92,6 +101,8 @@ public class PantryItem extends Observable {
                 //Log.e("NotImplemented", field+" getter in PantryItem not implemented");
                 //return "";
                 return expires;
+            case FORMATTED_EXPIRES_FIELD:
+                return formattedExpires;
             default:
                 Log.e("InvalidSwitchParameter", field + "is not valid", new Exception());
                 return "";
