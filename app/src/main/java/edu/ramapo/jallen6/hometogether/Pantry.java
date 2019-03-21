@@ -30,7 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
-public class Pantry extends AppCompatActivity {
+public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
     private final static int FORM_CREATE_CODE = 1;
     public final static int FORM_UPDATE_CODE = 2;
@@ -161,7 +161,9 @@ public class Pantry extends AppCompatActivity {
     public void updateItem(View v){
 
 
+        //TODO: fix selection issue when accessed via pop up menu
         PantryItemView selected = itemViewManager.getSingleSelected();
+
         if(selected == null){
             Toast.makeText(Pantry.this, "Please select only one item",
                     Toast.LENGTH_SHORT).show();

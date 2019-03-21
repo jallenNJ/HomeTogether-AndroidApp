@@ -1,6 +1,7 @@
 package edu.ramapo.jallen6.hometogether;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -50,6 +51,20 @@ public class PantryItem extends Observable {
         this.notifyObservers();
     }
 
+    @NonNull
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append("Name: ");
+        result.append(name);
+        result.append("\nQuantity: ");
+        result.append(getFieldAsString(CATEGORY_FIELD));
+        result.append("\nTags: ");
+        result.append(getFieldAsString(TAG_FIELD));
+        result.append("\nExpires: ");
+        result.append(getFieldAsString(EXPIRES_FIELD));
+        return result.toString();
+
+    }
 
     public String getFieldAsString(String field){
         field = field.toLowerCase();

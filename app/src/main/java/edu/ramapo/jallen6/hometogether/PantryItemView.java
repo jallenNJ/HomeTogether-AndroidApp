@@ -1,12 +1,16 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -64,6 +68,51 @@ public class PantryItemView implements Observer {
                 }
                 model.toggleSelected();
 
+            }
+        });
+
+        displayRow.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View view) {
+
+                //Toast.makeText(displayRow.getContext(), "Long click", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
+                builder.setCancelable(true);
+                builder.setTitle("Info for " + model.getFieldAsString(PantryItem.NAME_FIELD));
+                builder.setMessage(model.toString());
+
+                builder.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(!model.isSelected()){
+                            model.toggleSelected();
+                        }
+
+                        try{
+                            ((PantryItemCrud)displayRow.getContext()).updateItem(view);
+                        } catch(ClassCastException e){
+                            Toast.makeText(displayRow.getContext(),
+                                    "Failed to update from this screen", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+                builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+
+                //Return true to "consume" click and stop onclick from firing
+                return true;
             }
         });
     }
