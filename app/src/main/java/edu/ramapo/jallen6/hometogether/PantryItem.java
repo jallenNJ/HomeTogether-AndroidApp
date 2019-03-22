@@ -62,16 +62,10 @@ public class PantryItem extends Observable {
 
     @NonNull
     public String toString(){
-        StringBuilder result = new StringBuilder();
-        result.append("Name: ");
-        result.append(name);
-        result.append("\nQuantity: ");
-        result.append(getFieldAsString(QUANTITY_FIELD));
-        result.append("\nTags: ");
-        result.append(getFieldAsString(TAG_FIELD));
-        result.append("\nExpires: ");
-        result.append(getFieldAsString(FORMATTED_EXPIRES_FIELD));
-        return result.toString();
+        return "Name: " + name +
+                "\nQuantity: " + getFieldAsString(QUANTITY_FIELD) +
+                "\nTags: " + getFieldAsString(TAG_FIELD) +
+                "\nExpires: " + getFieldAsString(FORMATTED_EXPIRES_FIELD);
 
     }
 
@@ -119,6 +113,10 @@ public class PantryItem extends Observable {
 
     boolean isSelected(){
         return selected;
+    }
+
+    public void setSelected(boolean s){
+        selected = s;
     }
 
     public void toggleSelected(){

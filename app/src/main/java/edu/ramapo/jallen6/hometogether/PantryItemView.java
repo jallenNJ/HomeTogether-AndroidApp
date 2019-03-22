@@ -84,9 +84,7 @@ public class PantryItemView implements Observer {
                 builder.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(!model.isSelected()){
-                            model.toggleSelected();
-                        }
+                        model.setSelected(true);
 
                         try{
                             ((PantryItemCrud)displayRow.getContext()).updateItem(view);
@@ -106,7 +104,14 @@ public class PantryItemView implements Observer {
                 builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
+                        model.setSelected(true);
+
+                        try{
+                            ((PantryItemCrud)displayRow.getContext()).deleteItem(view);
+                        } catch(ClassCastException e){
+                            Toast.makeText(displayRow.getContext(),
+                                    "Failed to update from this screen", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 builder.show();
