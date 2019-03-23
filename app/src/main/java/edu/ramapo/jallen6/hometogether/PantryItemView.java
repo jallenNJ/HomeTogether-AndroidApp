@@ -1,6 +1,5 @@
 package edu.ramapo.jallen6.hometogether;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +24,8 @@ public class PantryItemView implements Observer {
         model = modelToWatch;
         model.addObserver(this);
         displayRow = tableRow;
-        keys = new String[] {"name", "quantity", "expires", "category"};
+        keys = new String[] {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
+                PantryItem.FORMATTED_EXPIRES_FIELD, PantryItem.CATEGORY_FIELD};
     }
 
     boolean isSelected(){
@@ -41,15 +41,13 @@ public class PantryItemView implements Observer {
         return model;
     }
 
-    //abstract TableRow drawItem(Context context);
-
-
 
     void drawToRow(){
         displayRow.removeAllViews();
+
         Context context = displayRow.getContext();
         TextView buffer;
-      //  TableRow row = new TableRow(context);
+
         for(String key:keys){
             buffer = new TextView(context);
             buffer.setText(model.getFieldAsString(key));
@@ -57,6 +55,7 @@ public class PantryItemView implements Observer {
             buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
             displayRow.addView(buffer);
         }
+
         displayRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +74,6 @@ public class PantryItemView implements Observer {
             @Override
             public boolean onLongClick(final View view) {
 
-                //Toast.makeText(displayRow.getContext(), "Long click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
                 builder.setCancelable(true);
                 builder.setTitle("Info for " + model.getFieldAsString(PantryItem.NAME_FIELD));
