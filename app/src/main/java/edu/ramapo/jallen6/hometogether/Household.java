@@ -70,4 +70,10 @@ public class Household extends AppCompatActivity {
         intent.putExtra(Household.ExtraHouseID, houseId);
         startActivity(intent);
     }
+
+    public void openShoppingList(View v){
+        Intent intent = new Intent(this, ShoppingList.class);
+        intent.putExtra(Household.ExtraHouseID, houseId);
+        startActivity(intent);
+    }
 }
