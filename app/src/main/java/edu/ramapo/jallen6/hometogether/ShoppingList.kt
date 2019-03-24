@@ -1,7 +1,9 @@
 package edu.ramapo.jallen6.hometogether
 
+import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity.CENTER
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
@@ -23,10 +25,8 @@ class ShoppingList : AppCompatActivity() {
         setContentView(R.layout.activity_shopping_list)
 
         val houseId = intent.getStringExtra(Household.ExtraHouseID)
-        val textView:TextView = TextView(this)
-        textView.text = houseId
-        shoppingListTable.addView(textView)
 
+        createTableHeader()
         val url:String = NetworkManager.getHostAsBuilder().appendPath("household")
                 .appendPath("pantry")
                 .appendQueryParameter("id", houseId)
@@ -58,5 +58,26 @@ class ShoppingList : AppCompatActivity() {
     }
 
 
+    private fun createTableHeader(){
+        val row = TableRow(this)
+
+        var textBuffer = TextView(this)
+
+        val headerText = arrayOf("Name",  "Quantity");
+
+        for(i in 0 until headerText.size){
+            val header = TextView(this)
+            header.text = headerText[i]
+            header.gravity = CENTER
+            header.typeface = Typeface.DEFAULT_BOLD
+            row.addView(header)
+        }
+
+        row.addView(textBuffer)
+        shoppingListTable.addView(row)
+
+
+
+    }
 
 }
