@@ -1,5 +1,6 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -128,6 +129,7 @@ public class PantryItemView implements Observer {
             private static final int SWIPE_MAX_OFF_PATH = 250;
             private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
+
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 try {
@@ -136,34 +138,43 @@ public class PantryItemView implements Observer {
                     // right to left swipe
                     if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                        // displayRow.setBackgroundColor(Color.GREEN);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
-                        builder.setCancelable(true);
-                        builder.setTitle("Delete Confirmation");
-                        builder.setMessage("Are you sure you want to delete "
-                                + model.getFieldAsString(PantryItem.NAME_FIELD)+"?");
-                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //TODO: Fix mostly repeated code?
-                                model.setSelected(true);
+                        showConfirmationDialog("Delete Confirmation",
+                                "Are you sure you want to delete "
+                                + model.getFieldAsString(PantryItem.NAME_FIELD)+"?",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //TODO: Confirm Fix  of mostly repeated code?
+                                        // or move to function
+                                        model.setSelected(true);
 
-                                try{
-                                    ((PantryItemCrud)displayRow.getContext()).deleteItem(displayRow);
-                                } catch(ClassCastException e){
-                                    Toast.makeText(displayRow.getContext(),
-                                            "Failed to update from this screen", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                        builder.show();
+                                        try{
+                                            ((PantryItemCrud)displayRow.getContext()).deleteItem(displayRow);
+                                        } catch(ClassCastException e){
+                                            Toast.makeText(displayRow.getContext(),
+                                                    "Failed to update from this screen", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                     } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                        displayRow.setBackgroundColor(Color.YELLOW);
+                        //displayRow.setBackgroundColor(Color.YELLOW);
+                        //TODO" Remove if in shopping cart?
+                        showConfirmationDialog("Move to shopping cart?",
+                                "Are you sure you want to move "
+                                        + model.getFieldAsString(PantryItem.NAME_FIELD) + " to shopping cart?",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        model.setSelected(true);
+                                        try{
+                                            //TODO: Find define location for shopping
+                                            ((PantryItemCrud)displayRow.getContext()).moveItem(PantryItemView.this, "shopping");
+                                        } catch(ClassCastException e){
+                                            Toast.makeText(displayRow.getContext(),
+                                                    "Failed to update from this screen", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                     }
                 } catch (Exception e) {
                     // nothing
@@ -182,6 +193,7 @@ public class PantryItemView implements Observer {
 
 
         final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(), new PantryItemGesture());
+
 
         displayRow.setOnTouchListener( new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -240,5 +252,21 @@ public class PantryItemView implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         drawToRow();
+    }
+
+
+    private void showConfirmationDialog(@NonNull String title, @NonNull String message, @NonNull DialogInterface.OnClickListener postiveConfirmListener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Yes", postiveConfirmListener);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
     }
 }
