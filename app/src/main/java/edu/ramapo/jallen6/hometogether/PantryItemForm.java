@@ -97,7 +97,9 @@ public class PantryItemForm extends AppCompatActivity
                 R.id.pantryItemFormExpiresField, R.id.pantryItemFormCategoryField,
                 R.id.pantryItemFormTagField};
 
-        String[] jsonKeys = {"name", "quantity", "expires", "category", "tag"};
+        String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
+                PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD,
+               /* PantryItem.LOCATION_FIELD*/};
 
 
         JSONObject params = new JSONObject();
@@ -116,6 +118,14 @@ public class PantryItemForm extends AppCompatActivity
                 return;
             }
 
+        }
+
+        try{
+            params.put(PantryItem.LOCATION_FIELD, ((Spinner)findViewById(R.id.testSpinner)).getSelectedItem().toString());
+        } catch (JSONException e){
+            e.printStackTrace();
+            Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
+            return;
         }
 
 
