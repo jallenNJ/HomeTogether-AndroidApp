@@ -29,7 +29,8 @@ class ShoppingList : AppCompatActivity() {
 
         val url:String = NetworkManager.getHostAsBuilder().appendPath("household")
                 .appendPath("pantry")
-                .appendQueryParameter("id", houseId).toString()
+                .appendQueryParameter("id", houseId)
+                .appendQueryParameter("shopping", "true").toString()
 
         val request:JsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener<JSONObject> {response ->
