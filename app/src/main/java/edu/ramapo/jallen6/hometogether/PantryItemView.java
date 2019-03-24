@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableRow;
@@ -116,6 +119,47 @@ public class PantryItemView implements Observer {
 
                 //Return true to "consume" click and stop onclick from firing
                 return true;
+            }
+        });
+
+         class PantryItemGesture extends GestureDetector.SimpleOnGestureListener {
+
+            private static final int SWIPE_MIN_DISTANCE = 120;
+            private static final int SWIPE_MAX_OFF_PATH = 250;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                try {
+                    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                        return false;
+                    // right to left swipe
+                    if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                        displayRow.setBackgroundColor(Color.GREEN);
+                    } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                        displayRow.setBackgroundColor(Color.YELLOW);
+                    }
+                } catch (Exception e) {
+                    // nothing
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+        }
+
+
+
+        final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(), new PantryItemGesture());
+
+        displayRow.setOnTouchListener( new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                return gestureDetector.onTouchEvent(event);
             }
         });
     }
