@@ -135,7 +135,33 @@ public class PantryItemView implements Observer {
                         return false;
                     // right to left swipe
                     if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                        displayRow.setBackgroundColor(Color.GREEN);
+                       // displayRow.setBackgroundColor(Color.GREEN);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
+                        builder.setCancelable(true);
+                        builder.setTitle("Delete Confirmation");
+                        builder.setMessage("Are you sure you want to delete "
+                                + model.getFieldAsString(PantryItem.NAME_FIELD)+"?");
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //TODO: Fix mostly repeated code?
+                                model.setSelected(true);
+
+                                try{
+                                    ((PantryItemCrud)displayRow.getContext()).deleteItem(displayRow);
+                                } catch(ClassCastException e){
+                                    Toast.makeText(displayRow.getContext(),
+                                            "Failed to update from this screen", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        builder.show();
                     } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                         displayRow.setBackgroundColor(Color.YELLOW);
                     }
