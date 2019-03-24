@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Debug;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,6 +30,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.net.HttpURLConnection;
 
 public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
@@ -213,6 +216,76 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
 
+    }
+
+    @Override
+    public void moveItem(@NonNull final PantryItemView v,@NonNull String newLoc) {
+        String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
+                PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD};
+
+
+        PantryItem item = v.getModel();
+        JSONObject params = new JSONObject();
+        for (String jsonKey : jsonKeys) {
+            String fieldData = item.getFieldAsString(jsonKey);
+            try {
+                params.put( jsonKey, fieldData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (fieldData.equalsIgnoreCase("")) { //Should never occur if db data is good...
+                Log.e("Invalid model", "Model missing required field");
+                Toast.makeText(this, "Error, please use the form", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+        }
+
+
+        //TODO: validation on newLoc
+        try {
+            params.put( PantryItem.LOCATION_FIELD, newLoc);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String url = NetworkManager.getHostAsBuilder().appendPath("household")
+                .appendPath("pantry").toString();
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //v.getModel().applyUpdate(response); //Should be deleted and on needed
+                        itemViewManager.delete(v);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                String message = "";
+                switch (error.networkResponse.statusCode){
+                    case HttpURLConnection.HTTP_BAD_REQUEST:
+                        message = "Error on field formatting";
+                        break;
+                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        message = "Session expired, please log in again";
+                        break;
+                    default:
+                        message = "Server error";
+                        break;
+                }
+                Toast.makeText(Pantry.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        NetworkManager.getInstance(this).addToRequestQueue(request);
     }
 
     @Override
