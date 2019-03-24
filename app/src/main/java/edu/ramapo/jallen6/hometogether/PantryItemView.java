@@ -173,7 +173,8 @@ public class PantryItemView implements Observer {
 
             @Override
             public boolean onDown(MotionEvent e) {
-                return true;
+                //Return false to allow for the onclick to file
+                return false;
             }
 
         }
