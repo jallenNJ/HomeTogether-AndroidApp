@@ -6,6 +6,9 @@ import android.view.View;
 // applied. This allows for the views to communicate up to the main activity;
 public interface PantryItemCrud {
 
-    public void updateItem (View v);
-    public void deleteItem (View v);
+
+
+   void updateItem (View v);
+   void deleteItem (View v);
+   void moveItem (PantryItemView v, String newLoc);
 }
