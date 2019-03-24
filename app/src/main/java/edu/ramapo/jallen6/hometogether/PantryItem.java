@@ -19,6 +19,7 @@ public class PantryItem extends Observable {
     public static final String FORMATTED_EXPIRES_FIELD = "fexpires";
     public static final String CATEGORY_FIELD = "category";
     public static final String TAG_FIELD = "tags";
+    public static final String LOCATION_FIELD = "location";
 
 
     private String name;
@@ -27,6 +28,7 @@ public class PantryItem extends Observable {
     private String[] tags;
     private String expires;
     private String formattedExpires;
+    private String location;
     private boolean selected;
 
 
@@ -49,6 +51,7 @@ public class PantryItem extends Observable {
         quantity = jsonPantry.getInt(QUANTITY_FIELD);
         category = jsonPantry.getString(CATEGORY_FIELD);
         expires = jsonPantry.getString(EXPIRES_FIELD);
+        location = jsonPantry.getString(LOCATION_FIELD);
         JSONArray tagsArray = jsonPantry.getJSONArray(TAG_FIELD);
         //TODO, check what happens if size is zero
         tags = new String[tagsArray.length()];
@@ -97,6 +100,8 @@ public class PantryItem extends Observable {
                 return expires;
             case FORMATTED_EXPIRES_FIELD:
                 return formattedExpires;
+            case LOCATION_FIELD:
+                return location;
             default:
                 Log.e("InvalidSwitchParameter", field + "is not valid", new Exception());
                 return "";
