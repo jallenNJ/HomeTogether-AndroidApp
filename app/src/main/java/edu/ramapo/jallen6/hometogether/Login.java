@@ -193,6 +193,8 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        //TODO: Add null check
+
                         switch (error.networkResponse.statusCode){
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 Toast.makeText(Login.this, "User not found",

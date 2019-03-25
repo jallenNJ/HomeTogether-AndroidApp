@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 public class PantryItemViewManager {
-    private ArrayList<PantryItemView> views;
+    private ArrayList<AbstractItemView> views;
 
     public PantryItemViewManager(){
         views = new ArrayList<>();
@@ -17,13 +17,13 @@ public class PantryItemViewManager {
         return views.size();
     }
 
-    public void addView(PantryItemView pIView){
+    public void addView(AbstractItemView pIView){
         views.add(pIView);
         pIView.drawToRow();
     }
 
-    public PantryItemView getSingleSelected(){
-        ArrayList<PantryItemView> update = getSelected();
+    public AbstractItemView getSingleSelected(){
+        ArrayList<AbstractItemView> update = getSelected();
         if(update.size() != 1){
             return null;
         }
@@ -32,9 +32,9 @@ public class PantryItemViewManager {
     }
 
 
-    private ArrayList<PantryItemView> getSelected(){
-        ArrayList<PantryItemView> selected = new ArrayList<>();
-        for(PantryItemView item:views){
+    private ArrayList<AbstractItemView> getSelected(){
+        ArrayList<AbstractItemView> selected = new ArrayList<>();
+        for(AbstractItemView item:views){
             if(item.isSelected()){
                 selected.add(item);
             }
@@ -44,7 +44,7 @@ public class PantryItemViewManager {
 
     private int sizeOfSelected(){
         int selected = 0;
-        for(PantryItemView item:views){
+        for(AbstractItemView item:views){
             if(item.isSelected()){
                 selected++;
             }
@@ -53,7 +53,7 @@ public class PantryItemViewManager {
     }
 
     public void drawAll(){
-        for(PantryItemView view :views){
+        for(AbstractItemView view :views){
             view.drawToRow();
         }
     }
@@ -71,7 +71,7 @@ public class PantryItemViewManager {
             return;
         }
 
-        PantryItemView target = findViewByName(name);
+        AbstractItemView target = findViewByName(name);
         if(target == null){
             return;
         }
@@ -79,8 +79,8 @@ public class PantryItemViewManager {
 
     }
 
-    public PantryItemView findViewByName(String name){
-        for(PantryItemView view:views){
+    public AbstractItemView findViewByName(String name){
+        for(AbstractItemView view:views){
             if(view.getModel().getFieldAsString(PantryItem.NAME_FIELD).equals(name)){
                 return view;
             }
@@ -88,7 +88,7 @@ public class PantryItemViewManager {
         return null;
     }
 
-    public void delete(PantryItemView target){
+    public void delete(AbstractItemView target){
         target.clearModel();
         views.remove(target);
 
@@ -102,17 +102,17 @@ public class PantryItemViewManager {
 
         switch (searchType){
             case NAME_SEARCH:
-                for(PantryItemView view:views){
+                for(AbstractItemView view:views){
                     view.setRowVisibility(view.modelNameContains(searchTerm));
                 }
                 break;
             case CATEGORY_SEARCH:
-                for(PantryItemView view:views){
+                for(AbstractItemView view:views){
                     view.setRowVisibility(view.modelCategoryContains(searchTerm));
                 }
                 break;
             case TAG_SEARCH:
-                for(PantryItemView view:views){
+                for(AbstractItemView view:views){
                     view.setRowVisibility(view.modelHasTag(searchTerm));
                 }
                 break;
@@ -123,9 +123,8 @@ public class PantryItemViewManager {
 
     }
 
-
     private void setAllVisibile(){
-        for(PantryItemView view :views){
+        for(AbstractItemView view :views){
             view.setRowVisibility(true);
         }
     }

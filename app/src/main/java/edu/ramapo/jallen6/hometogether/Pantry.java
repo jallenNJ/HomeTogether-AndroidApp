@@ -165,7 +165,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
 
         //TODO: fix selection issue when accessed via pop up menu
-        PantryItemView selected = itemViewManager.getSingleSelected();
+        AbstractItemView selected = itemViewManager.getSingleSelected();
 
         if(selected == null){
             Toast.makeText(Pantry.this, "Please select only one item",
@@ -189,7 +189,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
     }
 
     public void deleteItem(View v){
-        final PantryItemView selected = itemViewManager.getSingleSelected();
+        final AbstractItemView selected = itemViewManager.getSingleSelected();
         if(selected == null){
             Toast.makeText(Pantry.this, "Please select only one item",
                     Toast.LENGTH_SHORT).show();
@@ -219,7 +219,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
     }
 
     @Override
-    public void moveItem(@NonNull final PantryItemView v,@NonNull String newLoc) {
+    public void moveItem(@NonNull final AbstractItemView v,@NonNull String newLoc) {
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
                 PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD};
 
@@ -329,7 +329,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                 try {
                     JSONObject result = new JSONObject(data.getStringExtra(PantryItemForm.JSON_UPDATED_EXTRA));
                     String name = result.getString(PantryItem.NAME_FIELD);
-                    PantryItemView updated = itemViewManager.findViewByName(name);
+                    AbstractItemView updated = itemViewManager.findViewByName(name);
                     updated.getModel().applyUpdate(result);
                     updated.drawToRow();
                 } catch (JSONException e) {

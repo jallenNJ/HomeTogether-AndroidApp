@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity.CENTER
+import android.widget.CheckBox
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
@@ -18,7 +19,7 @@ import org.json.JSONObject
 
 class ShoppingList : AppCompatActivity() {
 
-    val itemManager:PantryItemViewManager = PantryItemViewManager()
+   private val itemManager:PantryItemViewManager = PantryItemViewManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +38,13 @@ class ShoppingList : AppCompatActivity() {
 
                     val pantryItems = response.getJSONArray("pantry")
                     val keys = arrayOf(PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD)
-                    //TODO: TableRow Header
 
 
                     for(i in 0 until pantryItems.length()){
                         val current = pantryItems.getJSONObject(i)
-                        val pantryItemView = PantryItemView(PantryItem(current), TableRow(this))
+                        val pantryItemView = ShoppingItemView(PantryItem(current), TableRow(this))
                         pantryItemView.setKeys(keys)
+                        pantryItemView.addViewToRow(CheckBox(this))
                         shoppingListTable.addView(pantryItemView.displayRow)
                         itemManager.addView(pantryItemView)
                     }
@@ -61,9 +62,7 @@ class ShoppingList : AppCompatActivity() {
     private fun createTableHeader(){
         val row = TableRow(this)
 
-        var textBuffer = TextView(this)
-
-        val headerText = arrayOf("Name",  "Quantity");
+        val headerText = arrayOf("Name",  "Quantity", "Bought")
 
         for(i in 0 until headerText.size){
             val header = TextView(this)
@@ -73,7 +72,6 @@ class ShoppingList : AppCompatActivity() {
             row.addView(header)
         }
 
-        row.addView(textBuffer)
         shoppingListTable.addView(row)
 
 

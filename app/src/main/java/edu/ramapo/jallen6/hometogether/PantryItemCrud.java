@@ -10,5 +10,5 @@ public interface PantryItemCrud {
 
    void updateItem (View v);
    void deleteItem (View v);
-   void moveItem (PantryItemView v, String newLoc);
+   void moveItem (AbstractItemView v, String newLoc);
 }
