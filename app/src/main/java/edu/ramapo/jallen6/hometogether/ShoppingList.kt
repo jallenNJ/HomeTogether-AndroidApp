@@ -16,14 +16,21 @@ import com.android.volley.toolbox.JsonObjectRequest
 
 import kotlinx.android.synthetic.main.activity_shopping_list.*
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 
 class ShoppingList : AppCompatActivity(), PantryItemCrud {
 
 
-    override fun moveItem(v: AbstractItemView?, newLoc: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun moveItem(v: AbstractItemView, newLoc: String) {
+        try {
+            itemManager.moveItem(v, newLoc, this)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Failed to move item", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     override fun deleteItem(v: View?) {
@@ -37,6 +44,7 @@ class ShoppingList : AppCompatActivity(), PantryItemCrud {
     }
 
     override fun updateItem(v: View?) {
+        //Should not be callable...
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -108,7 +116,12 @@ class ShoppingList : AppCompatActivity(), PantryItemCrud {
                     when(check){
                         is CheckBox ->{
                             if(check.isChecked){
-                                //Do thing
+                                val name = row.getChildAt(0)
+                                when(name){
+                                    is TextView -> {
+                                        itemManager.moveItem(itemManager.findViewByName(name.text.toString()), "pantry", this)
+                                    }
+                                }
 
                             }
                         }

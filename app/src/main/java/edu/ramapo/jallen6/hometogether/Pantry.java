@@ -205,6 +205,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
             itemViewManager.moveItem(v, newLoc, this);
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(this, "Failed to move item", Toast.LENGTH_SHORT).show();
         }
     }
 
