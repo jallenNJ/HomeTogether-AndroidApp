@@ -21,7 +21,7 @@ import org.json.JSONObject
 
 class ShoppingList : AppCompatActivity(), PantryItemCrud {
 
-    
+
     override fun moveItem(v: AbstractItemView?, newLoc: String?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

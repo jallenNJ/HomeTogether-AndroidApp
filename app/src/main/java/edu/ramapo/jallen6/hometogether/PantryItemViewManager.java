@@ -8,10 +8,13 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 public class PantryItemViewManager {
@@ -119,6 +122,50 @@ public class PantryItemViewManager {
                 }, NetworkManager.generateDefaultErrorHandler() );
 
         NetworkManager.getInstance(context).addToRequestQueue(request);
+    }
+    public void moveItem(@NonNull final AbstractItemView v,@NonNull String newLoc,@NonNull final Context context)
+    throws JSONException{
+
+        JSONObject params = null;
+        params = v.getModel().toJSONObject();
+        //TODO: validation on newLoc
+        params.put( PantryItem.LOCATION_FIELD, newLoc);
+        String url = NetworkManager.getHostAsBuilder().appendPath("household")
+                .appendPath("pantry").toString();
+
+
+        //TODO: Move to item manager, throw expection with message and print that out;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //v.getModel().applyUpdate(response); //Should be deleted and on needed
+                        delete(v);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                String message = "";
+                switch (error.networkResponse.statusCode){
+                    case HttpURLConnection.HTTP_BAD_REQUEST:
+                        message = "Error on field formatting";
+                        break;
+                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        message = "Session expired, please log in again";
+                        break;
+                    default:
+                        message = "Server error";
+                        break;
+                }
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        NetworkManager.getInstance(context).addToRequestQueue(request);
+
+
     }
 
     public void delete(AbstractItemView target){

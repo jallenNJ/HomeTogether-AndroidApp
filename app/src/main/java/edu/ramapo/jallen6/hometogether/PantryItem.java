@@ -128,5 +128,24 @@ public class PantryItem extends Observable {
         selected = !selected;
     }
 
+    public JSONObject toJSONObject() throws JSONException{
+        String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
+                PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD};
+
+
+        JSONObject params = new JSONObject();
+        for (String jsonKey : jsonKeys) {
+            String fieldData = getFieldAsString(jsonKey);
+
+            if (fieldData.equalsIgnoreCase("")) { //Should never occur if db data is good...
+                Log.e("Invalid model", "Model missing required field");
+                throw new JSONException("Field had no data, possible db or network corruption");
+            }
+            params.put( jsonKey, fieldData);
+
+        }
+        return params;
+    }
+
 
 }
