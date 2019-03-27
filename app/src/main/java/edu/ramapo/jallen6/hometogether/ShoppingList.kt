@@ -4,6 +4,8 @@ import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity.CENTER
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TableRow
 import android.widget.TextView
@@ -17,9 +19,28 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 
-class ShoppingList : AppCompatActivity() {
+class ShoppingList : AppCompatActivity(), PantryItemCrud {
 
-   private val itemManager:PantryItemViewManager = PantryItemViewManager()
+    
+    override fun moveItem(v: AbstractItemView?, newLoc: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteItem(v: View?) {
+        try {
+            itemManager.deleteSelectedFromServer(this)
+        } catch (e: IllegalStateException) {
+            Toast.makeText(this, "Please select only one item",
+                    Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    override fun updateItem(v: View?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private val itemManager:PantryItemViewManager = PantryItemViewManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +97,26 @@ class ShoppingList : AppCompatActivity() {
 
 
 
+    }
+
+    fun completeShopping(v: View){
+        for(rowNum in 1 until shoppingListTable.childCount){
+            val row:View = shoppingListTable.getChildAt(rowNum)
+            when(row){
+                is ViewGroup ->{
+                    val check:View = row.getChildAt(2)
+                    when(check){
+                        is CheckBox ->{
+                            if(check.isChecked){
+                                //Do thing
+
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 }

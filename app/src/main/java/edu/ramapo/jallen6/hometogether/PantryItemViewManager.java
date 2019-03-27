@@ -1,7 +1,16 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -86,6 +95,30 @@ public class PantryItemViewManager {
             }
         }
         return null;
+    }
+
+    public void deleteSelectedFromServer(@NonNull final Context context) throws IllegalStateException{
+        final AbstractItemView selected = getSingleSelected();
+        if(selected == null){
+            throw new IllegalStateException("More than one item selected");
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE,
+                NetworkManager.getHostAsBuilder().appendPath("household").appendPath("pantry")
+                        .appendQueryParameter(PantryItem.NAME_FIELD,
+                                selected.getModel().getFieldAsString(PantryItem.NAME_FIELD))
+                        .toString()
+                , null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                       delete(selected);
+
+                    }
+                }, NetworkManager.generateDefaultErrorHandler() );
+
+        NetworkManager.getInstance(context).addToRequestQueue(request);
     }
 
     public void delete(AbstractItemView target){

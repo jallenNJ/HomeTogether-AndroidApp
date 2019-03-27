@@ -189,32 +189,13 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
     }
 
     public void deleteItem(View v){
-        final AbstractItemView selected = itemViewManager.getSingleSelected();
-        if(selected == null){
+
+        try{
+            itemViewManager.deleteSelectedFromServer(this);
+        } catch (IllegalStateException e){
             Toast.makeText(Pantry.this, "Please select only one item",
                     Toast.LENGTH_SHORT).show();
-            return;
         }
-
-
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE,
-                NetworkManager.getHostAsBuilder().appendPath("household").appendPath("pantry")
-                        .appendQueryParameter(PantryItem.NAME_FIELD,
-                                selected.getModel().getFieldAsString(PantryItem.NAME_FIELD))
-                        .toString()
-                , null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                       // String message = "";
-                        itemViewManager.delete(selected);
-
-                    }
-                }, NetworkManager.generateDefaultErrorHandler() );
-
-        NetworkManager.getInstance(this).addToRequestQueue(request);
-
 
     }
 
