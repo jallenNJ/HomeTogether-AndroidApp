@@ -21,28 +21,44 @@ import org.json.JSONObject;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Gives functionality to a LinearLayout which acts as the view for the members in a household
+ */
 public class MemberBar implements Observer {
-    LinearLayout memberLayout;
+    private LinearLayout memberLayout; //The layout being used as the bar
 
     MemberBar(@NonNull LinearLayout layout){
+        //Save a reference and attach observer
         memberLayout = layout;
         ActiveHousehold.getInstance().addObserver(this);
     }
 
+    /**
+     * Removes itself as an observer
+     * @throws Throwable Any exceptions gets rethrown
+     */
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
         ActiveHousehold.getInstance().deleteObserver(this);
     }
 
+    /**
+     * Updates the view to stay inline with the model
+     * @param observable The observed object being changed, always the layout
+     * @param o Any information it pasases, will be null
+     */
     @Override
     public void update(Observable observable, Object o) {
-        if(memberLayout == null){
+        if(memberLayout == null){ //Should never happen but a good check
             throw new IllegalStateException("memberLayout has become null");
         }
 
+        //Clear the views and get reference to the cache
         memberLayout.removeAllViewsInLayout();
         ActiveHousehold cache = ActiveHousehold.getInstance();
+
+        //For each member, make the button
         for(int i =0; i < cache.getMembersSize(); i++){
             String name =  cache.getMemberName(i);
             Button button = new Button(memberLayout.getContext());
@@ -50,13 +66,17 @@ public class MemberBar implements Observer {
             memberLayout.addView(button);
         }
 
+        //Add the new member button
         Button button = new Button(memberLayout.getContext());
         button.setText("DEBUG: Add member");
         memberLayout.addView(button);
 
+        //Bind the on clock listener to add a new member
+        // Creates a dialog to add them by their full name
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext());
                 builder.setTitle("Username of member to add");
 
@@ -113,12 +133,18 @@ public class MemberBar implements Observer {
     }
 
 
+    /**
+     * Creates an alert dialog to show the users which were found with a search
+     * @param userList Tbe Array of found users
+     * @throws JSONException Exception based on the parsing of userList or if none were found
+     */
     public void displayFoundUserList(JSONArray userList) throws JSONException {
         AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext());
         builder.setTitle("Choose member");
         if(userList.length() == 0){
             throw new JSONException("No members were found");
         }
+        //TODO: Use json formatter?
         final String[] users = new String[userList.length()];
         for(int i =0; i < userList.length(); i++){
             users[i] = userList.getJSONObject(i).getString("user");
@@ -139,6 +165,7 @@ public class MemberBar implements Observer {
                     return;
                 }
 
+                //Request to add the click member to the household
                 JsonObjectRequest request = new JsonObjectRequest(
                         Request.Method.PUT,
                         NetworkManager.getHostAsBuilder()
@@ -151,6 +178,7 @@ public class MemberBar implements Observer {
                             public void onResponse(JSONObject response) {
 
                                 try{
+                                    //TODO: Check if this works on server rewrite
                                     if(response.getBoolean("status")){
                                         ActiveHousehold.getInstance().refresh();
                                     } else{

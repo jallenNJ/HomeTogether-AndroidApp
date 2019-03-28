@@ -29,19 +29,22 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Activity Logic for the the Pantry Item form, which can do updates and creationms
+ */
 public class PantryItemForm extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener{
 
 
-    public final static String UPDATE_MODE_EXTRA = "update";
-    public final static String NAME_EXTRA = "name";
-    public final static String QUANTITY_EXTRA="quantity";
-    public final static String EXPIRE_EXTRA = "expires";
-    public final static String CATEGORY_EXTRA = "category";
-    public final static String TAGS_EXTRA = "tags";
-    public final static String JSON_UPDATED_EXTRA = "jsonUpdated";
-    public final static String JSON_NEW_EXTRA = "jsonNew";
+    //Extra fields define
+    public final static String UPDATE_MODE_EXTRA = "update"; /// Update field extra define
+    public final static String NAME_EXTRA = "name"; /// Name field extra define
+    public final static String QUANTITY_EXTRA="quantity"; /// Quantity field extra define
+    public final static String EXPIRE_EXTRA = "expires"; /// Expires field extra define
+    public final static String CATEGORY_EXTRA = "category"; ///Category field extra define
+    public final static String TAGS_EXTRA = "tags"; /// Tag field extra define
+    public final static String JSON_UPDATED_EXTRA = "jsonUpdated"; /// JSON Updated field define extra
+    public final static String JSON_NEW_EXTRA = "jsonNew"; /// JSON New field defien extra
 
     private boolean updateMode;
 
@@ -51,6 +54,7 @@ public class PantryItemForm extends AppCompatActivity
         setContentView(R.layout.activity_pantry_item_form);
 
 
+        //Create the date picker fragment
        findViewById(R.id.pantryItemFormExpiresLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,23 +67,29 @@ public class PantryItemForm extends AppCompatActivity
         });
 
 
+       //Get the pantry location from the cache
        String[] locations = ActiveHousehold.getInstance().getPantryLocations();
         if(locations == null){
             locations = new String[]{"unsorted"};
         }
 
+        //Load the text into the spinner
+        //TODO: Set this in XML
        Spinner spinner = findViewById(R.id.testSpinner);
        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                R.layout.support_simple_spinner_dropdown_item, locations);
        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
        spinner.setAdapter(adapter);
 
+       //Get the data from the intent
         Intent intent = getIntent();
         updateMode = intent.getBooleanExtra(UPDATE_MODE_EXTRA, false);
-        if(updateMode){
+        if(updateMode){ //If updating an existing item
+            //Prefill the form
+
             TextView nameField = (TextView)findViewById(R.id.pantryItemFormNameField);
             nameField.setText(intent.getStringExtra(NAME_EXTRA));
-            nameField.setEnabled(false);
+            nameField.setEnabled(false); //Name cannot be editted
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
             ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
             ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
@@ -91,17 +101,25 @@ public class PantryItemForm extends AppCompatActivity
         }
     }
 
+    /**
+     * On click handler to submit the form to the server regardless of if its an update or creation
+     * @param v The view which was clicked
+     */
     public void submitForm(View v){
         TextView buffer;
+        //All the field ids to check
         int[] formIds = {R.id.pantryItemFormNameField, R.id.pantryItemFormQuantityField,
                 R.id.pantryItemFormExpiresField, R.id.pantryItemFormCategoryField,
                 R.id.pantryItemFormTagField};
 
+        //And their assoicated keys
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
                 PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD,
                /* PantryItem.LOCATION_FIELD*/};
 
 
+        //TODO: Move this to JSON formatter?
+        //For all the fields, load the key with the object
         JSONObject params = new JSONObject();
         for(int i = 0; i < formIds.length; i++){
             buffer = findViewById(formIds[i]);
@@ -120,6 +138,7 @@ public class PantryItemForm extends AppCompatActivity
 
         }
 
+        //Get the spinner field separately
         try{
             params.put(PantryItem.LOCATION_FIELD, ((Spinner)findViewById(R.id.testSpinner)).getSelectedItem().toString());
         } catch (JSONException e){
@@ -132,13 +151,14 @@ public class PantryItemForm extends AppCompatActivity
         String url = NetworkManager.getHostAsBuilder().appendPath("household")
                 .appendPath("pantry").toString();
 
-
+        //Set request method. Patch if update, put if create
         int requestMethod = updateMode ? Request.Method.PATCH: Request.Method.PUT;
 
         JsonObjectRequest request = new JsonObjectRequest(requestMethod, url, params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        //Create the message string based on if its update or create
                         String message = updateMode ? " updated " : " created ";
                         String key = updateMode ? JSON_UPDATED_EXTRA : JSON_NEW_EXTRA;
                         String jsonKey = updateMode ? "updated": "entry";
@@ -183,12 +203,21 @@ public class PantryItemForm extends AppCompatActivity
     }
 
 
-
-
-public void onDateSet(DatePicker view, int year, int month, int day){
+    /**
+     * Formats the date based on what was inputted in form MM DD, YYYY
+     * @param view The view which created this
+     * @param year The inputted year
+     * @param month The zero-indexed month
+     * @param day The one-indexed day
+     */
+    public void onDateSet(DatePicker view, int year, int month, int day){
         setDateField((Integer.toString(month) + " " + Integer.toString(day) + ", " + Integer.toString(year)));
     }
 
+    /**
+     * Applies the formatted date to the text view
+     * @param text The text to apply
+     */
     private  void setDateField(String text){
         TextView dateField = findViewById(R.id.pantryItemFormExpiresField);
         if(dateField == null){

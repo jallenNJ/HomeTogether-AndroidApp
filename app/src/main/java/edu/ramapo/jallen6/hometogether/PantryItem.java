@@ -11,17 +11,22 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Observable;
 
+/**
+ * Model representation of the a pantry item
+ */
 public class PantryItem extends Observable {
 
-    public static final String NAME_FIELD = "name";
-    public static final String QUANTITY_FIELD = "quantity";
-    public static final String EXPIRES_FIELD = "expires";
-    public static final String FORMATTED_EXPIRES_FIELD = "fexpires";
-    public static final String CATEGORY_FIELD = "category";
-    public static final String TAG_FIELD = "tags";
-    public static final String LOCATION_FIELD = "location";
+    //Public field names to be read
+    public static final String NAME_FIELD = "name"; /// Name field define
+    public static final String QUANTITY_FIELD = "quantity"; /// Quantity field define
+    public static final String EXPIRES_FIELD = "expires"; /// Expires field define
+    public static final String FORMATTED_EXPIRES_FIELD = "fexpires"; /// Formatted expires field define
+    public static final String CATEGORY_FIELD = "category"; /// Category field define
+    public static final String TAG_FIELD = "tags"; ///Tag field define
+    public static final String LOCATION_FIELD = "location"; ///Location field define
 
 
+    //Data storage fields
     private String name;
     private int quantity;
     private String category;
@@ -31,12 +36,20 @@ public class PantryItem extends Observable {
     private String location;
     private boolean selected;
 
-
+    /**
+     * Fills the field with all the information
+     * @param jsonPantry The information being tracked
+     * @throws JSONException Any exception in the parsing of the data
+     */
     public PantryItem(JSONObject jsonPantry) throws JSONException {
+        //Fill the field
         applyUpdate(jsonPantry);
 
+
+        //Format the date
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY", Locale.US);
 
+        //NOTE: This assumes the date is formatted correctly in the server
         int month = Integer.parseInt(expires.split(" ")[0]);
         int day = Integer.parseInt(expires.split(" ")[1].split(",")[0]);
         int year = Integer.parseInt(expires.split(", ")[1]);
@@ -45,6 +58,11 @@ public class PantryItem extends Observable {
        // cal = new GregorianCalendar(Integer.parseInt(split[1]), Integer.parseInt(split[0]), month);
     }
 
+    /**
+     * Fills the data members of class from a JSONObject
+     * @param jsonPantry The Object to parse from
+     * @throws JSONException An exception in parsing the objectg
+     */
     //TODO: handle partially correct JSONobject
     public void applyUpdate(JSONObject jsonPantry) throws JSONException {
         name = jsonPantry.getString(NAME_FIELD);
@@ -59,10 +77,24 @@ public class PantryItem extends Observable {
             tags[i] = tagsArray.getString(i);
         }
 
+
         this.setChanged();
         this.notifyObservers();
     }
 
+    /**
+     * Creates a formatted string of the Name, Quantity, Tag, and Formmated Expires field on new
+     * new lines with a header.
+     *
+     * Example Format:
+     * Name: TestItem
+     * Quantity: 4
+     * Tags: DebugItem, Cold, Frozen
+     * Expires: Jan 2nd, 1970
+     *
+     *
+     * @return A formatted String of the above description.
+     */
     @NonNull
     public String toString(){
         return "Name: " + name +
@@ -72,6 +104,12 @@ public class PantryItem extends Observable {
 
     }
 
+    /**
+     * Returns a field from the object based on the string look up. It is recommended to use
+     * this classes name defines to always have a match
+     * @param field The field to search for, should use a class define to access
+     * @return The contents of the field, empty string if invalid
+     */
     public String getFieldAsString(String field){
         field = field.toLowerCase();
         switch (field){
@@ -95,8 +133,6 @@ public class PantryItem extends Observable {
                 return result;
 
             case EXPIRES_FIELD:
-                //Log.e("NotImplemented", field+" getter in PantryItem not implemented");
-                //return "";
                 return expires;
             case FORMATTED_EXPIRES_FIELD:
                 return formattedExpires;
@@ -108,30 +144,54 @@ public class PantryItem extends Observable {
         }
     }
 
+    /**
+     * Gets quantity of the item as an int
+     * @return The quantity, which will always be non-negative
+     */
     public int getQuantity(){
         return quantity;
     }
+
+    /**
+     * Gets the tags as String array
+     * @return The tags
+     */
     public String[] getTags(){
         return tags;
     }
 
 
+    /**
+     * Returns if the object is selected or not
+     * @return True if selected, false otherwise
+     */
     boolean isSelected(){
         return selected;
     }
 
+    /**
+     * Sets the objects selection status to s
+     * @param s The status for the object to be set to
+     */
     public void setSelected(boolean s){
         selected = s;
     }
 
+    /**
+     * Toggle the selection status of the object
+     */
     public void toggleSelected(){
         selected = !selected;
     }
 
+    /**
+     * Convert the object to its JSONObject form
+     * @return The JSONObject representation of the object
+     * @throws JSONException Any exception thrown while converting back to the JSONObject form
+     */
     public JSONObject toJSONObject() throws JSONException{
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
                 PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD};
-
 
         JSONObject params = new JSONObject();
         for (String jsonKey : jsonKeys) {
@@ -142,10 +202,7 @@ public class PantryItem extends Observable {
                 throw new JSONException("Field had no data, possible db or network corruption");
             }
             params.put( jsonKey, fieldData);
-
         }
         return params;
     }
-
-
 }

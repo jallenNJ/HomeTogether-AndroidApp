@@ -9,6 +9,9 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
+/**
+ * Dialog for creating the date picker prompt
+ */
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
@@ -31,10 +34,7 @@ public class DatePickerFragment extends DialogFragment
 
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-
-
         Log.e("No Instance", "Date picker fragment called by a class that did not implement DatePickerDialog.OnDateSetListener");
-
 
     }
 }

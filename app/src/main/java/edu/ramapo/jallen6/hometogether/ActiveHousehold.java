@@ -19,15 +19,15 @@ import java.util.Observable;
  */
 //TODO: Handle failed network request not clearing flag
 public final class ActiveHousehold extends Observable {
-    private static ActiveHousehold instance;
-    private String id;
-    private String name;
-    private String[] memberIds;
-    private String[] memberNames;
-    private String[] pantryLocations;
+    private static ActiveHousehold instance; /// The instance of the singleton
+    private String id; //The id of the active household
+    private String name; //The localized name of the household
+    private String[] memberIds; //The ids of the members in the house
+    private String[] memberNames; //The names of the members in the house
+    private String[] pantryLocations; //The string localized names in the pantry
 
 
-    private boolean pendingNetworkRequest;
+    private boolean pendingNetworkRequest; //Bool for if there is a network request
 
     private ActiveHousehold(){
         resetObject();
@@ -55,6 +55,10 @@ public final class ActiveHousehold extends Observable {
         return id != null && !pendingNetworkRequest;
     }
 
+    /**
+     *  The amount of members in the household
+     * @return Length of the memberIds if active, 0 otherwise
+     */
     public int getMembersSize(){
         if(isActive()){
             return memberIds.length;
@@ -63,6 +67,12 @@ public final class ActiveHousehold extends Observable {
         }
     }
 
+    /**
+     *  Get the member id if house is active
+     * @param index The index to search for
+     * @return The ID if house is active and index valid, empty string if active but invalid index, null otherwise
+     *
+     */
     public String getMemberId(int index){
         if(isActive()){
             if(index < getMembersSize() && index >= 0){
@@ -73,6 +83,12 @@ public final class ActiveHousehold extends Observable {
         return null;
     }
 
+    /**
+     *  Get the member name if house is active
+     * @param index The index to search for
+     * @return The name if house is active and index valid, empty string if active but invalid index, null otherwise
+     *
+     */
     public String getMemberName(int index){
         if(isActive()){
             if(index < memberNames.length && index >= 0){
@@ -84,6 +100,10 @@ public final class ActiveHousehold extends Observable {
     }
 
 
+    /**
+     * Get all pantry locations
+     * @return The array of pantry locations
+     */
     public String[] getPantryLocations(){
         return pantryLocations;
     }
@@ -109,7 +129,6 @@ public final class ActiveHousehold extends Observable {
                     public void onResponse(JSONObject response) {
                         try {
 
-                            Log.d("JSONR", response.getJSONObject("house").toString());
                             //Get the house object from the response
                             JSONObject household = response.getJSONObject("house");
 
@@ -142,8 +161,11 @@ public final class ActiveHousehold extends Observable {
 
     }
 
+    /**
+     * Prevents clone from happening
+     * @throws CloneNotSupportedException As this class is a singleton
+     */
     @Override
-
     protected Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException("Cannot clone singleton");
     }
@@ -159,28 +181,38 @@ public final class ActiveHousehold extends Observable {
         return instance;
     }
 
+    /**
+     * Refreshes the object by calling init again
+     */
     public void refresh(){
         //TODO: Clear?
         initFromServer(id);
     }
 
 
+    /**
+     * Function which takes the member ids and converts it to their names by sending a request to
+     * the server
+     */
     private void resolveMemberIds(){
         if(memberIds == null || memberIds.length == 0){
             pendingNetworkRequest = false;
             return;
         }
 
+        //Get all the ids and send a comma separated string
         StringBuilder idString = new StringBuilder();
         for(String id:memberIds){
             idString.append(id);
             idString.append(",");
         }
+        //Remove the trailing comma
         idString.deleteCharAt(idString.length()-1);
 
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                NetworkManager.getHostAsBuilder().appendPath("users").appendQueryParameter("resolveIds", idString.toString()).toString(),
+                NetworkManager.getHostAsBuilder().appendPath("users")
+                        .appendQueryParameter("resolveIds", idString.toString()).toString(),
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -190,7 +222,7 @@ public final class ActiveHousehold extends Observable {
 
                                 JSONArray users = response.getJSONArray("names");
                                 if(memberIds.length != users.length()){
-                                    throw new JSONException("Recieved data does not match requested size");
+                                    throw new JSONException("Received data does not match requested size");
                                 }
                                 if(memberNames == null || memberNames.length != memberIds.length){
                                     memberNames = new String[memberIds.length];
@@ -198,7 +230,7 @@ public final class ActiveHousehold extends Observable {
 
                                 for(int i =0; i < users.length(); i++){
                                     JSONObject currentUser = users.getJSONObject(i);
-                                    //TODO: Confirm order is based on specifed order
+                                    //TODO: Confirm order is based on specified order
                                     memberNames[i] = currentUser.getString("user");
                                 }
 
