@@ -19,10 +19,15 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-
+/**
+ * Activity logic for the Shopping List Activity
+ */
 class ShoppingList : AppCompatActivity(), PantryItemCrud {
 
 
+    /**
+     * Implementation of move item
+     */
     override fun moveItem(v: AbstractItemView, newLoc: String) {
         try {
             itemManager.moveItem(v, newLoc, this)
@@ -119,7 +124,8 @@ class ShoppingList : AppCompatActivity(), PantryItemCrud {
                                 val name = row.getChildAt(0)
                                 when(name){
                                     is TextView -> {
-                                        itemManager.moveItem(itemManager.findViewByName(name.text.toString()), "pantry", this)
+                                        itemManager.moveItem(itemManager.findViewByName(
+                                                name.text.toString()), "pantry", this)
                                     }
                                 }
 
