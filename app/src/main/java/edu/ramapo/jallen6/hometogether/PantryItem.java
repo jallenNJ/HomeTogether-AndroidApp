@@ -91,16 +91,18 @@ public class PantryItem extends Observable {
      * Quantity: 4
      * Tags: DebugItem, Cold, Frozen
      * Expires: Jan 2nd, 1970
-     *
+     * Location: pantry
      *
      * @return A formatted String of the above description.
      */
     @NonNull
     public String toString(){
+        //TODO, use defines
         return "Name: " + name +
                 "\nQuantity: " + getFieldAsString(QUANTITY_FIELD) +
                 "\nTags: " + getFieldAsString(TAG_FIELD) +
-                "\nExpires: " + getFieldAsString(FORMATTED_EXPIRES_FIELD);
+                "\nExpires: " + getFieldAsString(FORMATTED_EXPIRES_FIELD)
+                +"\n Location: " + getFieldAsString(LOCATION_FIELD);
 
     }
 
