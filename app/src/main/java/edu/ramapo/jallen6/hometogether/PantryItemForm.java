@@ -112,7 +112,7 @@ public class PantryItemForm extends AppCompatActivity
                 R.id.pantryItemFormExpiresField, R.id.pantryItemFormCategoryField,
                 R.id.pantryItemFormTagField};
 
-        //And their assoicated keys
+        //And their associated keys
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
                 PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD,
                /* PantryItem.LOCATION_FIELD*/};
@@ -123,7 +123,11 @@ public class PantryItemForm extends AppCompatActivity
         JSONObject params = new JSONObject();
         for(int i = 0; i < formIds.length; i++){
             buffer = findViewById(formIds[i]);
-            String fieldData = buffer.getText().toString().trim();
+            String fieldData = formIds[i] == R.id.pantryItemFormExpiresField ?
+                    buffer.getTag().toString().trim()
+                    : buffer.getText().toString().trim();
+
+            //buffer.getText().toString().trim();
             if (fieldData.equalsIgnoreCase("")) {
                 buffer.setError("This field can not be blank");
                 return;
@@ -223,7 +227,8 @@ public class PantryItemForm extends AppCompatActivity
         if(dateField == null){
             return;
         }
-        dateField.setText(text);
+        dateField.setText(PantryItem.formatPantryDate(text));
+        dateField.setTag(text);
     }
 
 

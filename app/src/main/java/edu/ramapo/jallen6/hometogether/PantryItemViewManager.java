@@ -3,7 +3,6 @@ package edu.ramapo.jallen6.hometogether;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -242,7 +241,7 @@ public class PantryItemViewManager {
      */
     public void toggleVisibilityBySearch(PantryItemSearchTerms searchType, String searchTerm){
         if(searchTerm.equals("")){
-            setAllVisibile();
+            setAllVisible();
             return;
         }
 
@@ -269,7 +268,7 @@ public class PantryItemViewManager {
                 break;
             default:
                 Log.e("InvalidEnum", "Invalid enum in toggleVisibilityBySearch");
-                setAllVisibile();
+                setAllVisible();
         }
 
     }
@@ -277,7 +276,7 @@ public class PantryItemViewManager {
     /**
      * Set all views to the visible state
      */
-    private void setAllVisibile(){
+    public void setAllVisible(){
         for(AbstractItemView view :views){
             view.setRowVisibility(true);
         }

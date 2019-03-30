@@ -46,16 +46,19 @@ public class PantryItem extends Observable {
         applyUpdate(jsonPantry);
 
 
-        //Format the date
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY", Locale.US);
-
-        //NOTE: This assumes the date is formatted correctly in the server
-        int month = Integer.parseInt(expires.split(" ")[0]);
-        int day = Integer.parseInt(expires.split(" ")[1].split(",")[0]);
-        int year = Integer.parseInt(expires.split(", ")[1]);
-        Calendar cal = new GregorianCalendar(year,month,day);
-        formattedExpires = sdf.format(cal.getTime());
+       formattedExpires = formatPantryDate(expires);
        // cal = new GregorianCalendar(Integer.parseInt(split[1]), Integer.parseInt(split[0]), month);
+    }
+
+    public static String formatPantryDate(String date){
+        //Format the date
+        //NOTE: This assumes the date is formatted correctly in the server
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY", Locale.US);
+        int month = Integer.parseInt(date.split(" ")[0]);
+        int day = Integer.parseInt(date.split(" ")[1].split(",")[0]);
+        int year = Integer.parseInt(date.split(", ")[1]);
+        Calendar cal = new GregorianCalendar(year,month,day);
+        return  sdf.format(cal.getTime());
     }
 
     /**

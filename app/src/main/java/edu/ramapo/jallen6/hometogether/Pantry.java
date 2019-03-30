@@ -133,6 +133,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                itemViewManager.setAllVisible();
                 if(searchSpinner.getSelectedItem().toString().equals("Location")){
                     findViewById(R.id.pantrySearchBarInput).setVisibility(View.GONE);
                     locationSpinner.setVisibility(View.VISIBLE);
@@ -171,10 +172,10 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
             /**
              *  Call search when text changes
-             * @param charSequence
-             * @param i
-             * @param i1
-             * @param i2
+             * @param charSequence unused
+             * @param i unused
+             * @param i1 unused
+             * @param i2 unused
              */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
