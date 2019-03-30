@@ -19,4 +19,5 @@
     <string name="deleteButton">Delete</string>
     <string name="modifyButton">Modify</string>
     <string name="pantrySearchBarText">Enter Text to Search</string>
+    <string name="pantryItemFormExpiresHint">Tap to set date, swipe right for never expires</string>
 </resources>
