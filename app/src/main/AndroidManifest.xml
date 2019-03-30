@@ -12,29 +12,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login">
+        <activity android:name=".Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HouseholdSelection" />
+        <activity android:name=".HouseholdSelection" android:screenOrientation="portrait"/>
         <activity
             android:name=".NewHouseHoldForm"
-            android:parentActivityName=".HouseholdSelection">
+            android:parentActivityName=".HouseholdSelection"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.ramapo.jallen6.hometogether.HouseholdSelection" />
         </activity>
-        <activity android:name=".Household" />
+        <activity android:name=".Household"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Pantry"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".PantryItemForm" />
-        <activity android:name=".ShoppingList"></activity>
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PantryItemForm"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ShoppingList" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
