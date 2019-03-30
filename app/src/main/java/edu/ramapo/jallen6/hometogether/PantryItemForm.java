@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,10 +61,56 @@ public class PantryItemForm extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
-
                 newFragment.show(getSupportFragmentManager(), "datePicker");
 
 
+            }
+        });
+
+        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+
+
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                //left to right swipe
+                if (motionEvent1.getX() - motionEvent.getX() > 100 && Math.abs(v) > 20) {
+                    TextView view = findViewById(R.id.pantryItemFormExpiresField);
+                    view.setText("Never Expires");
+                    view.setTag(PantryItem.NEVER_EXPIRE);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        findViewById(R.id.pantryItemFormExpiresLayout).setOnTouchListener( new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
             }
         });
 
@@ -74,8 +122,7 @@ public class PantryItemForm extends AppCompatActivity
         }
 
         //Load the text into the spinner
-        //TODO: Set this in XML
-       Spinner spinner = findViewById(R.id.testSpinner);
+       Spinner spinner = findViewById(R.id.pantryItemFormLocationSpinner);
        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                R.layout.support_simple_spinner_dropdown_item, locations);
        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -144,7 +191,7 @@ public class PantryItemForm extends AppCompatActivity
 
         //Get the spinner field separately
         try{
-            params.put(PantryItem.LOCATION_FIELD, ((Spinner)findViewById(R.id.testSpinner)).getSelectedItem().toString());
+            params.put(PantryItem.LOCATION_FIELD, ((Spinner)findViewById(R.id.pantryItemFormLocationSpinner)).getSelectedItem().toString());
         } catch (JSONException e){
             e.printStackTrace();
             Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
@@ -219,7 +266,7 @@ public class PantryItemForm extends AppCompatActivity
     }
 
     /**
-     * Applies the formatted date to the text view
+     * Applies the formatted date to the text view and raw date to the tag
      * @param text The text to apply
      */
     private  void setDateField(String text){
@@ -227,7 +274,12 @@ public class PantryItemForm extends AppCompatActivity
         if(dateField == null){
             return;
         }
-        dateField.setText(PantryItem.formatPantryDate(text));
+        if(text.equals(PantryItem.NEVER_EXPIRE)){
+            dateField.setText("Never Expires");
+        } else{
+            dateField.setText(PantryItem.formatPantryDate(text));
+        }
+
         dateField.setTag(text);
     }
 

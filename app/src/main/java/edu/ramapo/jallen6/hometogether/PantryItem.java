@@ -25,6 +25,8 @@ public class PantryItem extends Observable {
     public static final String TAG_FIELD = "tags"; ///Tag field define
     public static final String LOCATION_FIELD = "location"; ///Location field define
 
+    public static final String NEVER_EXPIRE = "11 31, 2099";
+
 
     //Data storage fields
     private String name;
@@ -140,7 +142,8 @@ public class PantryItem extends Observable {
             case EXPIRES_FIELD:
                 return expires;
             case FORMATTED_EXPIRES_FIELD:
-                return formattedExpires;
+                //return formattedExpires;
+                return expires.equals(NEVER_EXPIRE)? "Never Expires" : formattedExpires;
             case LOCATION_FIELD:
                 return location;
             default:

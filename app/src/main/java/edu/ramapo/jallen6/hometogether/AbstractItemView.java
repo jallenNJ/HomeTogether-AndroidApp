@@ -208,7 +208,7 @@ public abstract class AbstractItemView implements Observer {
         //Gesture detection class
         class PantryItemGesture extends GestureDetector.SimpleOnGestureListener {
 
-            //Constants to check ditance
+            //Constants to check distance
             private static final int SWIPE_MIN_DISTANCE = 120;
             private static final int SWIPE_MAX_OFF_PATH = 250;
             private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -232,12 +232,6 @@ public abstract class AbstractItemView implements Observer {
                 } catch (Exception e) {
                     // nothing
                 }
-                return false;
-            }
-
-            @Override
-            public boolean onDown(MotionEvent e) {
-                //Return false to allow for the onclick to file
                 return false;
             }
 
