@@ -326,6 +326,19 @@ public abstract class AbstractItemView implements Observer {
     }
 
     /**
+     * Search for if the model in in a location in the pantry
+     * @param location The location to see if the item is located in, case insensitive
+     * @return True if in the location, false otherwise
+     */
+    public boolean modelInLocation (@NonNull String location){
+        if(location.equals("")){
+            return false;
+        }
+        return model.getFieldAsString(PantryItem.LOCATION_FIELD)
+                .toLowerCase().equals(location.toLowerCase());
+    }
+
+    /**
      * Add a generated view to the row
      * @param v The view to be added
      */

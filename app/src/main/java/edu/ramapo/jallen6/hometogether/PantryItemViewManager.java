@@ -262,6 +262,11 @@ public class PantryItemViewManager {
                     view.setRowVisibility(view.modelHasTag(searchTerm));
                 }
                 break;
+            case LOCATION_SEARCH:
+                for(AbstractItemView view:views){
+                    view.setRowVisibility(view.modelInLocation(searchTerm));
+                }
+                break;
             default:
                 Log.e("InvalidEnum", "Invalid enum in toggleVisibilityBySearch");
                 setAllVisibile();

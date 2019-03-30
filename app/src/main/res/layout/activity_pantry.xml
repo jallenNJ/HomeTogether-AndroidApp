@@ -43,6 +43,13 @@
             android:inputType="textPersonName" />
 
         <Spinner
+            android:id="@+id/pantrySearchLocationSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <Spinner
             android:id="@+id/pantrySearchSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

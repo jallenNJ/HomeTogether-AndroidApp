@@ -9,6 +9,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -36,6 +38,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
     private PantryItemViewManager itemViewManager; //The item view manager
     private TableLayout table; //The table to display the data
     private Spinner searchSpinner; //The spinner for where to search
+    private Spinner locationSpinner; //The spinner for the pantry locations
 
 
 
@@ -117,8 +120,49 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
 
-        //Store the reference to the search locaton type
+        //Store the reference to the search location type
         searchSpinner = findViewById(R.id.pantrySearchSpinner);
+        locationSpinner = findViewById(R.id.pantrySearchLocationSpinner);
+        //Set the locations for the location spinner from the cache
+        //TODO: Update on cache update?
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item, ActiveHousehold.getInstance().getPantryLocations());
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(adapter);
+
+        searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(searchSpinner.getSelectedItem().toString().equals("Location")){
+                    findViewById(R.id.pantrySearchBarInput).setVisibility(View.GONE);
+                    locationSpinner.setVisibility(View.VISIBLE);
+                } else{
+                    findViewById(R.id.pantrySearchBarInput).setVisibility(View.VISIBLE);
+                    locationSpinner.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                itemViewManager.toggleVisibilityBySearch(PantryItemSearchTerms.LOCATION_SEARCH,
+                        locationSpinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
         ((EditText) findViewById(R.id.pantrySearchBarInput)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -151,7 +195,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                         return;
                 }
 
-                //Run the search wit hthe current tag
+                //Run the search wit the current tag
                 itemViewManager.toggleVisibilityBySearch(term, charSequence.toString());
             }
 
