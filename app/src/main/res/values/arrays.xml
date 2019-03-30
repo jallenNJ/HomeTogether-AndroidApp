@@ -10,5 +10,7 @@
         <item> Name </item>
         <item> Category </item>
         <item> Tag </item>
+        <item> Location </item>
     </array>
+
 </resources>        
