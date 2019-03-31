@@ -347,24 +347,42 @@ public abstract class AbstractItemView implements Observer {
 
 
     /**
-     * Create a confirmation dialog for the user
+     * Creates  a confirmation dialog for the user
      * @param title The title of the confirmation dialog
      * @param message The message to be displayed in the box
-     * @param postiveConfirmListener The postive on confirm listener
+     * @param positiveConfirmListener The positive on confirm listener
+     * @return The builder of the AlertDialog
      */
-    protected final void showConfirmationDialog(@NonNull String title, @NonNull String message, @NonNull DialogInterface.OnClickListener postiveConfirmListener){
+    protected final AlertDialog.Builder generateConfirmationDialog(@NonNull String title,
+                                                                   @NonNull String message,
+                                                                   @NonNull DialogInterface
+                                                                           .OnClickListener
+                                                                           positiveConfirmListener){
         AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Yes", postiveConfirmListener);
+        builder.setPositiveButton("Yes", positiveConfirmListener);
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
             }
         });
-        builder.show();
+        return builder;
+    }
+
+    /**
+     * Create and show a confirmation dialog for the user
+     * @param title The title of the confirmation dialog
+     * @param message The message to be displayed in the box
+     * @param positiveConfirmListener The positive on confirm listener
+     */
+    protected final void showConfirmationDialog(@NonNull String title, @NonNull String message,
+                                                @NonNull DialogInterface.OnClickListener
+                                                        positiveConfirmListener){
+
+        generateConfirmationDialog(title, message, positiveConfirmListener).show();
     }
 
 }

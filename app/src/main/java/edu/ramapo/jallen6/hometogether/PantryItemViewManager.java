@@ -190,7 +190,6 @@ public class PantryItemViewManager {
                 .appendPath("pantry").toString();
 
 
-        //TODO: Move to item manager, throw expection with message and print that out;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, params,
                 new Response.Listener<JSONObject>() {
                     @Override
