@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -122,11 +123,42 @@ public class PantryItemForm extends AppCompatActivity
         }
 
         //Load the text into the spinner
-       Spinner spinner = findViewById(R.id.pantryItemFormLocationSpinner);
+       final Spinner locSpinner = findViewById(R.id.pantryItemFormLocationSpinner);
        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                R.layout.support_simple_spinner_dropdown_item, locations);
        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-       spinner.setAdapter(adapter);
+       locSpinner.setAdapter(adapter);
+
+
+
+       Spinner catSpinner = findViewById(R.id.pantryItemFormCategorySpinner);
+       //To be used in inner class
+        final String[] finalLocations = locations;
+        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               PantryItemCategoryAssociationsManager cache = PantryItemCategoryAssociationsManager.getInstance();
+               String targetLoc = cache.getDefaultLocation(adapterView.getSelectedItem().toString());
+               boolean set = false;
+               for(int j = 0; j < finalLocations.length; j++){
+                   if(finalLocations[j].toLowerCase().equals(targetLoc)){
+                       set = true;
+                       locSpinner.setSelection(j);
+                       break;
+                   }
+               }
+               if(!set){
+                   throw new IllegalStateException("Did not find location in resolve");
+               }
+
+
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+           }
+       });
 
        //Get the data from the intent
         Intent intent = getIntent();
