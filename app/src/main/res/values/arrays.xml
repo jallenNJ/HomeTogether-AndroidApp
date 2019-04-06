@@ -13,4 +13,20 @@
         <item> Location </item>
     </array>
 
+    <array name="pantryCategory">
+        <item>Alcohol</item>
+        <item>Beverage</item>
+        <item>Grain</item>
+        <item>Canned</item>
+        <item>Fruit</item>
+        <item>Vegetable</item>
+        <item>Meat</item>
+        <item>Ingredient</item>
+        <item>Spice</item>
+        <item>Seafood</item>
+        <item>Other</item>
+
+
+    </array>
+
 </resources>        

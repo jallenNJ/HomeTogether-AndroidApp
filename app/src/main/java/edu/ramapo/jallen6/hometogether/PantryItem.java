@@ -27,7 +27,6 @@ public class PantryItem extends Observable {
 
     public static final String NEVER_EXPIRE = "11 31, 2099";
 
-
     //Data storage fields
     private String name;
     private int quantity;

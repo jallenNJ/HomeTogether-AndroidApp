@@ -138,7 +138,7 @@ public class PantryItemForm extends AppCompatActivity
             nameField.setText(intent.getStringExtra(NAME_EXTRA));
             nameField.setEnabled(false); //Name cannot be editted
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
-            ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
+          //  ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
             ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
             String expires = intent.getStringExtra(EXPIRE_EXTRA);
             //String[] parsedExpires = expires.split(" ");
@@ -156,7 +156,7 @@ public class PantryItemForm extends AppCompatActivity
         TextView buffer;
         //All the field ids to check
         int[] formIds = {R.id.pantryItemFormNameField, R.id.pantryItemFormQuantityField,
-                R.id.pantryItemFormExpiresField, R.id.pantryItemFormCategoryField,
+                R.id.pantryItemFormExpiresField, /*R.id.pantryItemFormCategoryField,*/
                 R.id.pantryItemFormTagField};
 
         //And their associated keys
