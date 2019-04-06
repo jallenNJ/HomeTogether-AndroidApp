@@ -30,6 +30,7 @@ import org.w3c.dom.Text;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -180,6 +181,19 @@ public class PantryItemForm extends AppCompatActivity
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
           //  ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
           //  ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
+            String category = intent.getStringExtra(CATEGORY_EXTRA).toLowerCase();
+            String [] catSpinnerItems = getResources().getStringArray(R.array.pantryCategory);
+            boolean found = false;
+            for(int i =0; i < catSpinnerItems.length; i++){
+                if(catSpinnerItems[i].toLowerCase().equals(category)){
+                    found = true;
+                    catSpinner.setSelection(i);
+                }
+            }
+            //If not found, set to other
+            if(!found){
+                catSpinner.setSelection(catSpinnerItems.length-1);
+            }
             String expires = intent.getStringExtra(EXPIRE_EXTRA);
             //String[] parsedExpires = expires.split(" ");
             setDateField(expires);

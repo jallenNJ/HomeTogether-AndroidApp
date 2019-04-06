@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  * This singleton maintains all the run time references of categories and their default location
- * and if they have a spevial field name
+ * and if they have a special field name
  */
 public final class PantryItemCategoryAssociationsManager {
 
@@ -107,4 +107,5 @@ public final class PantryItemCategoryAssociationsManager {
         }
         return val.getSpecialFieldName();
     }
+
 }
