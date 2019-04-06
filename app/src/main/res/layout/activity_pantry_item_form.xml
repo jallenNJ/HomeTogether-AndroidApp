@@ -102,19 +102,21 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/pantryItemFormSpecialLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
+                android:id="@+id/pantryItemFormSpecialLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tagLabel" />
+                android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/pantryItemFormTagField"
+                android:id="@+id/pantryItemFormSpecialField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

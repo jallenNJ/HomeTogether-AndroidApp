@@ -150,6 +150,14 @@ public class PantryItemForm extends AppCompatActivity
                if(!set){
                    throw new IllegalStateException("Did not find location in resolve");
                }
+               String specialFieldName = cache.getSpecialFieldName(adapterView.getSelectedItem().toString());
+               if(specialFieldName != null){
+                   findViewById(R.id.pantryItemFormSpecialLayout).setVisibility(View.VISIBLE);
+                   ((TextView) findViewById(R.id.pantryItemFormSpecialLabel)).setText(specialFieldName);
+               }else{
+                   findViewById(R.id.pantryItemFormSpecialLayout).setVisibility(View.GONE);
+                   ((TextView) findViewById(R.id.pantryItemFormSpecialLabel)).setText("");
+               }
 
 
            }
@@ -171,7 +179,7 @@ public class PantryItemForm extends AppCompatActivity
             nameField.setEnabled(false); //Name cannot be editted
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
           //  ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
-            ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
+          //  ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
             String expires = intent.getStringExtra(EXPIRE_EXTRA);
             //String[] parsedExpires = expires.split(" ");
             setDateField(expires);
@@ -188,8 +196,8 @@ public class PantryItemForm extends AppCompatActivity
         TextView buffer;
         //All the field ids to check
         int[] formIds = {R.id.pantryItemFormNameField, R.id.pantryItemFormQuantityField,
-                R.id.pantryItemFormExpiresField, /*R.id.pantryItemFormCategoryField,*/
-                R.id.pantryItemFormTagField};
+                R.id.pantryItemFormExpiresField /*, R.id.pantryItemFormCategoryField,
+                R.id.pantryItemFormTagField*/};
 
         //And their associated keys
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
