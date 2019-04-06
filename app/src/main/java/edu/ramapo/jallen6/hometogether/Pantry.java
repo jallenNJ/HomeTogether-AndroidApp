@@ -38,8 +38,8 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
     private PantryItemViewManager itemViewManager; //The item view manager
     private TableLayout table; //The table to display the data
     private Spinner searchSpinner; //The spinner for where to search
-    private Spinner locationSpinner; //The spinner for the pantry locations
-
+    private Spinner locationSpinner; //The spinner for the pantry locations for search
+    private Spinner categorySpinner; //The spinner for the pantry categories for search
 
 
     @Override
@@ -120,9 +120,11 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
 
-        //Store the reference to the search location type
+        //Store the reference to the search spinners type
         searchSpinner = findViewById(R.id.pantrySearchSpinner);
         locationSpinner = findViewById(R.id.pantrySearchLocationSpinner);
+        categorySpinner = findViewById(R.id.pantrySearchCategorySpinner);
+
         //Set the locations for the location spinner from the cache
         //TODO: Update on cache update?
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -137,8 +139,15 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                 if(searchSpinner.getSelectedItem().toString().equals("Location")){
                     findViewById(R.id.pantrySearchBarInput).setVisibility(View.GONE);
                     locationSpinner.setVisibility(View.VISIBLE);
-                } else{
+                    categorySpinner.setVisibility(View.GONE);
+                } else if(searchSpinner.getSelectedItem().toString().equals("Category")){
+                    locationSpinner.setVisibility(View.GONE);
+                    categorySpinner.setVisibility(View.VISIBLE);
+                    findViewById(R.id.pantrySearchBarInput).setVisibility(View.GONE);
+                }
+                else{
                     findViewById(R.id.pantrySearchBarInput).setVisibility(View.VISIBLE);
+                    categorySpinner.setVisibility(View.GONE);
                     locationSpinner.setVisibility(View.GONE);
                 }
             }
@@ -148,6 +157,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
             }
         });
+
 
         locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -162,6 +172,18 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
             }
         });
 
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                itemViewManager.toggleVisibilityBySearch(PantryItemSearchTerms.CATEGORY_SEARCH,
+                        categorySpinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         ((EditText) findViewById(R.id.pantrySearchBarInput)).addTextChangedListener(new TextWatcher() {
@@ -184,9 +206,6 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                 switch (searchSpinner.getSelectedItem().toString().toLowerCase()){
                     case "name":
                         term = PantryItemSearchTerms.NAME_SEARCH;
-                        break;
-                    case "category":
-                        term = PantryItemSearchTerms.CATEGORY_SEARCH;
                         break;
                     default:
                         Log.e("InvalidSpinner", "Invalid spinner entry in Pantry");

@@ -50,6 +50,14 @@
             android:visibility="gone" />
 
         <Spinner
+            android:id="@+id/pantrySearchCategorySpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/pantryCategory"
+            android:visibility="gone" />
+
+        <Spinner
             android:id="@+id/pantrySearchSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
