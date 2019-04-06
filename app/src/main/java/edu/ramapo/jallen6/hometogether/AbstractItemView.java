@@ -301,25 +301,6 @@ public abstract class AbstractItemView implements Observer {
     }
 
     /**
-     *  See if the model has the tag in full
-     * @param subString The tag to match in its entirety
-     * @return True if it matches, false otherwise
-     */
-    public boolean modelHasTag(@NonNull String subString){
-        if(subString.equals("")){
-            return false;
-        }
-        subString = subString.toLowerCase();
-        String[] tags = model.getTags();
-        for(String tag:tags){
-            if(subString.equals(tag.toLowerCase())){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Search for if the model in in a location in the pantry
      * @param location The location to see if the item is located in, case insensitive
      * @return True if in the location, false otherwise

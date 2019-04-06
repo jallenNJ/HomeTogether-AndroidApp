@@ -188,9 +188,6 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                     case "category":
                         term = PantryItemSearchTerms.CATEGORY_SEARCH;
                         break;
-                    case "tag":
-                        term = PantryItemSearchTerms.TAG_SEARCH;
-                        break;
                     default:
                         Log.e("InvalidSpinner", "Invalid spinner entry in Pantry");
                         return;
@@ -243,7 +240,6 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
         intent.putExtra(PantryItemForm.QUANTITY_EXTRA, data.getQuantity());
         intent.putExtra(PantryItemForm.EXPIRE_EXTRA, data.getFieldAsString(PantryItem.EXPIRES_FIELD));
         intent.putExtra(PantryItemForm.CATEGORY_EXTRA, data.getFieldAsString(PantryItem.CATEGORY_FIELD));
-        intent.putExtra(PantryItemForm.TAGS_EXTRA, data.getFieldAsString(PantryItem.TAG_FIELD));
 
         startActivityForResult(intent, FORM_UPDATE_CODE);
 

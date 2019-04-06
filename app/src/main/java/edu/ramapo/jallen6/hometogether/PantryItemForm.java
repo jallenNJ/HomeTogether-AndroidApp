@@ -179,8 +179,6 @@ public class PantryItemForm extends AppCompatActivity
             nameField.setText(intent.getStringExtra(NAME_EXTRA));
             nameField.setEnabled(false); //Name cannot be editted
             ((TextView)findViewById(R.id.pantryItemFormQuantityField)).setText( Integer.toString(intent.getIntExtra(QUANTITY_EXTRA, 0)));
-          //  ((TextView) findViewById(R.id.pantryItemFormCategoryField)).setText(intent.getStringExtra(CATEGORY_EXTRA));
-          //  ((TextView) findViewById(R.id.pantryItemFormTagField)).setText(intent.getStringExtra(TAGS_EXTRA));
             String category = intent.getStringExtra(CATEGORY_EXTRA).toLowerCase();
             String [] catSpinnerItems = getResources().getStringArray(R.array.pantryCategory);
             boolean found = false;
@@ -215,8 +213,7 @@ public class PantryItemForm extends AppCompatActivity
 
         //And their associated keys
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
-                PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD,
-               /* PantryItem.LOCATION_FIELD*/};
+                PantryItem.EXPIRES_FIELD};
 
 
         //TODO: Move this to JSON formatter?
@@ -245,6 +242,7 @@ public class PantryItemForm extends AppCompatActivity
 
         //Get the spinner field separately
         try{
+            params.put(PantryItem.CATEGORY_FIELD, ((Spinner)findViewById(R.id.pantryItemFormCategorySpinner)).getSelectedItem().toString());
             params.put(PantryItem.LOCATION_FIELD, ((Spinner)findViewById(R.id.pantryItemFormLocationSpinner)).getSelectedItem().toString());
         } catch (JSONException e){
             e.printStackTrace();

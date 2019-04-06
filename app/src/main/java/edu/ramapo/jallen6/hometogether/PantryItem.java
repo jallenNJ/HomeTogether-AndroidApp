@@ -22,7 +22,6 @@ public class PantryItem extends Observable {
     public static final String EXPIRES_FIELD = "expires"; /// Expires field define
     public static final String FORMATTED_EXPIRES_FIELD = "fexpires"; /// Formatted expires field define
     public static final String CATEGORY_FIELD = "category"; /// Category field define
-    public static final String TAG_FIELD = "tags"; ///Tag field define
     public static final String LOCATION_FIELD = "location"; ///Location field define
 
     public static final String NEVER_EXPIRE = "11 31, 2099";
@@ -31,7 +30,6 @@ public class PantryItem extends Observable {
     private String name;
     private int quantity;
     private String category;
-    private String[] tags;
     private String expires;
     private String formattedExpires;
     private String location;
@@ -74,26 +72,19 @@ public class PantryItem extends Observable {
         category = jsonPantry.getString(CATEGORY_FIELD);
         expires = jsonPantry.getString(EXPIRES_FIELD);
         location = jsonPantry.getString(LOCATION_FIELD);
-        JSONArray tagsArray = jsonPantry.getJSONArray(TAG_FIELD);
-        //TODO, check what happens if size is zero
-        tags = new String[tagsArray.length()];
-        for(int i =0; i< tagsArray.length(); i++){
-            tags[i] = tagsArray.getString(i);
-        }
-
 
         this.setChanged();
         this.notifyObservers();
     }
 
     /**
-     * Creates a formatted string of the Name, Quantity, Tag, and Formmated Expires field on new
+     * Creates a formatted string of the Name, Quantity, and Formatted Expires field on new
      * new lines with a header.
      *
      * Example Format:
      * Name: TestItem
      * Quantity: 4
-     * Tags: DebugItem, Cold, Frozen
+     * Category: Other
      * Expires: Jan 2nd, 1970
      * Location: pantry
      *
@@ -104,7 +95,7 @@ public class PantryItem extends Observable {
         //TODO, use defines
         return "Name: " + name +
                 "\nQuantity: " + getFieldAsString(QUANTITY_FIELD) +
-                "\nTags: " + getFieldAsString(TAG_FIELD) +
+                "\nCategory: " + getFieldAsString(CATEGORY_FIELD) +
                 "\nExpires: " + getFieldAsString(FORMATTED_EXPIRES_FIELD)
                 +"\n Location: " + getFieldAsString(LOCATION_FIELD);
 
@@ -125,19 +116,6 @@ public class PantryItem extends Observable {
                 return Integer.toString(quantity);
             case CATEGORY_FIELD:
                 return category;
-            case TAG_FIELD:
-                StringBuilder builder = new StringBuilder();
-                for(String tag:tags){
-                    builder.append(tag);
-                    builder.append(", ");
-                }
-                String result = builder.toString();
-
-                if(result.length() > 2){
-                    result= result.substring(0, result.length() -2);
-                }
-                return result;
-
             case EXPIRES_FIELD:
                 return expires;
             case FORMATTED_EXPIRES_FIELD:
@@ -157,14 +135,6 @@ public class PantryItem extends Observable {
      */
     public int getQuantity(){
         return quantity;
-    }
-
-    /**
-     * Gets the tags as String array
-     * @return The tags
-     */
-    public String[] getTags(){
-        return tags;
     }
 
 
@@ -198,7 +168,7 @@ public class PantryItem extends Observable {
      */
     public JSONObject toJSONObject() throws JSONException{
         String[] jsonKeys = {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
-                PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD, PantryItem.TAG_FIELD};
+                PantryItem.EXPIRES_FIELD, PantryItem.CATEGORY_FIELD};
 
         JSONObject params = new JSONObject();
         for (String jsonKey : jsonKeys) {

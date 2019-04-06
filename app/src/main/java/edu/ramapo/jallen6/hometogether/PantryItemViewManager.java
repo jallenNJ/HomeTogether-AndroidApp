@@ -255,11 +255,6 @@ public class PantryItemViewManager {
                     view.setRowVisibility(view.modelCategoryContains(searchTerm));
                 }
                 break;
-            case TAG_SEARCH:
-                for(AbstractItemView view:views){
-                    view.setRowVisibility(view.modelHasTag(searchTerm));
-                }
-                break;
             case LOCATION_SEARCH:
                 for(AbstractItemView view:views){
                     view.setRowVisibility(view.modelInLocation(searchTerm));
