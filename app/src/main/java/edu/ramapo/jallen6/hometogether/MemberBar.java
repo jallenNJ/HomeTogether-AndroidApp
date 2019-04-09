@@ -63,11 +63,13 @@ public class MemberBar implements Observer {
             String name =  cache.getMemberName(i);
             Button button = new Button(memberLayout.getContext());
             button.setText(name);
+            button.setBackgroundResource(R.drawable.rounded_button);
             memberLayout.addView(button);
         }
 
         //Add the new member button
         Button button = new Button(memberLayout.getContext());
+        button.setBackgroundResource(R.drawable.rounded_button);
         button.setText("DEBUG: Add member");
         memberLayout.addView(button);
 
@@ -77,7 +79,7 @@ public class MemberBar implements Observer {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext(), R.style.AppDialogTheme);
                 builder.setTitle("Username of member to add");
 
                 // Set up the input
@@ -139,7 +141,7 @@ public class MemberBar implements Observer {
      * @throws JSONException Exception based on the parsing of userList or if none were found
      */
     public void displayFoundUserList(JSONArray userList) throws JSONException {
-        AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(memberLayout.getContext(), R.style.AppDialogTheme);
         builder.setTitle("Choose member");
         if(userList.length() == 0){
             throw new JSONException("No members were found");

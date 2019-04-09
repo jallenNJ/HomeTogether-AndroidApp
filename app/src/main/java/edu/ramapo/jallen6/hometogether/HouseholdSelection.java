@@ -96,8 +96,9 @@ public class HouseholdSelection extends AppCompatActivity {
             Button newButton = new Button(this);
             newButton.setText(houseName);
             newButton.setTag(R.id.tagHouseID, id);
+            newButton.setBackgroundResource(R.drawable.rounded_button);
 
-            //Add the onclick, which goes to the household activty and caches house data
+            //Add the onclick, which goes to the household activity and caches house data
             newButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -85,7 +85,7 @@ public abstract class AbstractItemView implements Observer {
      */
     protected boolean rowOnLongClickHandler(final View view){
         //Create a builder to ask if the user wants to modify, delete or cancel
-        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext(), R.style.AppDialogTheme);
         builder.setCancelable(true);
         builder.setTitle("Info for " + model.getFieldAsString(PantryItem.NAME_FIELD));
         builder.setMessage(model.toString());
@@ -186,6 +186,7 @@ public abstract class AbstractItemView implements Observer {
             buffer.setText(model.getFieldAsString(key));
             buffer.setLayoutParams(new TableRow.LayoutParams(1));
             buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            buffer.setTextColor(R.color.fontColor);
             displayRow.addView(buffer);
         }
 
@@ -339,7 +340,7 @@ public abstract class AbstractItemView implements Observer {
                                                                    @NonNull DialogInterface
                                                                            .OnClickListener
                                                                            positiveConfirmListener){
-        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(displayRow.getContext(), R.style.AppDialogTheme);
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
