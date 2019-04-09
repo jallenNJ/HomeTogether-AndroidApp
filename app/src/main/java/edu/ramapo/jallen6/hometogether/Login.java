@@ -114,6 +114,13 @@ public class Login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        if(error == null || error.networkResponse == null){
+                            Toast.makeText(Login.this,
+                                    "Invalid server", Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
                         switch (error.networkResponse.statusCode){
                             case 409:
                                 Toast.makeText(Login.this,
@@ -193,7 +200,12 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        //TODO: Add null check
+                        if(error == null || error.networkResponse == null){
+                            Toast.makeText(Login.this,
+                                    "Invalid server", Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
 
                         switch (error.networkResponse.statusCode){
                             case HttpURLConnection.HTTP_NOT_FOUND:
