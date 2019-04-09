@@ -6,8 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:textColorPrimary">@color/fontColor</item>
+        <item name="buttonStyle">@style/roundedButton</item>
+
     </style>
 
     <style name="loginButton">Log In!</style>
+
+    <style name="roundedButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/rounded_button</item>
+    </style>
+
+
 
 </resources>
