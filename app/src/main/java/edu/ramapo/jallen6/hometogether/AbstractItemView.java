@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -183,10 +184,13 @@ public abstract class AbstractItemView implements Observer {
         //Add all the keys as text views
         for(String key:keys){
             TextView buffer = new TextView(context);
-            buffer.setText(model.getFieldAsString(key));
+            buffer.setText(model.getFieldAsString(key).length() > 15?
+                    model.getFieldAsString(key).substring(0,12)+"..."
+                    :model.getFieldAsString(key));
             buffer.setLayoutParams(new TableRow.LayoutParams(1));
             buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            buffer.setTextColor(R.color.fontColor);
+            buffer.setTextColor(ContextCompat.getColor(context, R.color.fontColor));
+            buffer.setShadowLayer(1,5,5,ContextCompat.getColor(context, R.color.shadowColor));
             displayRow.addView(buffer);
         }
 
