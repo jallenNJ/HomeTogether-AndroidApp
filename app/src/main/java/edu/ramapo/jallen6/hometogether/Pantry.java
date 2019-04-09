@@ -3,6 +3,7 @@ package edu.ramapo.jallen6.hometogether;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -88,6 +89,9 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                             text.setTypeface(null, Typeface.BOLD);
                             text.setLayoutParams(new TableRow.LayoutParams(1));
                             text.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            text.setTextColor(ContextCompat.getColor(Pantry.this, R.color.fontColor));
+                            text.setShadowLayer(1, 5,5,
+                                    ContextCompat.getColor(Pantry.this, R.color.shadowColor));
                             headers.addView(text);
                         }
                         table.addView(headers);

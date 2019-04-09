@@ -63,13 +63,11 @@ public class MemberBar implements Observer {
             String name =  cache.getMemberName(i);
             Button button = new Button(memberLayout.getContext());
             button.setText(name);
-            button.setBackgroundResource(R.drawable.rounded_button);
             memberLayout.addView(button);
         }
 
         //Add the new member button
         Button button = new Button(memberLayout.getContext());
-        button.setBackgroundResource(R.drawable.rounded_button);
         button.setText("DEBUG: Add member");
         memberLayout.addView(button);
 
