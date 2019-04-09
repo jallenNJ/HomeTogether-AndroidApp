@@ -20,4 +20,5 @@
     <string name="modifyButton">Modify</string>
     <string name="pantrySearchBarText">Enter Text to Search</string>
     <string name="pantryItemFormExpiresHint">Tap to set date, swipe right for never expires</string>
+    <string name="householdSelectionSwipeUpHint">Swipe up to create a new household!</string>
 </resources>

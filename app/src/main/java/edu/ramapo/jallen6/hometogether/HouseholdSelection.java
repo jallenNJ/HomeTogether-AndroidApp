@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -50,6 +52,47 @@ public class HouseholdSelection extends AppCompatActivity {
         });
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
+
+        class HouseholdSelectionGesture extends GestureDetector.SimpleOnGestureListener {
+
+            //Constants to check distance
+            private static final int SWIPE_MIN_DISTANCE = 120;
+            private static final int SWIPE_MAX_OFF_PATH = 250;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+            @Override
+            public boolean onDown(MotionEvent event) {
+                return true;
+            }
+
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                try {
+                    //Ensure they didn't go too far off path
+                    if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH)
+                        return false;
+                    // Up swipe
+                    if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                        swapToNewHouseHoldForm();
+                    }
+
+                } catch (Exception e) {
+                    // nothing
+                }
+                return false;
+            }
+
+        }
+
+        //Bind the above class
+        final GestureDetector gestureDetector = new GestureDetector(this, new HouseholdSelectionGesture());
+
+        findViewById(R.id.householdSelectionParentView).setOnTouchListener( new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
 
 
     }
@@ -118,9 +161,8 @@ public class HouseholdSelection extends AppCompatActivity {
 
     /**
      * Swap to activity to make a new household
-     * @param v The view which was clicked
      */
-    public void swapToNewHouseHoldForm(View v){
+    public void swapToNewHouseHoldForm(){
         Intent intent = new Intent(this, NewHouseHoldForm.class);
         startActivityForResult(intent, NEW_HOUSEHOLD);
 
