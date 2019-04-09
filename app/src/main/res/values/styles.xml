@@ -1,25 +1,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:textColorPrimary">@color/fontColor</item>
-        <item name="buttonStyle">@style/roundedButton</item>
+        <item name="buttonStyle">@style/AppButtonTheme</item>
         <item name="android:shadowColor">@color/shadowColor</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
+        <item name="android:spinnerDropDownItemStyle">@style/AppSpinnerTheme</item>
 
     </style>
 
     <style name="loginButton">Log In!</style>
 
-    <style name="roundedButton" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/rounded_button</item>
+    <style name="AppButtonTheme" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="AppDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -32,5 +32,9 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
+
+    <style name="AppSpinnerTheme" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/fontColor</item>
+    </style>
 
 </resources>
