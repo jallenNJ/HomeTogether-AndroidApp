@@ -1,11 +1,14 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -24,6 +27,7 @@ public class Household extends AppCompatActivity {
 
     private String houseId; // The id of the household
     private MemberBar memberBar; //The member bar class
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +96,7 @@ public class Household extends AppCompatActivity {
         //Bind the above class
         final GestureDetector gestureDetector = new GestureDetector(this, new HouseholdGesture());
 
-        findViewById(R.id.pantryGraphicsRoot).setOnTouchListener( new View.OnTouchListener() {
+        ((ViewGroup)findViewById(R.id.pantryGraphicsRoot).getParent()).setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return gestureDetector.onTouchEvent(event);
             }

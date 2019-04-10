@@ -31,32 +31,34 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/pantryGraphicsRoot"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/kitchen_tile"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
 
         <ImageView
             android:id="@+id/householdPantryImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
             android:layout_marginEnd="150dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="openPantry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/pantry_image"
-            android:onClick="openPantry"
-            android:clickable="true"
-            android:focusable="true" />
+            app:srcCompat="@drawable/pantry_image" />
 
         <ImageView
             android:id="@+id/householdBackgroundImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="-1dp"
-            android:layout_marginTop="120dp"
             app:layout_constraintStart_toEndOf="@+id/householdPantryImage"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/pantry_background" />
@@ -65,13 +67,12 @@
             android:id="@+id/householdFridgeImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="openPantry"
             app:layout_constraintStart_toEndOf="@+id/householdBackgroundImage"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/fridge"
-            android:onClick="openPantry"
-            android:clickable="true"
-            android:focusable="true" />
+            app:srcCompat="@drawable/fridge" />
 
         <ImageView
             android:id="@+id/householdFreezerImage"
