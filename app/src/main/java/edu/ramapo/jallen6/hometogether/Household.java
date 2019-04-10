@@ -3,6 +3,8 @@ package edu.ramapo.jallen6.hometogether;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -55,6 +57,46 @@ public class Household extends AppCompatActivity {
 
         LinearLayout memberBar = findViewById(R.id.householdMemberBar);
 
+        class HouseholdGesture extends GestureDetector.SimpleOnGestureListener {
+
+            //Constants to check distance
+            private static final int SWIPE_MIN_DISTANCE = 120;
+            private static final int SWIPE_MAX_OFF_PATH = 250;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+            @Override
+            public boolean onDown(MotionEvent event) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                try {
+                    //Ensure they didn't go too far off path
+                    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH){
+                        return false;
+                    }
+                    //left to right swipe
+                    if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                        openShoppingList(findViewById(R.id.pantryGraphicsRoot));
+                        return true;
+                    }
+                } catch (Exception e) {
+                    // nothing
+                }
+                return false;
+            }
+
+        }
+
+        //Bind the above class
+        final GestureDetector gestureDetector = new GestureDetector(this, new HouseholdGesture());
+
+        findViewById(R.id.pantryGraphicsRoot).setOnTouchListener( new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
     }
 
 
