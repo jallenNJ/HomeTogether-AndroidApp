@@ -180,7 +180,7 @@ public class HouseholdSelection extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 this.finish();
             } else{
-                Log.e("Activty Result Failure", "New household form reported error");
+                Log.e("Activity Result Failure", "New household form reported error");
             }
         }
     }
