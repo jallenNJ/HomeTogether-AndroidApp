@@ -32,6 +32,11 @@ import org.json.JSONObject;
  */
 public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
+    public final static String LOAD_CATEGORY = "catLoad";
+    private final static int LOAD_PANTRY = 0; //Private as only used in default value
+    public final static int LOAD_FRIDGE =1;
+    public final static int LOAD_FREEZER =2;
+
     private final static int FORM_CREATE_CODE = 1; ///Activity Return Code for creating
     private final static int FORM_UPDATE_CODE = 2; ///Activity Return Code for updating
 
@@ -116,6 +121,13 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                                 e.printStackTrace();
 
                             }
+                            int catToLoad = getIntent().getIntExtra(LOAD_CATEGORY, LOAD_PANTRY);
+
+                            if(catToLoad != LOAD_PANTRY){
+                                searchSpinner.setSelection(2,true);
+                                locationSpinner.setSelection(catToLoad,true);
+                            }
+
                         }
 
                     }
@@ -225,6 +237,8 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
             }
         });
+
+
 
     }
 

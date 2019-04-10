@@ -65,6 +65,16 @@ public class Household extends AppCompatActivity {
     public void openPantry(View v){
         Intent intent = new Intent(this, Pantry.class);
         intent.putExtra(Household.ExtraHouseID, houseId);
+        if(v != null){
+            switch(v.getId()){
+                case R.id.householdFridgeImage:
+                    intent.putExtra(Pantry.LOAD_CATEGORY, Pantry.LOAD_FRIDGE);
+                    break;
+                case R.id.householdFreezerImage:
+                    intent.putExtra(Pantry.LOAD_CATEGORY, Pantry.LOAD_FREEZER);
+                    break;
+            }
+        }
         startActivity(intent);
     }
 
