@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class used to convert JSON data to Data Structures within the program
@@ -28,6 +29,24 @@ public class JSONFormatter {
             returnVal[i] = array.get(i).toString();
         }
         return returnVal;
+    }
+
+    public static String getStringOrNull(@NonNull JSONObject jsonObject,@NonNull String key){
+        try{
+            return jsonObject.getString(key);
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    public static String capitlizeKey(@NonNull String key){
+        if(key.length() == 0){
+            return key;
+        }
+        return key.length() == 1?
+                Character.toString(Character.toUpperCase(key.charAt(0)))
+                : Character.toString(Character.toUpperCase(key.charAt(0))) + key.substring(1);
+
     }
 
 }

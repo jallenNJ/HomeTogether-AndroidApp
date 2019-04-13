@@ -63,6 +63,14 @@ public class MemberBar implements Observer {
             String name =  cache.getMemberName(i);
             Button button = new Button(memberLayout.getContext());
             button.setText(name);
+            button.setTag(new UserInfo(cache.getMemberId(i), cache.getMemberName(i)));
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((UserInfo) view.getTag()).createUserPopUp(memberLayout.getContext()).show();
+
+                }
+            });
             memberLayout.addView(button);
         }
 
