@@ -24,7 +24,9 @@ public final class ActiveHousehold extends Observable {
     private String name; //The localized name of the household
     private String[] memberIds; //The ids of the members in the house
     private String[] memberNames; //The names of the members in the house
+    private UserInfo[] memberInfo; //An array of the userInfo objects
     private String[] pantryLocations; //The string localized names in the pantry
+
 
 
     private boolean pendingNetworkRequest; //Bool for if there is a network request
@@ -43,6 +45,7 @@ public final class ActiveHousehold extends Observable {
         name = null;
         memberIds = null;
         memberNames = null;
+        memberInfo = null;
         pantryLocations = null;
         pendingNetworkRequest = false;
     }
@@ -99,6 +102,15 @@ public final class ActiveHousehold extends Observable {
         return null;
     }
 
+    public UserInfo getMemberInfo (int index){
+        if(isActive()){
+            if(index < memberInfo.length && index >=0){
+                return memberInfo[index];
+            }
+            throw new ArrayIndexOutOfBoundsException("Index is not in valid range");
+        }
+        return null;
+    }
 
     /**
      * Get all pantry locations
@@ -227,11 +239,15 @@ public final class ActiveHousehold extends Observable {
                                 if(memberNames == null || memberNames.length != memberIds.length){
                                     memberNames = new String[memberIds.length];
                                 }
+                                if(memberInfo == null || memberInfo.length != memberIds.length){
+                                    memberInfo = new UserInfo[memberIds.length];
+                                }
 
                                 for(int i =0; i < users.length(); i++){
                                     JSONObject currentUser = users.getJSONObject(i);
                                     //TODO: Confirm order is based on specified order
                                     memberNames[i] = currentUser.getString("user");
+                                    memberInfo[i] = new UserInfo(currentUser);
                                 }
 
 
