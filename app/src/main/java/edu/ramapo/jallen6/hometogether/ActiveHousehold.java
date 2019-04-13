@@ -26,8 +26,6 @@ public final class ActiveHousehold extends Observable {
     private UserInfo[] memberInfo; //An array of the userInfo objects
     private String[] pantryLocations; //The string localized names in the pantry
 
-
-
     private boolean pendingNetworkRequest; //Bool for if there is a network request
 
     private ActiveHousehold(){
@@ -121,7 +119,7 @@ public final class ActiveHousehold extends Observable {
      * @param houseId The household to query the server for. Must be nonnull
      */
     public void initFromServer(@NonNull final String houseId){
-        if(houseId == null || houseId.equals("")) {
+        if(houseId.equals("")) {
             return;
         }
 
@@ -166,7 +164,6 @@ public final class ActiveHousehold extends Observable {
             pendingNetworkRequest = false;
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -217,7 +214,6 @@ public final class ActiveHousehold extends Observable {
         //Remove the trailing comma
         idString.deleteCharAt(idString.length()-1);
 
-
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 NetworkManager.getHostAsBuilder().appendPath("users")
                         .appendQueryParameter("resolveIds", idString.toString()).toString(),
@@ -242,14 +238,11 @@ public final class ActiveHousehold extends Observable {
                                     memberInfo[i] = new UserInfo(currentUser);
                                 }
 
-
                                 pendingNetworkRequest = false;
                                 ActiveHousehold.getInstance().setChanged();
                                 ActiveHousehold.getInstance().notifyObservers();
-
                             }
                         } catch (JSONException e) {
-
                             e.printStackTrace();
                             pendingNetworkRequest = false;
                         }
