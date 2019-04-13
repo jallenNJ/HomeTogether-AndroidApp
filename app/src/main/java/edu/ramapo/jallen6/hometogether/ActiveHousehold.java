@@ -23,7 +23,6 @@ public final class ActiveHousehold extends Observable {
     private String id; //The id of the active household
     private String name; //The localized name of the household
     private String[] memberIds; //The ids of the members in the house
-    private String[] memberNames; //The names of the members in the house
     private UserInfo[] memberInfo; //An array of the userInfo objects
     private String[] pantryLocations; //The string localized names in the pantry
 
@@ -44,7 +43,6 @@ public final class ActiveHousehold extends Observable {
         id = null;
         name = null;
         memberIds = null;
-        memberNames = null;
         memberInfo = null;
         pantryLocations = null;
         pendingNetworkRequest = false;
@@ -89,17 +87,15 @@ public final class ActiveHousehold extends Observable {
     /**
      *  Get the member name if house is active
      * @param index The index to search for
-     * @return The name if house is active and index valid, empty string if active but invalid index, null otherwise
+     * @return The name if member is active and index valid, null if the name is not active
      *
      */
-    public String getMemberName(int index){
-        if(isActive()){
-            if(index < memberNames.length && index >= 0){
-                return memberNames[index];
-            }
-            return "";
-        }
-        return null;
+    public String getMemberName(int index) throws ArrayIndexOutOfBoundsException {
+
+        UserInfo user = getMemberInfo(index);
+        return user != null? user.getName(): null;
+
+
     }
 
     public UserInfo getMemberInfo (int index){
@@ -236,9 +232,6 @@ public final class ActiveHousehold extends Observable {
                                 if(memberIds.length != users.length()){
                                     throw new JSONException("Received data does not match requested size");
                                 }
-                                if(memberNames == null || memberNames.length != memberIds.length){
-                                    memberNames = new String[memberIds.length];
-                                }
                                 if(memberInfo == null || memberInfo.length != memberIds.length){
                                     memberInfo = new UserInfo[memberIds.length];
                                 }
@@ -246,7 +239,6 @@ public final class ActiveHousehold extends Observable {
                                 for(int i =0; i < users.length(); i++){
                                     JSONObject currentUser = users.getJSONObject(i);
                                     //TODO: Confirm order is based on specified order
-                                    memberNames[i] = currentUser.getString("user");
                                     memberInfo[i] = new UserInfo(currentUser);
                                 }
 

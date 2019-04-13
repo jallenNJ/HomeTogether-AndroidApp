@@ -3,12 +3,9 @@ package edu.ramapo.jallen6.hometogether;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class UserInfo {
     private String id;
@@ -74,6 +71,14 @@ public class UserInfo {
         popUp.setView(text);
         return popUp;
 
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public String getName(){
+        return name;
     }
 
     private String[] fieldsToStringArray(){
