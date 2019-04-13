@@ -18,7 +18,7 @@ public class UserInfo {
     private String shoeSize;
     private String birthday;
 
-    private final static String[] jsonKeys = new String[]{"_id", "icon", "name", "shirtSize",
+    private final static String[] jsonKeys = new String[]{"_id", "icon", "user", "shirtSize",
             "shoeSize", "birthday"};
 
     UserInfo(@NonNull JSONObject jsonUser) throws JSONException {
@@ -77,7 +77,7 @@ public class UserInfo {
     }
 
     private String[] fieldsToStringArray(){
-        return new String[]{id, name, name, shirtSize, shoeSize, birthday};
+        return new String[]{id, null, name, shirtSize, shoeSize, birthday};
     }
 
 
