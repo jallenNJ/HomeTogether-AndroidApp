@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
       //  url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
 
         //TODO: Implement checking of being logged in once server supports it
-       /* JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 NetworkManager.getHostAsBuilder().appendPath("authcheck").toString(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -74,7 +74,7 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
-        NetworkManager.getInstance(this).addToRequestQueue(request);*/
+        NetworkManager.getInstance(this).addToRequestQueue(request);
     }
 
 
