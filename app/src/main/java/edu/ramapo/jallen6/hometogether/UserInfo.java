@@ -71,7 +71,6 @@ public class UserInfo {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        //Todo: write rest of the keys
         for(final String[] field :new String[][]{{"Name", name}, {"Shirt Size", shirtSize},
                 {"Shoe Size", shoeSize}, {"Birthday", birthday}}){
             TextView text = new TextView(context);

@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,7 +35,9 @@ public class HouseholdSelection extends AppCompatActivity {
         setContentView(R.layout.activity_household_selection);
 
 
-
+        TextView greetingLabel = findViewById(R.id.householdSelectionGreetingLabel);
+        greetingLabel.setText(String.format("%s %s!", greetingLabel.getText(),
+                MemberBar.getUsername()));
         //Send request to get all the households the user is a member of
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 NetworkManager.getHostAsBuilder().appendPath("household").toString()

@@ -51,6 +51,10 @@ public class MemberBar implements Observer {
         username = name;
     }
 
+    public static String getUsername(){
+        return username;
+    }
+
     /**
      * Updates the view to stay inline with the model
      * @param observable The observed object being changed, always the layout
