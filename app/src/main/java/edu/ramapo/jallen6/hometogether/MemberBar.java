@@ -27,6 +27,10 @@ import java.util.Observer;
 public class MemberBar implements Observer {
     private LinearLayout memberLayout; //The layout being used as the bar
 
+    private static String username = null;
+
+
+
     MemberBar(@NonNull LinearLayout layout){
         //Save a reference and attach observer
         memberLayout = layout;
@@ -41,6 +45,10 @@ public class MemberBar implements Observer {
     protected void finalize() throws Throwable {
         super.finalize();
         ActiveHousehold.getInstance().deleteObserver(this);
+    }
+
+    public static void setUsername(@NonNull String name){
+        username = name;
     }
 
     /**
@@ -67,7 +75,7 @@ public class MemberBar implements Observer {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((UserInfo) view.getTag()).createUserPopUp(memberLayout.getContext()).show();
+                    ((UserInfo) view.getTag()).createUserPopUp(memberLayout.getContext(), username).show();
 
                 }
             });

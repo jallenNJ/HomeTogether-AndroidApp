@@ -46,10 +46,7 @@ public class Login extends AppCompatActivity {
         debugIP = findViewById(R.id.debugIPBox);
         debugIP.setText(NetworkManager.getIP());
 
-        //Format the location (Commented out for debugging)
-      //  url =  NetworkManager.getHostAsBuilder().appendPath("login").toString();
 
-        //TODO: Implement checking of being logged in once server supports it
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 NetworkManager.getHostAsBuilder().appendPath("authcheck").toString(), null,
                 new Response.Listener<JSONObject>() {
@@ -57,6 +54,7 @@ public class Login extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getBoolean("status")){
+                                MemberBar.setUsername(response.getString("user"));
                                 Intent intent = new Intent(Login.this, HouseholdSelection.class);
                                 startActivity(intent);
                                 finish();
@@ -188,7 +186,13 @@ public class Login extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        try {
+                            MemberBar.setUsername(response.getString("user"));
+                        } catch (JSONException e) {
+                            Toast.makeText(Login.this, "Invalid server response",
+                                    Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
                         Intent intent = new Intent(Login.this, HouseholdSelection.class);
                         startActivity(intent);
                         finish();

@@ -58,7 +58,8 @@ public class UserInfo {
         return json;
     }
 
-    public AlertDialog.Builder createUserPopUp(@NonNull final Context context){
+    public AlertDialog.Builder createUserPopUp(@NonNull final Context context,
+                                               @NonNull final String selfName){
         AlertDialog.Builder popUp = new AlertDialog.Builder(context);
 
         popUp.setTitle(String.format("Info for Household Member %s",
@@ -75,7 +76,13 @@ public class UserInfo {
                 {"Shoe Size", shoeSize}, {"Birthday", birthday}}){
             TextView text = new TextView(context);
 
-            final String fieldData = field[1] != null? field[1] : "Tap to add";
+            final String fieldData = field[1] != null ? field[1] :
+                    selfName.equals(name)?
+                            "Tap to add"
+                            :null;
+            if(fieldData == null){
+                continue;
+            }
 
 
            text.setOnClickListener(new View.OnClickListener() {
