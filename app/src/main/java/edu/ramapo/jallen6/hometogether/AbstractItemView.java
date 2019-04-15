@@ -11,6 +11,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,9 @@ public abstract class AbstractItemView implements Observer {
 
         //Give default values for a key
         displayRow = tableRow;
+        TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT );
+        layoutParams.setMargins(10,20,10,10);
+        displayRow.setLayoutParams(layoutParams);
         keys = new String[] {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
                 PantryItem.FORMATTED_EXPIRES_FIELD, PantryItem.CATEGORY_FIELD};
     }
