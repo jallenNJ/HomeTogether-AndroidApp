@@ -60,41 +60,18 @@ public class Household extends AppCompatActivity {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
         LinearLayout memberBar = findViewById(R.id.householdMemberBar);
-
-        class HouseholdGesture extends GestureDetector.SimpleOnGestureListener {
-
-            //Constants to check distance
-            private static final int SWIPE_MIN_DISTANCE = 120;
-            private static final int SWIPE_MAX_OFF_PATH = 250;
-            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-            @Override
-            public boolean onDown(MotionEvent event) {
-                return true;
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                try {
-                    //Ensure they didn't go too far off path
-                    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH){
-                        return false;
-                    }
-                    //left to right swipe
-                    if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                        openShoppingList(findViewById(R.id.pantryGraphicsRoot));
-                        return true;
-                    }
-                } catch (Exception e) {
-                    // nothing
-                }
-                return false;
-            }
-
-        }
-
+        
         //Bind the above class
-        final GestureDetector gestureDetector = new GestureDetector(this, new HouseholdGesture());
+        final GestureDetector gestureDetector = new GestureDetector(this,
+                SwipeGestureFactory.getInstance().build(SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                        null,
+                        new SwipeHandler() {
+                            @Override
+                            public boolean onSwipe() {
+                                openShoppingList(findViewById(R.id.pantryGraphicsRoot));
+                                return true;
+                            }
+                        }));
 
         ((ViewGroup)findViewById(R.id.pantryGraphicsRoot).getParent()).setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {

@@ -214,40 +214,24 @@ public abstract class AbstractItemView implements Observer {
             }
         });
 
-        //Gesture detection class
-        class PantryItemGesture extends GestureDetector.SimpleOnGestureListener {
 
-            //Constants to check distance
-            private static final int SWIPE_MIN_DISTANCE = 120;
-            private static final int SWIPE_MAX_OFF_PATH = 250;
-            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+        //final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(), new PantryItemGesture());
 
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                try {
-                    //Ensure they didn't go too far off path
-                    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                        return false;
-                    // right to left swipe
-                    if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                        return rowOnLeftFling();
-
-                    }
-                    //left to right swipe
-                    if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                        return rowOnRightFling();
-                    }
-                } catch (Exception e) {
-                    // nothing
-                }
-                return false;
-            }
-
-        }
-
-        //Bind the above class
-        final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(), new PantryItemGesture());
+        final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(),
+                SwipeGestureFactory.getInstance().build(
+                        SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                        new SwipeHandler() {
+                            @Override
+                            public boolean onSwipe() {
+                                return rowOnLeftFling();
+                            }
+                        },
+                        new SwipeHandler() {
+                            @Override
+                            public boolean onSwipe() {
+                                return rowOnRightFling();
+                            }
+                        }));
 
         displayRow.setOnTouchListener( new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {

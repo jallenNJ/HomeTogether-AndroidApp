@@ -22,7 +22,16 @@ public final class SwipeGestureFactory {
     }
 
     public SwipeGesture build(@NonNull SwipeGestureFactoryType type,
-                              @NonNull SwipeHandler handler1,@Nullable SwipeHandler handler2){
+                              @Nullable SwipeHandler handler1,@Nullable SwipeHandler handler2){
+
+        if(handler1 == null){
+            handler1 = new SwipeHandler() {
+                @Override
+                public boolean onSwipe() {
+                    return false;
+                }
+            };
+        }
 
         if(handler2 == null){
             handler2 = new SwipeHandler() {
