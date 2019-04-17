@@ -215,29 +215,20 @@ public abstract class AbstractItemView implements Observer {
         });
 
 
-        //final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(), new PantryItemGesture());
-
-        final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(),
-                SwipeGestureFactory.build(
-                        SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
-                        new SwipeHandler() {
-                            @Override
-                            public boolean onSwipe() {
-                                return rowOnLeftFling();
-                            }
-                        },
-                        new SwipeHandler() {
-                            @Override
-                            public boolean onSwipe() {
-                                return rowOnRightFling();
-                            }
-                        }));
-
-        displayRow.setOnTouchListener( new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
+        SwipeGestureFactory.buildAndBindDetector(displayRow.getContext(), displayRow,
+                SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                new SwipeHandler() {
+                    @Override
+                    public boolean onSwipe() {
+                        return rowOnLeftFling();
+                    }
+                },
+                new SwipeHandler() {
+                    @Override
+                    public boolean onSwipe() {
+                        return rowOnRightFling();
+                    }
+                });
     }
 
 

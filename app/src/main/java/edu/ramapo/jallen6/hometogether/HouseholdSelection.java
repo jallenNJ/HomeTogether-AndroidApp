@@ -59,23 +59,17 @@ public class HouseholdSelection extends AppCompatActivity {
 
 
         //Bind the gesture
-        final GestureDetector gestureDetector = new GestureDetector(this,
-                SwipeGestureFactory.build(SwipeGestureFactory.SwipeGestureFactoryType.VERTICAL,
-                        new SwipeHandler() {
-                            @Override
-                            public boolean onSwipe() {
-                                swapToNewHouseHoldForm();
-                                return false;
-                            }
-                        },
-                        null));
-
-        findViewById(R.id.householdSelectionParentView).setOnTouchListener( new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
-
+        SwipeGestureFactory.buildAndBindDetector(this,
+                findViewById(R.id.householdSelectionParentView),
+                SwipeGestureFactory.SwipeGestureFactoryType.VERTICAL,
+                new SwipeHandler() {
+                    @Override
+                    public boolean onSwipe() {
+                        swapToNewHouseHoldForm();
+                        return false;
+                    }
+                },
+                null);
 
     }
 

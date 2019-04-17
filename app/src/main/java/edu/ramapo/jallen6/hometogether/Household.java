@@ -60,24 +60,19 @@ public class Household extends AppCompatActivity {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
         LinearLayout memberBar = findViewById(R.id.householdMemberBar);
-        
-        //Bind the above class
-        final GestureDetector gestureDetector = new GestureDetector(this,
-                SwipeGestureFactory.build(SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
-                        null,
-                        new SwipeHandler() {
-                            @Override
-                            public boolean onSwipe() {
-                                openShoppingList(findViewById(R.id.pantryGraphicsRoot));
-                                return true;
-                            }
-                        }));
 
-        ((ViewGroup)findViewById(R.id.pantryGraphicsRoot).getParent()).setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
+
+        SwipeGestureFactory.buildAndBindDetector(this,
+                ((ViewGroup)findViewById(R.id.pantryGraphicsRoot).getParent()),
+                SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                null,
+                new SwipeHandler() {
+                    @Override
+                    public boolean onSwipe() {
+                        openShoppingList(findViewById(R.id.pantryGraphicsRoot));
+                        return true;
+                    }
+                });
     }
 
 
