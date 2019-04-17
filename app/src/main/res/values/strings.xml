@@ -22,4 +22,5 @@
     <string name="pantryItemFormExpiresHint">Tap to set date, swipe right for never expires</string>
     <string name="householdSelectionSwipeUpHint">Swipe up to create a new household!</string>
     <string name="householdSelectionGreeting">Welcome to your households</string>
+    <string name="NeverExipiresString">Never Expires</string>
 </resources>

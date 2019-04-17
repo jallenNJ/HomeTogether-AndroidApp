@@ -67,7 +67,7 @@ public class PantryItemForm extends AppCompatActivity
                     @Override
                     public boolean onSwipe() {
                         TextView view = findViewById(R.id.pantryItemFormExpiresField);
-                        view.setText("Never Expires");
+                        view.setText(R.string.NeverExipiresString);
                         view.setTag(PantryItem.NEVER_EXPIRE);
                         return true;
                     }});
