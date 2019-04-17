@@ -24,7 +24,7 @@ public final class SwipeGestureFactory {
 
 
 
-    public SwipeGesture build(@NonNull SwipeGestureFactoryType type,
+    public static SwipeGesture build(@NonNull SwipeGestureFactoryType type,
                               @Nullable SwipeHandler handler1,@Nullable SwipeHandler handler2){
 
         if(handler1 == null){
