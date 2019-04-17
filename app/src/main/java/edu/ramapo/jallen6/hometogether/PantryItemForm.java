@@ -46,7 +46,6 @@ public class PantryItemForm extends AppCompatActivity
     public final static String QUANTITY_EXTRA="quantity"; /// Quantity field extra define
     public final static String EXPIRE_EXTRA = "expires"; /// Expires field extra define
     public final static String CATEGORY_EXTRA = "category"; ///Category field extra define
-    public final static String TAGS_EXTRA = "tags"; /// Tag field extra define
     public final static String JSON_UPDATED_EXTRA = "jsonUpdated"; /// JSON Updated field define extra
     public final static String JSON_NEW_EXTRA = "jsonNew"; /// JSON New field defien extra
 
@@ -69,46 +68,19 @@ public class PantryItemForm extends AppCompatActivity
             }
         });
 
-        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
-
-
-            @Override
-            public boolean onDown(MotionEvent motionEvent) {
-                return false;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public boolean onSingleTapUp(MotionEvent motionEvent) {
-                return false;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                return false;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                //left to right swipe
-                if (motionEvent1.getX() - motionEvent.getX() > 100 && Math.abs(v) > 20) {
-                    TextView view = findViewById(R.id.pantryItemFormExpiresField);
-                    view.setText("Never Expires");
-                    view.setTag(PantryItem.NEVER_EXPIRE);
-                    return true;
+        final GestureDetector gestureDetector = new GestureDetector(this,
+                SwipeGestureFactory.build(SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                null,
+                new SwipeHandler() {
+                    @Override
+                    public boolean onSwipe() {
+                        TextView view = findViewById(R.id.pantryItemFormExpiresField);
+                        view.setText("Never Expires");
+                        view.setTag(PantryItem.NEVER_EXPIRE);
+                        return true;
+                    }
                 }
-                return false;
-            }
-        });
+            ));
 
         findViewById(R.id.pantryItemFormExpiresLayout).setOnTouchListener( new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {

@@ -73,6 +73,8 @@ public class Login extends AppCompatActivity {
                 });
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
+
+        //TODO: Add swipe to log in?
     }
 
 

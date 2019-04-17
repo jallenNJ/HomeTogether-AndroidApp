@@ -218,7 +218,7 @@ public abstract class AbstractItemView implements Observer {
         //final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(), new PantryItemGesture());
 
         final GestureDetector gestureDetector = new GestureDetector(displayRow.getContext(),
-                SwipeGestureFactory.getInstance().build(
+                SwipeGestureFactory.build(
                         SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
                         new SwipeHandler() {
                             @Override

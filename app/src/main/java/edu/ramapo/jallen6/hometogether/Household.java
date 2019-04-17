@@ -63,7 +63,7 @@ public class Household extends AppCompatActivity {
         
         //Bind the above class
         final GestureDetector gestureDetector = new GestureDetector(this,
-                SwipeGestureFactory.getInstance().build(SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                SwipeGestureFactory.build(SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
                         null,
                         new SwipeHandler() {
                             @Override
