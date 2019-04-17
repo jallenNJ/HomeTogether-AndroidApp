@@ -2,8 +2,12 @@ package edu.ramapo.jallen6.hometogether;
 
 import android.view.MotionEvent;
 
+/**
+ * Determine if a swipe is up ,down, or neither
+ */
 public class SwipeVerticalDetector extends SwipeDirectionDetector {
 
+    /// Rename the variables to be more readable
     private static final SWIPE_DIRECTION up = SWIPE_DIRECTION.DIRECTION1;
     private static final SWIPE_DIRECTION down = SWIPE_DIRECTION.DIRECTION2;
 
@@ -22,8 +26,6 @@ public class SwipeVerticalDetector extends SwipeDirectionDetector {
                 return down;
             }
 
-
         return SWIPE_DIRECTION.NONE;
-
     }
 }

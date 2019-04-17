@@ -72,7 +72,6 @@ public class PantryItemForm extends AppCompatActivity
                         return true;
                     }});
 
-
        //Get the pantry location from the cache
        String[] locations = ActiveHousehold.getInstance().getPantryLocations();
         if(locations == null){
