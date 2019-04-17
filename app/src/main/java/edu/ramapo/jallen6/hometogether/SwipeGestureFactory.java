@@ -8,18 +8,21 @@ public final class SwipeGestureFactory {
         VERTICAL, HORIZONTAL
     }
 
-    private static SwipeGestureFactory factoryInstance;
 
     private SwipeGestureFactory(){
 
     }
 
-    public static synchronized SwipeGestureFactory getInstance(){
-        if(factoryInstance == null){
-            factoryInstance = new SwipeGestureFactory();
-        }
-        return factoryInstance;
+    /**
+     * Prevents clone from happening
+     * @throws CloneNotSupportedException As this class is static only
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException("Cannot clone static only class");
     }
+
+
 
     public SwipeGesture build(@NonNull SwipeGestureFactoryType type,
                               @Nullable SwipeHandler handler1,@Nullable SwipeHandler handler2){
