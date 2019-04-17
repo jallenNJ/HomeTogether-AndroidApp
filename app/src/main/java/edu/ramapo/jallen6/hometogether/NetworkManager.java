@@ -39,6 +39,16 @@ public class NetworkManager {
     }
 
     /**
+     * Prevents clone from happening
+     * @throws CloneNotSupportedException As this class is a singleton
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException("Cannot clone singleton");
+    }
+
+
+    /**
      * Get the ip address of the server
      * @return The just the ip of the server from the host string
      */
