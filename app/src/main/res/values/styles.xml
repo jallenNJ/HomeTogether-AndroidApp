@@ -5,7 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:windowBackground">@drawable/bg</item>
+        <item name="android:tileMode">repeat</item>
         <item name="android:textColorPrimary">@color/fontColor</item>
         <item name="buttonStyle">@style/AppButtonTheme</item>
         <item name="android:shadowColor">@color/shadowColor</item>
