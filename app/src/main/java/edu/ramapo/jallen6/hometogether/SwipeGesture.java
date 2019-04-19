@@ -29,11 +29,12 @@ public class SwipeGesture extends GestureDetector.SimpleOnGestureListener {
     /**
      *  Override needs to return true for onFling to be called
      * @param event The user pressing down, ignored in the function, required for override
-     * @return true to allow for onFling to run
+     * @return false to pass on
+     * //TODO: Allow this to be set
      */
     @Override
     public boolean onDown(MotionEvent event) {
-        return true;
+        return false;
     }
 
     /**
