@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+//TODO: Add a swipe down refresh?
 /**
  * Activity Logic for the Household Selection Screen
  */

@@ -109,8 +109,7 @@ public class NetworkManager {
      * @return The request queue to add requests too
      */
 
-    //TODO: This should be private, check what uses this an update it
-    public RequestQueue getRequestQueue(){
+    private RequestQueue getRequestQueue(){
         if(requestQueue == null){
             throw new IllegalStateException("Request queue was not initialized " +
                     "This is most likely caused by an invalid context being passed to getInstance");
@@ -139,7 +138,6 @@ public class NetworkManager {
      * Generate a default error handler which does not have access to the context
      * @return The default response Error Listener
      */
-    //TODO: Make sure this is only being used by instances without the context
     public static Response.ErrorListener generateDefaultErrorHandler(){
         return new Response.ErrorListener() {
             @Override

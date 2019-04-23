@@ -14,7 +14,7 @@
     <string name="nameLabel">Name:</string>
     <string name="quantityLabel">Quantity:</string>
     <string name="categoryLabel">Category:</string>
-    <string name="tagLabel">Tags (Comma Seperated):</string>
+    <string name="tagLabel">Tags (Comma Separated):</string>
     <string name="expireLabel">Expires:</string>
     <string name="deleteButton">Delete</string>
     <string name="modifyButton">Modify</string>

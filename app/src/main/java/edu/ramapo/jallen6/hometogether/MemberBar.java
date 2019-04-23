@@ -135,7 +135,7 @@ public class MemberBar implements Observer {
                                     }
                                 },
                         NetworkManager.generateDefaultErrorHandler());
-                        NetworkManager.getInstance(memberLayout.getContext()).getRequestQueue().add(request);
+                        NetworkManager.getInstance(memberLayout.getContext()).addToRequestQueue(request);
                     }
                 });
 
@@ -212,7 +212,7 @@ public class MemberBar implements Observer {
                             }
                         },
                         NetworkManager.generateDefaultErrorHandler());
-                NetworkManager.getInstance(memberLayout.getContext()).getRequestQueue().add(request);
+                NetworkManager.getInstance(memberLayout.getContext()).addToRequestQueue(request);
 
 
             }

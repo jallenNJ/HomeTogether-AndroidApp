@@ -154,8 +154,6 @@ public abstract class AbstractItemView implements Observer {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO: Confirm Fix  of mostly repeated code?
-                        // or move to function
                         model.setSelected(true);
 
                         try{
