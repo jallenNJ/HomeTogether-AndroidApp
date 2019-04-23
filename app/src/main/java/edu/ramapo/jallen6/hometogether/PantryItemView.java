@@ -34,8 +34,8 @@ public class PantryItemView extends AbstractItemView {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         model.setSelected(true);
                         try{
-                            //TODO: Find define location for shopping
-                            ((PantryItemCrud)displayRow.getContext()).moveItem(PantryItemView.this, "shopping");
+                            ((PantryItemCrud)displayRow.getContext()).moveItem(
+                                    PantryItemView.this, ActiveHousehold.SHOPPING_LOCATION);
                         } catch(ClassCastException e){
                             Toast.makeText(displayRow.getContext(),
                                     "Failed to update from this screen", Toast.LENGTH_SHORT).show();

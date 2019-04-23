@@ -55,7 +55,6 @@ public class ShoppingItemView extends AbstractItemView {
             public void onClick(DialogInterface dialogInterface, int i) {
                 model.setSelected(true);
                 try{
-                    //TODO: Find define location for shopping
                     ((PantryItemCrud)displayRow.getContext()).moveItem(ShoppingItemView.this,
                             locationSpinner.getSelectedItem().toString());
                 } catch(ClassCastException e){

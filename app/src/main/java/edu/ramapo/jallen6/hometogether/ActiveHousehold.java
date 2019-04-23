@@ -19,6 +19,10 @@ import java.util.Observable;
  */
 //TODO: Handle failed network request not clearing flag
 public final class ActiveHousehold extends Observable {
+
+    public static final String SHOPPING_LOCATION = "shopping"; ///The name of the shopping location
+
+
     private static ActiveHousehold instance; /// The instance of the singleton
     private String id; //The id of the active household
     private String name; //The localized name of the household
