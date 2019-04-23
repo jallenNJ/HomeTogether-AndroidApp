@@ -91,6 +91,7 @@ public class PantryItem extends Observable {
      * @return A formatted String of the above description.
      */
     @NonNull
+    @Override
     public String toString(){
         //TODO, use defines
         return "Name: " + name +

@@ -3,6 +3,7 @@ package edu.ramapo.jallen6.hometogether;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -111,13 +112,16 @@ public class UserInfo {
 
             //If the field is null && user is editing their self, set as add prompt
             // otherwise add it
-            //TODO: Fix operation to use only one ?:
-            final String fieldData = field[1] != null ? field[1] :
-                    selfName.equals(name)?
+            final String fieldData = field[1] != null ?
+                    field[1]
+                    : selfName.equals(name)?
                             "Tap to add"
                             :null;
+
             if(fieldData == null){
-                //TODO, set logic here to add blank value, like  italics is not set
+                text.setText(String.format("%s: %s",  field[0], "No data provided"));
+                text.setTypeface(null, Typeface.ITALIC);
+                layout.addView(text);
                 continue;
             }
 
@@ -137,7 +141,7 @@ public class UserInfo {
                }
            });
 
-            text.setText(String.format("%s:%s",  field[0],fieldData));
+            text.setText(String.format("%s: %s",  field[0],fieldData));
             layout.addView(text);
         }
         popUp.setView(layout);
