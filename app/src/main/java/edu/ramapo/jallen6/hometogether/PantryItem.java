@@ -65,8 +65,8 @@ public class PantryItem extends Observable {
      * @param jsonPantry The Object to parse from
      * @throws JSONException An exception in parsing the objectg
      */
-    //TODO: handle partially correct JSONobject
     public void applyUpdate(JSONObject jsonPantry) throws JSONException {
+
         name = jsonPantry.getString(NAME_FIELD);
         quantity = jsonPantry.getInt(QUANTITY_FIELD);
         category = jsonPantry.getString(CATEGORY_FIELD);
