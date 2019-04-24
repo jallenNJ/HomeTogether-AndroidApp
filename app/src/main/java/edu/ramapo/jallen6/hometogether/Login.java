@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -74,7 +76,7 @@ public class Login extends AppCompatActivity {
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
-        //TODO: Add swipe to log in?
+
     }
 
 
