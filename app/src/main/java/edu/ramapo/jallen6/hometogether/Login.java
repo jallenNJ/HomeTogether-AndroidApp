@@ -134,16 +134,14 @@ public class Login extends AppCompatActivity {
                             return;
 
                         }
-                        switch (error.networkResponse.statusCode){
-                            case 409:
-                                Toast.makeText(Login.this,
-                                        "Username taken", Toast.LENGTH_SHORT).show();
-                                break;
 
-                            default:
-                                Toast.makeText(Login.this,
-                                        "Sign-up failed", Toast.LENGTH_SHORT).show();
-                                error.printStackTrace();
+                        if (error.networkResponse.statusCode == 409) {
+                            Toast.makeText(Login.this,
+                                    "Username taken", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Login.this,
+                                    "Sign-up failed", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
                         }
 
 

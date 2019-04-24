@@ -81,7 +81,7 @@ public class HouseholdSelection extends AppCompatActivity {
      * @param response The response object to get the data from
      */
     private void addCurrentHouseholds(JSONObject response){
-        JSONArray data = null;
+        JSONArray data;
         //Get the data from the Object, and return if it doesn't exist
         try {
             data = response.getJSONArray("households");
