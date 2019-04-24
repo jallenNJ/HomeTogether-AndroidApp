@@ -59,8 +59,7 @@ public class PantryItemForm extends AppCompatActivity
             }
         });
 
-        SwipeGestureFactory.buildAndBindDetector(this,
-                findViewById(R.id.pantryItemFormExpiresLayout),
+        SwipeGestureFactory.buildAndBindDetector( findViewById(R.id.pantryItemFormExpiresLayout),
                 SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
                 null,
                 new SwipeHandler() {

@@ -211,7 +211,7 @@ public abstract class AbstractItemView implements Observer {
         });
 
 
-        SwipeGestureFactory.buildAndBindDetector(displayRow.getContext(), displayRow,
+        SwipeGestureFactory.buildAndBindDetector(displayRow,
                 SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
                 new SwipeHandler() {
                     @Override

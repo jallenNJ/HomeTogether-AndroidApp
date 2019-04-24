@@ -75,37 +75,35 @@ public final class SwipeGestureFactory {
 
     /**
      * Build the Swipe detector, and attach it to the view
-     * @param context The context for the Gesture Detector
      * @param view The view to attach the Swipe Detector too
      * @param type The type of Swipe Detector to use
      * @param handler1 The handler for the first swipe of the detector
      * @param handler2 The handler for the second swipe of the detector
      */
-    public static void buildAndBindDetector(@NonNull Context context, @NonNull View view,
+    public static void buildAndBindDetector(@NonNull View view,
                                             @NonNull SwipeGestureFactoryType type,
                                             @Nullable SwipeHandler handler1,
                                             @Nullable SwipeHandler handler2 ){
 
 
-        bindDetector(view,  new GestureDetector(context, build(type, handler1, handler2)));
+        bindDetector(view,  new GestureDetector(view.getContext(), build(type, handler1, handler2)));
 
     }
 
     /**
      * Build the Consuming Swipe detector, and attach it to the view.
-     * @param context The context for the Gesture Detector
      * @param view The view to attach the Swipe Detector too
      * @param type The type of Swipe Detector to use
      * @param handler1 The handler for the first swipe of the detector
      * @param handler2 The handler for the second swipe of the detector
      */
-    public static void buildAndBindConsumingDetector(@NonNull Context context, @NonNull View view,
+    public static void buildAndBindConsumingDetector(@NonNull View view,
                                                      @NonNull SwipeGestureFactoryType type,
                                                      @Nullable SwipeHandler handler1,
                                                      @Nullable SwipeHandler handler2){
         SwipeGesture ges= build(type, handler1, handler2);
         ges.setOnDownConsume(true);
-        bindDetector(view, new GestureDetector(context, ges));
+        bindDetector(view, new GestureDetector(view.getContext(), ges));
 
     }
 
