@@ -40,6 +40,7 @@ public class ShoppingItemView extends AbstractItemView {
     protected boolean rowOnRightFling() {
         final Spinner locationSpinner = new Spinner(displayRow.getContext());
 
+
         String[] locations = ActiveHousehold.getInstance().getPantryLocations();
         if(locations == null){
             locations = new String[]{"unsorted"};

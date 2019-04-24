@@ -194,7 +194,6 @@ public final class ActiveHousehold extends Observable {
      * Refreshes the object by calling init again
      */
     public void refresh(){
-        //TODO: Clear?
         initFromServer(id);
     }
 
@@ -238,7 +237,6 @@ public final class ActiveHousehold extends Observable {
 
                                 for(int i =0; i < users.length(); i++){
                                     JSONObject currentUser = users.getJSONObject(i);
-                                    //TODO: Confirm order is based on specified order
                                     memberInfo[i] = new UserInfo(currentUser);
                                 }
 

@@ -95,7 +95,7 @@ public class UserInfo {
 
         // Create the title and append on this user's name
         popUp.setTitle(String.format("Info for Household Member %s",
-                JSONFormatter.capitlizeKey(name)));
+                JSONFormatter.capitalizeKey(name)));
         popUp.setCancelable(true);
 
         //Icon

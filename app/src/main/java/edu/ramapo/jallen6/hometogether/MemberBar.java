@@ -110,9 +110,8 @@ public class MemberBar implements Observer {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       // memberToAddText = input.getText().toString();
                         Toast.makeText(memberLayout.getContext(), input.getText().toString(), Toast.LENGTH_SHORT).show();
-                        //TODO: Send request to find member to add;
+
                         JsonObjectRequest request = new JsonObjectRequest(
                                 Request.Method.GET,
                                 NetworkManager.getHostAsBuilder().appendPath("users")
@@ -164,11 +163,10 @@ public class MemberBar implements Observer {
         if(userList.length() == 0){
             throw new JSONException("No members were found");
         }
-        //TODO: Use json formatter?
-        final String[] users = new String[userList.length()];
-        for(int i =0; i < userList.length(); i++){
-            users[i] = userList.getJSONObject(i).getString("user");
-        }
+
+
+        final String[] users = JSONFormatter.getFieldFromJSONArrayOfJSONObjects(userList, "user");
+
         builder.setItems(users, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
