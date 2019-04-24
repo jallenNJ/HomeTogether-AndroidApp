@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 public class Household extends AppCompatActivity {
 
     public final static String ExtraHouseID = "houseID"; ///Information for the extra house id
+    public final static String EXTRA_HOUSE_NAME = "houseName"; /// Extra id for house name
 
     private String houseId; // The id of the household
     private MemberBar memberBar; //The member bar class
@@ -45,6 +47,7 @@ public class Household extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        //TODO: WHEN IS THIS EVEN RUNNING?
                         Toast.makeText(Household.this, "Received", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
@@ -57,6 +60,10 @@ public class Household extends AppCompatActivity {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
         LinearLayout memberBar = findViewById(R.id.householdMemberBar);
+
+        TextView houseLabel = findViewById(R.id.householdNameLabel);
+        houseLabel.setText(String.format("Welcome to household %s!",
+                intent.getStringExtra(EXTRA_HOUSE_NAME)));
 
 
         SwipeGestureFactory.buildAndBindConsumingDetector(

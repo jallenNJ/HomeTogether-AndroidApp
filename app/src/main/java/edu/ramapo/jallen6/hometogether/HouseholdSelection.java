@@ -117,6 +117,7 @@ public class HouseholdSelection extends AppCompatActivity {
             Button newButton = new Button(this);
             newButton.setText(houseName);
             newButton.setTag(R.id.tagHouseID, id);
+            newButton.setTag(R.id.tagHouseName, houseName);
 
             //Add the onclick, which goes to the household activity and caches house data
             newButton.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +126,7 @@ public class HouseholdSelection extends AppCompatActivity {
                     Intent intent = new Intent(HouseholdSelection.this, Household.class);
                     //TODO: Pass in household name
                     intent.putExtra(Household.ExtraHouseID, view.getTag(R.id.tagHouseID).toString());
+                    intent.putExtra(Household.EXTRA_HOUSE_NAME, view.getTag(R.id.tagHouseName).toString());
                     ActiveHousehold.getInstance().initFromServer(view.getTag(R.id.tagHouseID).toString());
                     startActivity(intent);
                     finish();

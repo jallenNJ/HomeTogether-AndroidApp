@@ -109,6 +109,14 @@ public final class ActiveHousehold extends Observable {
     }
 
     /**
+     * Gets the name of the household
+     * @return The name of the household
+     */
+    public String getHouseName(){
+        return name;
+    }
+
+    /**
      * Get all pantry locations
      * @return The array of pantry locations
      */
