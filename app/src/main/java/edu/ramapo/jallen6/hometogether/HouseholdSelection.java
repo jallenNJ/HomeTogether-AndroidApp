@@ -61,7 +61,7 @@ public class HouseholdSelection extends AppCompatActivity {
 
 
         //Bind the gesture
-        SwipeGestureFactory.buildAndBindDetector(this,
+        SwipeGestureFactory.buildAndBindConsumingDetector(this,
                 findViewById(R.id.householdSelectionParentView),
                 SwipeGestureFactory.SwipeGestureFactoryType.VERTICAL,
                 new SwipeHandler() {

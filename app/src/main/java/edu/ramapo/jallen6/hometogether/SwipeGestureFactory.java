@@ -86,10 +86,36 @@ public final class SwipeGestureFactory {
                                             @Nullable SwipeHandler handler1,
                                             @Nullable SwipeHandler handler2 ){
 
-        //Call build to get the detector
-        final GestureDetector gestureDetector = new GestureDetector(context,
-                build(type, handler1, handler2));
 
+        bindDetector(view,  new GestureDetector(context, build(type, handler1, handler2)));
+
+    }
+
+    /**
+     * Build the Consuming Swipe detector, and attach it to the view.
+     * @param context The context for the Gesture Detector
+     * @param view The view to attach the Swipe Detector too
+     * @param type The type of Swipe Detector to use
+     * @param handler1 The handler for the first swipe of the detector
+     * @param handler2 The handler for the second swipe of the detector
+     */
+    public static void buildAndBindConsumingDetector(@NonNull Context context, @NonNull View view,
+                                                     @NonNull SwipeGestureFactoryType type,
+                                                     @Nullable SwipeHandler handler1,
+                                                     @Nullable SwipeHandler handler2){
+        SwipeGesture ges= build(type, handler1, handler2);
+        ges.setOnDownConsume(true);
+        bindDetector(view, new GestureDetector(context, ges));
+
+    }
+
+
+    /**
+     * Helper function to bind the gesture detector to the view
+     * @param view The view passed in
+     * @param gestureDetector The generated gesture detector.
+     */
+    private static void bindDetector(@NonNull View view,@NonNull final GestureDetector gestureDetector ){
         //Attach the listener to the view
         view.setOnTouchListener( new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {

@@ -16,6 +16,7 @@ public class SwipeGesture extends GestureDetector.SimpleOnGestureListener {
     ///The detector to determine if a swipe is a swipe, and what direction
     private @NonNull SwipeDirectionDetector detector;
 
+    private boolean onDownConsume;
 
 
     SwipeGesture(@NonNull SwipeDirectionDetector det, @NonNull SwipeHandler dir1,
@@ -23,18 +24,22 @@ public class SwipeGesture extends GestureDetector.SimpleOnGestureListener {
         detector = det;
         handlerDirection1 = dir1;
         handlerDirection2 = dir2;
+        onDownConsume = false;
     }
 
+
+    public void setOnDownConsume(boolean val){
+        onDownConsume = val;
+    }
 
     /**
      *  Override needs to return true for onFling to be called
      * @param event The user pressing down, ignored in the function, required for override
      * @return false to pass on
-     * //TODO: Allow this to be set
      */
     @Override
     public boolean onDown(MotionEvent event) {
-        return false;
+        return onDownConsume;
     }
 
     /**
