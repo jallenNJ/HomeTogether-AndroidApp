@@ -76,6 +76,17 @@ public class Login extends AppCompatActivity {
 
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
+        SwipeGestureFactory.buildAndBindConsumingDetector((View)findViewById(R.id.loginButtonLayout).getParent(),
+                SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
+                null,
+                new SwipeHandler() {
+                    @Override
+                    public boolean onSwipe() {
+                        logIn(null);
+                        return true;
+                    }
+                });
+
 
     }
 
