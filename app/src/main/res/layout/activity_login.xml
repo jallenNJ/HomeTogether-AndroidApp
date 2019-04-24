@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/logo" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/loginUserLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="225dp"
@@ -45,13 +45,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/loginPasswordLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/loginUserLayout">
 
         <TextView
             android:id="@+id/loginPassLabel"
@@ -70,7 +70,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/loginButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -78,7 +78,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordLayout">
 
         <Button
             android:id="@+id/loginSignUp"
