@@ -62,7 +62,7 @@ public class Household extends AppCompatActivity {
         LinearLayout memberBar = findViewById(R.id.householdMemberBar);
 
 
-        SwipeGestureFactory.buildAndBindDetector(
+        SwipeGestureFactory.buildAndBindConsumingDetector(
                 ((ViewGroup)findViewById(R.id.pantryGraphicsRoot).getParent()),
                 SwipeGestureFactory.SwipeGestureFactoryType.HORIZONTAL,
                 null,
