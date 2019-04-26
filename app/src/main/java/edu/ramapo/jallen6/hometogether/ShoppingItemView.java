@@ -2,10 +2,14 @@ package edu.ramapo.jallen6.hometogether;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -30,6 +34,7 @@ public class ShoppingItemView extends AbstractItemView {
     void drawToRow(){
        super.drawToRow();
        displayRow.addView(new CheckBox(displayRow.getContext()));
+       displayRow.setGravity(Gravity.LEFT);
     }
 
     /**

@@ -1,5 +1,6 @@
 package edu.ramapo.jallen6.hometogether
 
+import android.graphics.Color.WHITE
 import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -78,7 +79,8 @@ class ShoppingList : AppCompatActivity(), PantryItemCrud {
                         val current = pantryItems.getJSONObject(i)
                         val pantryItemView = ShoppingItemView(PantryItem(current), TableRow(this))
                         pantryItemView.setKeys(keys)
-                        pantryItemView.addViewToRow(CheckBox(this))
+                        pantryItemView.drawToRow()
+                       // pantryItemView.addViewToRow(CheckBox(this))
                         shoppingListTable.addView(pantryItemView.displayRow)
                         itemManager.addView(pantryItemView)
                     }
@@ -95,9 +97,10 @@ class ShoppingList : AppCompatActivity(), PantryItemCrud {
 
     private fun createTableHeader(){
         val row = TableRow(this)
-
+       // row.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT );
+        row.gravity =CENTER
+        row.layoutParams= TableRow.LayoutParams(1);
         val headerText = arrayOf("Name",  "Quantity", "Bought")
-
         for(i in 0 until headerText.size){
             val header = TextView(this)
             header.text = headerText[i]

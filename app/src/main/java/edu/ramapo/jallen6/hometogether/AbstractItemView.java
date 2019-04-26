@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -46,7 +47,8 @@ public abstract class AbstractItemView implements Observer {
 
         //Give default values for a key
         displayRow = tableRow;
-        TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT );
+        TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT );
         layoutParams.setMargins(10,20,10,10);
         displayRow.setLayoutParams(layoutParams);
         keys = new String[] {PantryItem.NAME_FIELD, PantryItem.QUANTITY_FIELD,
@@ -188,11 +190,12 @@ public abstract class AbstractItemView implements Observer {
                     model.getFieldAsString(key).substring(0,12)+"..."
                     :model.getFieldAsString(key));
             buffer.setLayoutParams(new TableRow.LayoutParams(1));
-            buffer.setGravity(View.TEXT_ALIGNMENT_CENTER);
             buffer.setTextColor(ContextCompat.getColor(context, R.color.fontColor));
             buffer.setShadowLayer(1,5,5,ContextCompat.getColor(context, R.color.shadowColor));
+            buffer.setGravity(Gravity.LEFT);
             displayRow.addView(buffer);
         }
+
 
         //Bind the onclick and call the handler
         displayRow.setOnClickListener(new View.OnClickListener() {
