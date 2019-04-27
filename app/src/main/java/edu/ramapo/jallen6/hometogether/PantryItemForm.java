@@ -154,6 +154,8 @@ public class PantryItemForm extends AppCompatActivity
         }
     }
 
+
+    //TODO: Make name changeable by deleting old and creating new
     /**
      * On click handler to submit the form to the server regardless of if its an update or creation
      * @param v The view which was clicked
@@ -246,6 +248,9 @@ public class PantryItemForm extends AppCompatActivity
                         break;
                     case HttpURLConnection.HTTP_UNAUTHORIZED:
                         message = "Session expired, please log in again";
+                        break;
+                    case HttpURLConnection.HTTP_CONFLICT:
+                        message = "Duplicate item already exists";
                         break;
                     default:
                         message = "Server error";
