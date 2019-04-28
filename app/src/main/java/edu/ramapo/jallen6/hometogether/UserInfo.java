@@ -1,19 +1,37 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 /**
  * Data storage for any instance of a user, commonly used
@@ -105,8 +123,8 @@ public class UserInfo {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         //For every key, in the format {Display: Logic};
-        for(final String[] field :new String[][]{{"Name", name}, {"Shirt Size", shirtSize},
-                {"Shoe Size", shoeSize}, {"Birthday", birthday}}){
+        for(final String[] field :new String[][]{{"Name", name, jsonKeys[2]}, {"Shirt Size", shirtSize, jsonKeys[3]},
+                {"Shoe Size", shoeSize, jsonKeys[4]}, {"Birthday", birthday, jsonKeys[5]}}){
             //Create the view
             TextView text = new TextView(context);
 
@@ -137,7 +155,7 @@ public class UserInfo {
                        return;
                    }
                    //If it is, add
-                   modifyUserField(context, field[0], field[1]).show();
+                   modifyUserField(context, field[0], field[2],field[1]).show();
                }
            });
 
@@ -154,11 +172,13 @@ public class UserInfo {
      * Creates the pop-up to modify a field in the user pop up
      * @param context The context of the activity
      * @param displayHeader The value to put in the header
+     * @param jsonKey The key in json to use in the object
      * @param value The current value, null if it doesn't exist / matter
      * @return The fully built AlertDialog
      */
     private AlertDialog.Builder modifyUserField(@NonNull final Context context,
                                                 @NonNull String displayHeader,
+                                                @NonNull final String jsonKey,
                                                 @Nullable String value){
         //Create the builder, and set the title based on if its adding or being modified
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -169,17 +189,45 @@ public class UserInfo {
         TextView label = new TextView(context);
         label.setText(displayHeader);
         layout.addView(label);
-        //Create the edit box, and pre fill the text if it was given
-        EditText userInputBox = new EditText(context);
-        userInputBox.setText(value !=null? value:"");
-        layout.addView(userInputBox);
+        final View userDisplay = createDataTypeUserInput(context, displayHeader);
+        if(userDisplay != null){
+            layout.addView(userDisplay);
+        }else{
+            throw new RuntimeException("New display header added without adding to user info");
+        }
+
+
+
+
         builder.setView(layout);
+
+
 
         //Add the submit and cancel buttons
         builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(context, "Do submit", Toast.LENGTH_SHORT).show();
+                final JSONObject params = new JSONObject();
+                try {
+                    params.put("dbKey", jsonKey);
+                    params.put("dbVal", userDisplay.getTag().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH,
+                        NetworkManager.getHostAsBuilder().appendPath("users").toString(),
+                        params,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                //TODO: update object
+                                Toast.makeText(context,
+                                        "Changes submitted", Toast.LENGTH_SHORT).show();
+                            }
+                        },
+                        NetworkManager.generateDefaultErrorHandler(context)
+                );
+                NetworkManager.getInstance(context).addToRequestQueue(request);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -189,6 +237,155 @@ public class UserInfo {
             }
         });
         return builder;
+    }
+
+    private View createDataTypeUserInput(final Context context, String displayHeader) {
+        switch(displayHeader){
+
+            case "Shirt Size":
+                final Spinner sizes = new Spinner(context);
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                        R.layout.support_simple_spinner_dropdown_item,
+                        new String[] {"XS-", "XS", "S", "M", "L", "XL", "XL+"});
+                sizes.setAdapter(adapter);
+
+                sizes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                        sizes.setTag(adapterView.getItemAtPosition(pos));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                sizes.setTag("");
+                return sizes;
+            case "Shoe Size":
+                final EditText text = new EditText(context);
+                text.setInputType(InputType.TYPE_CLASS_NUMBER);
+                text.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        if(editable.toString().equals("")){
+                            text.setTag("");
+                            return;
+                        }
+                        int val;
+                        try{
+                            val = Integer.parseInt(editable.toString());
+                        } catch (NumberFormatException ignored){
+                            val = -1;
+                        }
+                        if((val < 1 || val > 100)){
+                            Toast.makeText(context, "Please enter a " +
+                                    "positive number less than 100",Toast.LENGTH_SHORT).show();
+                            text.setText("");
+                            //Recursive call sets tag
+                        }
+                        text.setTag(val);
+
+                    }
+                });
+                text.setTag("");
+                return text;
+            case "Birthday":
+                final Spinner months = new Spinner(context);
+                final Spinner days = new Spinner(context);
+                ArrayAdapter<String> monthAdapter= new ArrayAdapter<String>(context,
+                    R.layout.support_simple_spinner_dropdown_item,
+                    new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                            "Oct", "Nov", "Dec"});
+
+
+
+                final LinearLayout layout = new LinearLayout(context);
+                class MonthDayStruct{
+                    private int monthOutput;
+                    private int dayOutput;
+                    LinearLayout linear;
+                    MonthDayStruct(LinearLayout l){
+                        linear = l;
+                        monthOutput = 0;
+                        dayOutput = 0;
+                    }
+
+                    public void setDay(int day) {
+                        dayOutput = day;
+                        updateTag();
+                    }
+                    public void setMonth(int month){
+                        monthOutput = month;
+                        updateTag();
+                    }
+
+                    private void updateTag(){
+                        linear.setTag(String.format(Locale.ENGLISH, "%02d %02d",
+                                monthOutput, dayOutput));
+                    }
+                }
+                final MonthDayStruct data = new MonthDayStruct(layout);
+                months.setAdapter(monthAdapter);
+                months.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        int dayAmount;
+                        int selectedIndex = days.getSelectedItemPosition();
+                        if(i == 1){ //February, cry
+                            dayAmount = 29;
+                        }else if(i == 3 || i ==5|| i== 8 || i ==10){
+                            dayAmount = 30;
+                        }else{
+                            dayAmount = 31;
+                        }
+                        String[] dayArray = new String[dayAmount];
+                        for(int j =0; j < dayAmount; j++){
+                            dayArray[j] = String.format(Locale.getDefault(),"%02d", j+1);
+                        }
+                        ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(context,
+                                R.layout.support_simple_spinner_dropdown_item, dayArray);
+                        days.setAdapter(dayAdapter);
+                        data.setMonth(i);
+                        if(selectedIndex < dayAmount){
+                            days.setSelection(selectedIndex);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        data.setDay(i+1);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                layout.addView(months);
+                layout.addView(days);
+                layout.setTag("");
+                return layout;
+        }
+        return null;
     }
 
     /**

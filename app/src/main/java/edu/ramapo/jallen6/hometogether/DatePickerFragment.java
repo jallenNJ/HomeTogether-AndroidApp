@@ -16,6 +16,8 @@ import java.util.Calendar;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
+
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,8 +35,6 @@ public class DatePickerFragment extends DialogFragment
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), ((DatePickerDialog.OnDateSetListener) getActivity()), year, month, day);
     }
-
-
     public void onDateSet(DatePicker view, int year, int month, int day) {
         Log.e("No Instance", "Date picker fragment called by a class that did not implement DatePickerDialog.OnDateSetListener");
 

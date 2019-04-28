@@ -1,6 +1,7 @@
 package edu.ramapo.jallen6.hometogether;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import org.json.JSONObject;
  * Activity logic for the Household Activity, which will allow for the user to get to the pantry
  * and shopping cart
  */
-public class Household extends AppCompatActivity {
+public class Household extends AppCompatActivity{
 
     public final static String ExtraHouseID = "houseID"; ///Information for the extra house id
     public final static String EXTRA_HOUSE_NAME = "houseName"; /// Extra id for house name

@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 
 /**
- * Activity Logic for the the Pantry Item form, which can do updates and creationms
+ * Activity Logic for the the Pantry Item form, which can do updates and creations
  */
 public class PantryItemForm extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener{
