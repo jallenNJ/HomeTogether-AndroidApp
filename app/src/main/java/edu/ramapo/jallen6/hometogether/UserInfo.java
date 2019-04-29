@@ -95,7 +95,7 @@ public class UserInfo {
      * @param selfName The name of the current user account, for checking if self tap
      * @return The fully built AlertDialog
      */
-    public AlertDialog.Builder createUserPopUp(@NonNull final Context context,
+    public AlertDialog createUserPopUp(@NonNull final Context context,
                                                @NonNull final String selfName){
         AlertDialog.Builder popUp = new AlertDialog.Builder(context);
 
@@ -110,6 +110,7 @@ public class UserInfo {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
+        final AlertDialog dialog =  popUp.create();
         //For every key, in the format {Display: Logic};
         for(final String[] field :new String[][]{{"Name", name, jsonKeys[2]}, {"Shirt Size", shirtSize, jsonKeys[3]},
                 {"Shoe Size", shoeSize, jsonKeys[4]}, {"Birthday", birthday, jsonKeys[5]}}){
@@ -130,8 +131,6 @@ public class UserInfo {
                 layout.addView(text);
                 continue;
             }
-
-
             // Set on click for the field to have it editable
            text.setOnClickListener(new View.OnClickListener() {
                @Override
@@ -143,15 +142,16 @@ public class UserInfo {
                        return;
                    }
                    //If it is, add
-                   modifyUserField(context, field[0], field[2],field[1]).show();
+                   modifyUserField(context, field[0], field[2],field[1], dialog).show();
                }
            });
 
             text.setText(String.format("%s: %s",  field[0],fieldData));
             layout.addView(text);
         }
-        popUp.setView(layout);
-        return popUp;
+
+        dialog.setView(layout);
+        return dialog;
 
     }
 
@@ -164,10 +164,11 @@ public class UserInfo {
      * @param value The current value, null if it doesn't exist / matter
      * @return The fully built AlertDialog
      */
-    private AlertDialog.Builder modifyUserField(@NonNull final Context context,
+    private AlertDialog modifyUserField(@NonNull final Context context,
                                                 @NonNull String displayHeader,
                                                 @NonNull final String jsonKey,
-                                                @Nullable String value){
+                                                @Nullable String value,
+                                                @NonNull final AlertDialog parentDialog){
         //Create the builder, and set the title based on if its adding or being modified
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(String.format("%s field %s", value != null? "Modify":"Add",displayHeader));
@@ -194,7 +195,7 @@ public class UserInfo {
         //Add the submit and cancel buttons
         builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(final DialogInterface dialogInterface, int i) {
                 final JSONObject params = new JSONObject();
                 try {
                     params.put("dbKey", jsonKey);
@@ -209,8 +210,7 @@ public class UserInfo {
                             @Override
                             public void onResponse(JSONObject response) {
                                 //TODO: update object
-                                //Toast.makeText(context,
-                                 //       "Changes submitted", Toast.LENGTH_SHORT).show();
+
                                 try {
                                     loadFromObject(response.getJSONObject("user"));
                                 } catch (JSONException e) {
@@ -219,6 +219,11 @@ public class UserInfo {
                                             Toast.LENGTH_SHORT).show();
                                     e.printStackTrace();
                                 }
+
+                                dialogInterface.dismiss();
+                                parentDialog.dismiss();
+                                Toast.makeText(context, "Changes submitted",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         },
                         NetworkManager.generateDefaultErrorHandler(context)
@@ -232,7 +237,8 @@ public class UserInfo {
                 dialogInterface.cancel();
             }
         });
-        return builder;
+
+        return builder.create();
     }
 
     private View createDataTypeUserInput(final Context context, String displayHeader) {
