@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kotlin.NotImplementedError;
+
 /**
  * Class used to convert JSON data to Data Structures within the program
  */
@@ -77,6 +79,14 @@ public class JSONFormatter {
                 Character.toString(Character.toUpperCase(key.charAt(0)))
                 : Character.toUpperCase(key.charAt(0)) + key.substring(1);
 
+    }
+
+
+    public static String[] tokenizeFullDateFromServer(String rawDate){
+
+        String[] spaceSplitTokens = rawDate.split(" ");
+        String[] commaSplitTokens = spaceSplitTokens[1].split(",");
+        return new String[] {spaceSplitTokens[0], commaSplitTokens[0], spaceSplitTokens[2]};
     }
 
 }

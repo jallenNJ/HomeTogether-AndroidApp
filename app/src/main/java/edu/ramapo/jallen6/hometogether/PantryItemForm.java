@@ -273,7 +273,7 @@ public class PantryItemForm extends AppCompatActivity
      * @param day The one-indexed day
      */
     public void onDateSet(DatePicker view, int year, int month, int day){
-        setDateField((Integer.toString(month) + " " + Integer.toString(day) + ", " + Integer.toString(year)));
+        setDateField(month + " " + day + ", " + year);
     }
 
     /**
@@ -286,7 +286,7 @@ public class PantryItemForm extends AppCompatActivity
             return;
         }
         if(text.equals(PantryItem.NEVER_EXPIRE)){
-            dateField.setText("Never Expires");
+            dateField.setText(R.string.neverExpiresString);
         } else{
             dateField.setText(PantryItem.formatPantryDate(text));
         }

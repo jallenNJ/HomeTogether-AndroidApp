@@ -23,4 +23,5 @@
     <string name="householdSelectionSwipeUpHint">Swipe up to create a new household!</string>
     <string name="householdSelectionGreeting">Welcome to your households</string>
     <string name="NeverExipiresString">Never Expires</string>
+    <string name="neverExpiresString">Never Expires</string>
 </resources>
