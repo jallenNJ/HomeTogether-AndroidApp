@@ -23,6 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.DateFormatSymbols;
 import java.util.Locale;
 
 /**
@@ -146,7 +148,36 @@ public class UserInfo {
                }
            });
 
-            text.setText(String.format("%s: %s",  field[0],fieldData));
+            if(field[2].equals(jsonKeys[5])){
+                String[] tokens = field[1].split(" ");
+                String month = new DateFormatSymbols().getMonths()[Integer.parseInt(tokens[0])];
+                String ordinal;
+                int day = Integer.parseInt(tokens[1]);
+                switch(day){
+                    case 1:
+                    case 21:
+                    case 31:
+                        ordinal = "st";
+                        break;
+                    case 2:
+                    case 22:
+                        ordinal = "nd";
+                        break;
+                    case 3:
+                    case 23:
+                        ordinal = "rd";
+                        break;
+                    default:
+                        ordinal = "th";
+
+                }
+                text.setText(String.format(Locale.getDefault(), "%s: %s %d%s",
+                        field[0],month, day, ordinal));
+            } else{
+                text.setText(String.format("%s: %s",  field[0],fieldData));
+            }
+
+
             layout.addView(text);
         }
 
