@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import kotlin.NotImplementedError;
 
 /**
@@ -87,6 +90,16 @@ public class JSONFormatter {
         String[] spaceSplitTokens = rawDate.split(" ");
         String[] commaSplitTokens = spaceSplitTokens[1].split(",");
         return new String[] {spaceSplitTokens[0], commaSplitTokens[0], spaceSplitTokens[2]};
+    }
+
+    public static Calendar fullDateStringToCalendar(String rawDate){
+        String[] tokens = tokenizeFullDateFromServer(rawDate);
+        int month = Integer.parseInt(tokens[0]);
+        int day = Integer.parseInt(tokens[1]);
+        int year = Integer.parseInt(tokens[2]);
+        Calendar date = new GregorianCalendar();
+        date.set(year,month,day);
+        return date;
     }
 
 }

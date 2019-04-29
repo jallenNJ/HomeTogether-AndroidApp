@@ -185,17 +185,8 @@ public abstract class AbstractItemView implements Observer {
         displayRow.removeAllViews();
 
         //Store the context
-        Context context = displayRow.getContext();
-       /* String[] currentDateTokens = JSONFormatter.tokenizeFullDateFromServer(PantryItem.formatPantryDate(
-                Calendar.getInstance().getTime().toString()));
-
-        int currentMonth = Integer.parseInt(currentDateTokens[0]);
-        int currentDay = Integer.parseInt(currentDateTokens[1]);
-        int currentYear = Integer.parseInt(currentDateTokens[2]);
-        Calendar current = new GregorianCalendar();
-        current.set(currentYear, currentMonth, currentDay);*/
-       Calendar current = Calendar.getInstance();
-       //int year = current.get(Calendar.YEAR);
+        final Context context = displayRow.getContext();
+        final Calendar current = Calendar.getInstance();
 
         //Add all the keys as text views
         for(String key:keys){
@@ -208,19 +199,16 @@ public abstract class AbstractItemView implements Observer {
             buffer.setShadowLayer(1,5,5,ContextCompat.getColor(context, R.color.shadowColor));
             buffer.setGravity(Gravity.LEFT);
             if(key.equals(PantryItem.FORMATTED_EXPIRES_FIELD)){
-                String[] thisDateTokens = JSONFormatter.tokenizeFullDateFromServer(
-                        model.getFieldAsString(PantryItem.EXPIRES_FIELD));
-                int thisMonth = Integer.parseInt(thisDateTokens[0]);
-                int thisDay = Integer.parseInt(thisDateTokens[1]);
-                int thisYear = Integer.parseInt(thisDateTokens[2]);
-                Calendar thisDate = new GregorianCalendar();
-                thisDate.set(thisYear, thisMonth, thisDay);
+
+                Calendar thisDate = JSONFormatter.fullDateStringToCalendar( model.getFieldAsString(PantryItem.EXPIRES_FIELD));
                 if(thisDate.get(Calendar.YEAR) < current.get(Calendar.YEAR) ||
                         ((thisDate.get(Calendar.YEAR) == current.get(Calendar.YEAR)) &&
                                 thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR))){
                     buffer.setTextColor(Color.RED);
                     //TODO: FIX this elseif to handle new years
-                } else if(thisDate.get(Calendar.DAY_OF_YEAR) +5 - current.get(Calendar.DAY_OF_YEAR)> 0 && thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR) + 5 ){
+                } else if(thisDate.get(Calendar.DAY_OF_YEAR) +5 -
+                        current.get(Calendar.DAY_OF_YEAR)> 0 &&
+                        thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR) + 5 ){
                     buffer.setTextColor(Color.YELLOW);
                 }
 
