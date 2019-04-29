@@ -7,30 +7,22 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Locale;
 
 /**
@@ -56,16 +48,12 @@ public class UserInfo {
      */
     UserInfo(@NonNull JSONObject jsonUser) throws JSONException {
 
-        int keyIndex = 0;
-        id=jsonUser.getString(jsonKeys[keyIndex++]);
-        keyIndex++; //THis is for the missing icon
-        name = jsonUser.getString(jsonKeys[keyIndex++]);
+        loadFromObject(jsonUser);
 
-        shirtSize = JSONFormatter.getStringOrNull(jsonUser, jsonKeys[keyIndex++]);
-        shoeSize = JSONFormatter.getStringOrNull(jsonUser, jsonKeys[keyIndex++]);
-        birthday = JSONFormatter.getStringOrNull(jsonUser, jsonKeys[keyIndex]);
 
     }
+
+
 
 
     /**
@@ -221,8 +209,16 @@ public class UserInfo {
                             @Override
                             public void onResponse(JSONObject response) {
                                 //TODO: update object
-                                Toast.makeText(context,
-                                        "Changes submitted", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context,
+                                 //       "Changes submitted", Toast.LENGTH_SHORT).show();
+                                try {
+                                    loadFromObject(response.getJSONObject("user"));
+                                } catch (JSONException e) {
+                                    Toast.makeText(context,
+                                           "Changes submitted, failed to update client",
+                                            Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         NetworkManager.generateDefaultErrorHandler(context)
@@ -395,6 +391,17 @@ public class UserInfo {
      */
     private boolean isMutable(String displayHeader){
         return !displayHeader.equals("Name");
+    }
+
+    private void loadFromObject(@NonNull JSONObject jsonUser) throws JSONException{
+        int keyIndex = 0;
+        id=jsonUser.getString(jsonKeys[keyIndex++]);
+        keyIndex++; //THis is for the missing icon
+        name = jsonUser.getString(jsonKeys[keyIndex++]);
+
+        shirtSize = JSONFormatter.getStringOrNull(jsonUser, jsonKeys[keyIndex++]);
+        shoeSize = JSONFormatter.getStringOrNull(jsonUser, jsonKeys[keyIndex++]);
+        birthday = JSONFormatter.getStringOrNull(jsonUser, jsonKeys[keyIndex]);
     }
 
 }
