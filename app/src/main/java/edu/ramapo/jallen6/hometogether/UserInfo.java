@@ -171,10 +171,10 @@ public class UserInfo {
                         ordinal = "th";
 
                 }
-                text.setText(String.format(Locale.getDefault(), "%s: %s %d%s",
+                text.setText(String.format(Locale.getDefault(), "%-11s: %s %d%s",
                         field[0],month, day, ordinal));
             } else{
-                text.setText(String.format("%s: %s",  field[0],fieldData));
+                text.setText(String.format("%-11s: %s",  field[0],fieldData));
             }
 
 
