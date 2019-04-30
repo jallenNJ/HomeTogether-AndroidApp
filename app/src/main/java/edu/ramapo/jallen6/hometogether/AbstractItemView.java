@@ -199,21 +199,7 @@ public abstract class AbstractItemView implements Observer {
             buffer.setShadowLayer(1,5,5,ContextCompat.getColor(context, R.color.shadowColor));
             buffer.setGravity(Gravity.LEFT);
             if(key.equals(PantryItem.FORMATTED_EXPIRES_FIELD)){
-
-                Calendar thisDate = JSONFormatter.fullDateStringToCalendar(
-                        model.getFieldAsString(PantryItem.EXPIRES_FIELD));
-                if(thisDate.get(Calendar.YEAR) < current.get(Calendar.YEAR) ||
-                        ((thisDate.get(Calendar.YEAR) == current.get(Calendar.YEAR)) &&
-                                thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR))){
-                    buffer.setTextColor(Color.RED);
-                    //TODO: FIX this elseif to handle new years
-                } else if(Math.abs(thisDate.get(Calendar.DAY_OF_YEAR)
-                        - current.get(Calendar.DAY_OF_YEAR)) < 8){
-                    buffer.setTextColor(Color.YELLOW);
-                }
-
-
-
+                colorDate(buffer, current);
             }
             displayRow.addView(buffer);
         }
@@ -371,4 +357,25 @@ public abstract class AbstractItemView implements Observer {
         generateConfirmationDialog(title, message, positiveConfirmListener).show();
     }
 
+    /**
+     * Colors the expires field: Red if expire, yellow if it expires within seven days
+     * @param text The TextView to color
+     * @param current The current date to compare the expire data against
+     */
+    protected void colorDate(@NonNull final TextView text, @NonNull final Calendar current){
+        Calendar thisDate = JSONFormatter.fullDateStringToCalendar(
+                model.getFieldAsString(PantryItem.EXPIRES_FIELD));
+
+        //If currently expired
+        if(thisDate.get(Calendar.YEAR) < current.get(Calendar.YEAR) ||
+                ((thisDate.get(Calendar.YEAR) == current.get(Calendar.YEAR)) &&
+                        thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR))){
+            text.setTextColor(Color.RED);
+            //TODO: FIX this elseif to handle new years
+            //If expires within 7 days
+        } else if(Math.abs(thisDate.get(Calendar.DAY_OF_YEAR)
+                - current.get(Calendar.DAY_OF_YEAR)) < 8){
+            text.setTextColor(Color.YELLOW);
+        }
+    }
 }
