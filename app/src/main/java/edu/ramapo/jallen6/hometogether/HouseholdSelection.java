@@ -158,7 +158,8 @@ public class HouseholdSelection extends AppCompatActivity {
 
         if (requestCode == NEW_HOUSEHOLD) {
             if (resultCode == RESULT_OK) {
-                this.finish();
+                startActivity(new Intent(this, this.getClass()));
+                finish();
             } else{
                 Log.e("Activity Result Failure", "New household form reported error");
             }

@@ -53,6 +53,8 @@ public class NewHouseHoldForm extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(NewHouseHoldForm.this, "Answer received", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
                         //TODO: Make response to parent to swap to new button
                     }
                 }, new Response.ErrorListener() {
