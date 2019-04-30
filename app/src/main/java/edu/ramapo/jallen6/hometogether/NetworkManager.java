@@ -1,6 +1,8 @@
 package edu.ramapo.jallen6.hometogether;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,7 +12,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -174,5 +179,18 @@ public class NetworkManager {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    public static void sendLogOut(@NonNull final Context context, @NonNull final Activity callingActivity, @NonNull final Intent intent ){
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                getHostAsBuilder().appendPath("logout").toString(),
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callingActivity.startActivity(intent);
+                        callingActivity.finish();
+                    }
+                }, generateDefaultErrorHandler(context));
     }
 }
