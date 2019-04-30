@@ -200,17 +200,19 @@ public abstract class AbstractItemView implements Observer {
             buffer.setGravity(Gravity.LEFT);
             if(key.equals(PantryItem.FORMATTED_EXPIRES_FIELD)){
 
-                Calendar thisDate = JSONFormatter.fullDateStringToCalendar( model.getFieldAsString(PantryItem.EXPIRES_FIELD));
+                Calendar thisDate = JSONFormatter.fullDateStringToCalendar(
+                        model.getFieldAsString(PantryItem.EXPIRES_FIELD));
                 if(thisDate.get(Calendar.YEAR) < current.get(Calendar.YEAR) ||
                         ((thisDate.get(Calendar.YEAR) == current.get(Calendar.YEAR)) &&
                                 thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR))){
                     buffer.setTextColor(Color.RED);
                     //TODO: FIX this elseif to handle new years
-                } else if(thisDate.get(Calendar.DAY_OF_YEAR) +5 -
-                        current.get(Calendar.DAY_OF_YEAR)> 0 &&
-                        thisDate.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR) + 5 ){
+                } else if(Math.abs(thisDate.get(Calendar.DAY_OF_YEAR)
+                        - current.get(Calendar.DAY_OF_YEAR)) < 8){
                     buffer.setTextColor(Color.YELLOW);
                 }
+
+
 
             }
             displayRow.addView(buffer);
