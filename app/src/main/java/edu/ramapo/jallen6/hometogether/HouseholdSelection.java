@@ -4,27 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-//TODO: Add a swipe down refresh?
 /**
  * Activity Logic for the Household Selection Screen
  */
@@ -59,19 +52,28 @@ public class HouseholdSelection extends AppCompatActivity {
         NetworkManager.getInstance(this).addToRequestQueue(request);
 
 
-
-        //Bind the gesture
-        SwipeGestureFactory.buildAndBindConsumingDetector(
-                findViewById(R.id.householdSelectionParentView),
-                SwipeGestureFactory.SwipeGestureFactoryType.VERTICAL,
-                new SwipeHandler() {
-                    @Override
-                    public boolean onSwipe() {
-                        swapToNewHouseHoldForm();
-                        return false;
-                    }
-                },
-                null);
+                //Bind the gesture
+                SwipeGestureFactory.buildAndBindConsumingDetector(
+                        findViewById(R.id.householdSelectionParentView),
+                        SwipeGestureFactory.SwipeGestureFactoryType.VERTICAL,
+                        new SwipeHandler() {
+                            @Override
+                            public boolean onSwipe() {
+                                swapToNewHouseHoldForm();
+                                return false;
+                            }
+                        },
+                        new SwipeHandler() {
+                            @Override
+                            public boolean onSwipe() {
+                                Toast.makeText(HouseholdSelection.this, "Refreshing",
+                                        Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(HouseholdSelection.this,
+                                        HouseholdSelection.class));
+                                finish();
+                                return false;
+                            }
+                        });
 
     }
 
