@@ -240,8 +240,6 @@ public class UserInfo {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                //TODO: update object
-
                                 try {
                                     loadFromObject(response.getJSONObject("user"));
                                 } catch (JSONException e) {
@@ -344,6 +342,7 @@ public class UserInfo {
 
 
                 final LinearLayout layout = new LinearLayout(context);
+
                 class MonthDayStruct{
                     private int monthOutput;
                     private int dayOutput;

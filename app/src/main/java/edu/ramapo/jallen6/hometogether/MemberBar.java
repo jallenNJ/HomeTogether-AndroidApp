@@ -170,9 +170,6 @@ public class MemberBar implements Observer {
         builder.setItems(users, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // the user clicked on colors[which]
-                //TODO: Implement the user selection
-
                 JSONObject params = new JSONObject();
                 try {
                     params.put("username", users[which]);
