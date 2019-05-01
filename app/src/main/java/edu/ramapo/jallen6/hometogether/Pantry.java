@@ -28,7 +28,7 @@ import org.json.JSONObject;
 /**
  * Activity Logic for the Pantry Class which contains the logic for showing and changing all objects
  * In addition, implements the PantryItemCrud interface which allows for the pantry items to be
- * able to call functions in the activty
+ * able to call functions in the activity
  */
 public class Pantry extends AppCompatActivity implements PantryItemCrud {
 
