@@ -90,7 +90,7 @@ public class Pantry extends AppCompatActivity implements PantryItemCrud {
                         //Create the table header
                         for (String key : keys) {
                             TextView text = new TextView(Pantry.this);
-                            text.setText(key);
+                            text.setText(JSONFormatter.capitalizeKey(key));
                             text.setTypeface(null, Typeface.BOLD);
                             text.setLayoutParams(new TableRow.LayoutParams(1));
                             text.setGravity(View.TEXT_ALIGNMENT_CENTER);
