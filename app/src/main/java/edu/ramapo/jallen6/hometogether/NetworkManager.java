@@ -30,7 +30,7 @@ public class NetworkManager {
 
     private RequestQueue requestQueue;  //The request queue to send off requests
     private static NetworkManager managerInstance;  //The singleton instance
-    private static String host = "http://172.17.143.92:3000"; //The protocol and host
+    private static String host = "http://10.0.2.2:3000"; //The protocol and host
     private static String port = "3000"; //The port the server is using
 
 

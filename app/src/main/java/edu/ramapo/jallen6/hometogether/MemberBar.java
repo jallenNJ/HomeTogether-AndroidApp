@@ -88,7 +88,7 @@ public class MemberBar implements Observer {
 
         //Add the new member button
         Button button = new Button(memberLayout.getContext());
-        button.setText("DEBUG: Add member");
+        button.setText(R.string.addMemberText);
         memberLayout.addView(button);
 
         //Bind the on clock listener to add a new member

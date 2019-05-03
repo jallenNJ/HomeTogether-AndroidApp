@@ -37,6 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="completeShopping"
-            android:text="Button" />
+            android:text="@string/markBoughtText" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

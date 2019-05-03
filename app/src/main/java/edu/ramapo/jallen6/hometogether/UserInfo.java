@@ -148,7 +148,7 @@ public class UserInfo {
                }
            });
 
-            if(field[2].equals(jsonKeys[5])){
+            if(field[2].equals(jsonKeys[5]) && field[1] != null){
                 String[] tokens = field[1].split(" ");
                 String month = new DateFormatSymbols().getMonths()[Integer.parseInt(tokens[0])];
                 String ordinal;

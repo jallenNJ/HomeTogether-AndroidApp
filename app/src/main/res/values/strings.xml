@@ -24,4 +24,6 @@
     <string name="householdSelectionGreeting">Welcome to your households</string>
     <string name="NeverExipiresString">Never Expires</string>
     <string name="neverExpiresString">Never Expires</string>
+    <string name="addMemberText">Add member</string>
+    <string name="markBoughtText">Mark Bought and Move to Pantry</string>
 </resources>
